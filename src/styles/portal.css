@@ -1,8 +1,11 @@
-/* PORTAL DEMO: estado temporal, sin autenticación ni persistencia */
+/* Portal de demostración.
+   Datos ficticios, sin autenticación ni persistencia. */
+
 .portal-page {
   background: #edece4;
   padding: 25px 0 95px;
 }
+
 .portal-demo-notice {
   display: flex;
   flex-wrap: wrap;
@@ -11,95 +14,122 @@
   border-bottom: 1px solid #bcc8b9;
   padding-bottom: 19px;
 }
+
 .portal-demo-notice > span {
   background: #d1ddcc;
   padding: 8px 11px;
-  font-size: 0.59rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.09em;
 }
+
 .portal-demo-notice p {
-  font-size: 0.73rem;
-  color: #627366;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
 }
+
 .portal-demo-notice a {
-  font-size: 0.72rem;
+  font-size: 0.875rem;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
   gap: 5px;
 }
+
+/* Presentación del alumno */
+
 .portal-greeting {
   display: flex;
   flex-direction: column;
   gap: 30px;
   padding: 70px 0;
 }
+
 .portal-greeting h1 {
   margin-top: 20px;
 }
+
 .portal-greeting p {
-  color: #657565;
+  color: var(--text-secondary);
   margin-top: 19px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   line-height: 1.75;
 }
+
+/* Progreso */
+
 .portal-progress {
   background: #d3e0d0;
   padding: 24px;
   flex-shrink: 0;
   min-width: 240px;
 }
+
 .portal-progress > div:first-child {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
 }
+
 .portal-progress > div:first-child span {
-  font-size: 0.64rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
 }
+
 .portal-progress strong {
   font: 400 3.1rem/1 var(--serif);
 }
+
 .portal-progress strong small {
   font-size: 1.5rem;
   color: #789575;
 }
+
 .portal-progress__track {
   margin: 25px 0 12px;
   height: 5px;
   background: #b8cbb6;
   overflow: hidden;
 }
+
 .portal-progress__track > div {
   height: 100%;
   background: var(--forest);
   transition: width 0.4s;
 }
+
 .portal-progress > span {
-  font-size: 0.64rem;
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
   font-weight: 700;
 }
+
+/* Estructura del portal */
+
 .portal-content {
   display: grid;
   gap: 60px;
 }
+
 .portal-section-heading {
   margin-bottom: 25px;
 }
+
 .portal-section-heading h2,
 .library-heading h2 {
   font: 400 2.3rem var(--serif);
   margin-top: 13px;
 }
+
+/* Selector de entrenamiento */
+
 .workout-tabs {
   display: grid;
   gap: 8px;
 }
+
 .workout-tabs button {
   display: flex;
   flex-wrap: wrap;
@@ -116,28 +146,36 @@
     background 0.2s,
     border-color 0.2s;
 }
+
 .workout-tabs button.is-active {
   background: #d8e4d3;
   border-color: #8da58b;
 }
+
 .workout-tabs small {
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: #829280;
 }
+
 .workout-tabs strong {
   font: 400 1.35rem var(--serif);
 }
+
 .workout-tabs button > span {
-  font-size: 0.65rem;
+  font-size: 0.8rem;
   letter-spacing: 0.06em;
 }
+
+/* Rutina */
+
 .workout-detail {
   margin-top: 40px;
   background: #fffdf8;
   padding: 23px 18px;
 }
+
 .workout-detail__head {
   display: flex;
   flex-wrap: wrap;
@@ -145,27 +183,35 @@
   gap: 15px;
   padding-bottom: 28px;
 }
+
 .workout-detail__head h2 {
   font: 400 2.2rem var(--serif);
   margin: 13px 0 7px;
 }
+
 .workout-detail__head p {
-  font-size: 0.82rem;
-  color: #748274;
+  font-size: 0.94rem;
+  color: var(--text-secondary);
 }
+
 .workout-detail__head > div:last-child {
   align-self: center;
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 0.72rem;
+  font-size: 0.875rem;
 }
+
+/* Ejercicios */
+
 .exercise-rows {
   border-top: 1px solid #d9e2d7;
 }
+
 .exercise-row {
   border-bottom: 1px solid #d9e2d7;
 }
+
 .exercise-row summary {
   cursor: pointer;
   display: grid;
@@ -175,33 +221,43 @@
   align-items: center;
   list-style: none;
 }
+
 .exercise-row summary::-webkit-details-marker {
   display: none;
 }
+
 .exercise-row__number {
-  font-size: 0.63rem;
-  color: #809680;
+  font-size: 0.75rem;
+  color: var(--accent-text);
 }
+
 .exercise-row strong {
   font: 400 1.25rem var(--serif);
 }
+
 .exercise-row small {
-  color: #768676;
+  color: var(--text-secondary);
   display: block;
   margin-top: 5px;
-  font-size: 0.69rem;
+  font-size: 0.875rem;
 }
+
 .exercise-row__detail {
   padding: 0 0 19px 38px;
 }
+
 .exercise-row__detail p {
   margin-bottom: 7px;
   line-height: 1.7;
-  font-size: 0.76rem;
-  color: #647363;
+  font-size: 0.94rem;
+  color: var(--text-secondary);
 }
+
+/* Completar entrenamiento */
+
 .complete-button {
   width: 100%;
+  min-height: var(--touch-target);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -211,101 +267,130 @@
   border: 0;
   padding: 16px;
   margin-top: 28px;
-  font-size: 0.76rem;
+  font-size: 0.94rem;
   font-weight: 700;
 }
+
 .complete-button--done {
   background: #829c7d;
 }
+
+/* Biblioteca de ejercicios */
+
 .portal-aside {
   border-top: 1px solid #bac8b8;
   padding-top: 36px;
 }
+
 .library-heading p {
-  color: #667567;
+  color: var(--text-secondary);
   line-height: 1.75;
   margin: 12px 0 24px;
-  font-size: 0.83rem;
+  font-size: 0.975rem;
 }
+
 .library-filters {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
   margin-bottom: 16px;
 }
+
 .library-list details {
   border-bottom: 1px solid #c6d1c3;
 }
+
 .library-list summary {
   display: flex;
+  min-height: var(--touch-target);
   align-items: center;
   gap: 12px;
   padding: 18px 0;
   cursor: pointer;
   list-style: none;
-  font-size: 0.84rem;
+  font-size: 0.94rem;
   font-weight: 600;
 }
+
 .library-list summary::-webkit-details-marker {
   display: none;
 }
+
 .library-list summary > span:nth-child(2) {
   flex: 1;
 }
+
 .library-list details p {
   padding: 0 0 20px 27px;
-  font-size: 0.76rem;
+  font-size: 0.94rem;
   line-height: 1.75;
-  color: #647565;
+  color: var(--text-secondary);
 }
+
 .reset-demo {
   display: flex;
+  min-height: var(--touch-target);
   align-items: center;
   gap: 9px;
   border: 0;
   background: transparent;
   padding: 20px 0;
-  color: #607762;
-  font-size: 0.74rem;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
   font-weight: 700;
 }
+
 .portal-disclaimer {
   max-width: 720px;
-  font-size: 0.72rem;
+  font-size: 0.875rem;
   line-height: 1.7;
   color: #738172;
   border-top: 1px solid #bac8b8;
   padding-top: 30px;
   margin-top: 65px;
 }
+
+/* Tablet */
+
 @media (min-width: 768px) {
   .portal-greeting {
     flex-direction: row;
     justify-content: space-between;
     align-items: end;
   }
+
   .portal-progress {
     min-width: 275px;
   }
+
   .workout-tabs {
     grid-template-columns: repeat(3, 1fr);
   }
+
   .workout-detail {
     padding: 36px;
   }
+
   .portal-content {
-    grid-template-columns: minmax(0, 1.75fr) minmax(250px, 1fr);
+    grid-template-columns:
+      minmax(0, 1.75fr)
+      minmax(250px, 1fr);
     gap: 45px;
   }
+
   .portal-aside {
     border-top: 0;
     padding-top: 0;
   }
 }
+
+/* Desktop */
+
 @media (min-width: 1200px) {
   .portal-content {
     gap: 85px;
   }
+
   .portal-progress {
     min-width: 310px;
   }

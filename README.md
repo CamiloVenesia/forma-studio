@@ -1,135 +1,272 @@
-# FORMA Studio — Premium Fitness & Pilates Experience
+# FORMA Studio
 
-**Web editorial premium, mobile-first y reutilizable para entrenadoras, gimnasios y estudios de pilates.**
+### Premium Fitness & Pilates Experience
 
-> **Proyecto demostrativo para portafolio.** FORMA es una marca ficticia. No es el sitio oficial de ninguna profesional, no contiene su material personal y no ofrece servicios reales.
+Plataforma web comercial, editorial y mobile-first para profesionales del entrenamiento físico, gimnasios y estudios de pilates.
 
-## Qué incluye
+FORMA Studio combina una experiencia visual de alta calidad con herramientas interactivas de exploración de programas, inscripción y demostración de seguimiento de entrenamientos.
 
-- Landing editorial de alto impacto, imágenes arqueadas, scroll reveal, parallax discreto y franja tipográfica en movimiento.
-- Diseño adaptado primero a teléfonos y luego a pantallas grandes.
-- Catálogo de programas con filtros interactivos por disciplina y modalidad.
-- Página de detalle para cada programa, con semanas ficticias a modo de ejemplo.
-- Sección de asesoramiento y roadmap hacia una plataforma de alumnos.
-- **Formulario de inscripción de 4 pasos**, validación de campos, preguntas condicionales y revisión final; no se envía ni se guarda información privada en esta demostración.
-- **Portal interactivo de muestra**: rutinas ficticias, biblioteca de ejercicios, progreso semanal y estados completados, todo en memoria.
-- Accesibilidad de base: labels, botones semánticos, jerarquía de encabezados, estados ARIA y reducción de movimiento.
-- TypeScript estricto, ESLint, Prettier, Vitest, componentes separados, configuración de marca y estructura para ampliar.
-- Configuración de deploy SPA para Vercel y Netlify.
+> FORMA es una marca ficticia desarrollada como proyecto demostrativo de portfolio. No representa oficialmente a ningún profesional ni ofrece servicios reales.
 
-## Inicio rápido (VS Code)
+## Objetivo del proyecto
 
-### Requisitos
+Desarrollar una solución digital moderna, escalable y reutilizable para el sector fitness.
 
-- Node.js **20.19+** o **22+** (recomendado 22 LTS).
-- npm y conexión a internet para instalar dependencias.
+El proyecto está pensado para adaptarse a distintas identidades comerciales y evolucionar desde una web profesional hacia una plataforma integral de entrenamiento personalizado.
+
+## Características
+
+### Diseño y experiencia
+
+- Enfoque mobile-first.
+- Identidad visual editorial.
+- Diseño responsive.
+- Fotografías con recortes orgánicos.
+- Animaciones de entrada y microinteracciones.
+- Navegación adaptada a pantallas táctiles.
+- Accesibilidad y soporte para movimiento reducido.
+
+### Sitio comercial
+
+- Página de inicio.
+- Catálogo de entrenamientos.
+- Filtros por disciplina y modalidad.
+- Páginas individuales de programas.
+- Asesoramiento personalizado.
+- Preguntas frecuentes.
+- Formulario de inscripción.
+
+### Formulario interactivo
+
+- Inscripción en cuatro pasos.
+- Selección de disciplina.
+- Selección de modalidad.
+- Datos personales básicos.
+- Objetivos y experiencia.
+- Validaciones de campos.
+- Preguntas condicionales.
+- Revisión final.
+
+El formulario funciona en modo demostración. No envía ni almacena información en un servidor.
+
+### Espacio del alumno
+
+Actualmente incluye una demostración interactiva con:
+
+- Rutinas de ejemplo.
+- Selección de entrenamientos.
+- Biblioteca de ejercicios.
+- Registro temporal de sesiones completadas.
+- Indicadores visuales de progreso.
+
+No dispone todavía de autenticación, cuentas reales ni almacenamiento persistente.
+
+## Tecnologías
+
+| Tecnología   | Utilización              |
+| ------------ | ------------------------ |
+| React 19     | Interfaz de usuario      |
+| TypeScript   | Tipado estático          |
+| Vite 7       | Desarrollo y compilación |
+| React Router | Navegación               |
+| Motion       | Animaciones              |
+| Lucide React | Iconografía              |
+| CSS          | Diseño y responsive      |
+| ESLint       | Análisis estático        |
+| Prettier     | Formato                  |
+| Vitest       | Pruebas                  |
+
+## Instalación
+
+Requisitos:
+
+- Node.js 20.19 o superior.
+- npm.
+
+Clonar el repositorio:
+
+```bash
+git clone https://github.com/CamiloVenesia/forma-studio.git
+cd forma-studio
+```
+
+Instalar dependencias:
 
 ```bash
 npm install
+```
+
+Ejecutar el entorno local:
+
+```bash
 npm run dev
 ```
 
-Abrí `http://localhost:5173`. Para entrar desde otro dispositivo en la misma red, usá la IP local que muestra Vite (verificar firewall).
+La dirección predeterminada de Vite es:
 
-### Comprobaciones
+http://localhost:5173
+
+## Validación
+
+Aplicar formato:
 
 ```bash
 npm run format
-npm run lint
-npm run typecheck
-npm run test
-npm run build
 ```
 
-O corré `npm run check` para ejecutar todo en orden.
+Verificar el formato:
 
-## Páginas
+```bash
+npm run format:check
+```
 
-| Ruta                         | Propósito                              |
-| ---------------------------- | -------------------------------------- |
-| `/`                          | Portada premium y propuesta editorial  |
-| `/programas`                 | Catálogo filtrable                     |
-| `/programas/fuerza-esencial` | Ejemplo de programa individual         |
-| `/asesoramiento`             | Propuesta de seguimiento               |
-| `/empezar`                   | Inscripción demostrativa, cuatro pasos |
-| `/espacio`                   | Portal de alumnos de ejemplo           |
-| `/privacidad`                | Alcance y manejo de datos de la demo   |
+Ejecutar las comprobaciones:
 
-## Estructura
+```bash
+npm run check
+```
+
+Este último comando ejecuta ESLint, TypeScript, las pruebas automatizadas y la compilación.
+
+## Estructura del proyecto
 
 ```text
-forma-studio-pro/
-├─ .github/workflows/quality.yml
-├─ docs/
-│  ├─ ARQUITECTURA.md
-│  └─ CUSTOMIZAR.md
-├─ public/
-│  ├─ favicon.svg
-│  ├─ robots.txt
-│  └─ _redirects
-├─ src/
-│  ├─ app/
-│  ├─ components/{common,layout,sections}/
-│  ├─ config/site.ts
-│  ├─ data/
-│  ├─ features/intake/
-│  ├─ pages/
-│  ├─ styles/
-│  ├─ types/
-│  └─ utils/
-├─ tests/
-├─ index.html
-├─ package.json
-├─ tsconfig*.json
-├─ vite.config.ts
-└─ vercel.json
+forma-studio/
+├── .github/
+│   └── workflows/
+├── docs/
+│   ├── ARQUITECTURA.md
+│   ├── CUSTOMIZAR.md
+│   └── MOBILE_AUDIT.md
+├── public/
+├── src/
+│   ├── app/
+│   ├── components/
+│   │   ├── common/
+│   │   ├── layout/
+│   │   └── sections/
+│   ├── config/
+│   ├── data/
+│   ├── features/
+│   │   └── intake/
+│   ├── pages/
+│   ├── styles/
+│   ├── types/
+│   └── utils/
+├── tests/
+├── index.html
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── vercel.json
 ```
 
-## Stack
+## Rutas principales
 
-React 19 · TypeScript · Vite 7 · React Router 7 · Motion · Lucide · ESLint · Prettier · Vitest
+| Ruta               | Descripción                          |
+| ------------------ | ------------------------------------ |
+| `/`                | Inicio                               |
+| `/programas`       | Catálogo                             |
+| `/programas/:slug` | Detalle de programa                  |
+| `/asesoramiento`   | Asesoramiento                        |
+| `/empezar`         | Inscripción                          |
+| `/espacio`         | Espacio del alumno                   |
+| `/privacidad`      | Información de privacidad de la demo |
 
-## Personalización rápida
+## Personalización
 
-1. `src/config/site.ts`: nombre, lema, imágenes principales, metadatos.
-2. `src/data/programs.ts`: catálogo y fotografías.
-3. `src/data/faqs.ts`: preguntas frecuentes.
-4. `src/styles/tokens.css`: colores y escalas globales.
-5. `src/features/intake`: flujo de captación ajustable.
+La arquitectura separa los componentes visuales de los datos comerciales.
 
-Guía extendida: [`docs/CUSTOMIZAR.md`](docs/CUSTOMIZAR.md).
+Archivos principales:
 
-## Estado real de las funcionalidades
+- `src/config/site.ts`: marca y configuración general.
+- `src/data/programs.ts`: programas y fotografías.
+- `src/data/faqs.ts`: preguntas frecuentes.
+- `src/styles/tokens.css`: identidad visual.
+- `src/features/intake/`: inscripción.
 
-| Elemento                               | Estado                              |
-| -------------------------------------- | ----------------------------------- |
-| Navegación responsive                  | Implementado                        |
-| Filtros catálogo                       | Implementado                        |
-| Detalle de programas                   | Implementado                        |
-| Wizard con reglas y validación         | Implementado, sin envío             |
-| Copiar resumen                         | Implementado mediante Clipboard API |
-| Portal de rutinas                      | Simulación interactiva local        |
-| Login / roles / base de datos          | No implementado                     |
-| Formulario conectado a una profesional | No implementado                     |
-| Pagos / turnos / reservas              | No implementado                     |
+Esto permite adaptar la web a diferentes profesionales sin reconstruir toda su arquitectura.
 
-## Licencias, privacidad y límites
+Consultar `docs/CUSTOMIZAR.md` para más información.
 
-- Las fotografías cargan desde `images.unsplash.com` mediante URLs externas. Su selección es ilustrativa; antes de distribuir el producto a clientes, revisar licencias y sustituir por imágenes propias/autorizadas. No se incluyen fotos personales de Pilar Prado.
-- Se utilizan Google Fonts, que implica solicitudes a terceros. Para una versión final puede convenir alojarlas localmente conforme a sus licencias.
-- El formulario sólo usa estado en memoria: **no** transfiere, persiste ni procesa datos en un servidor de esta aplicación. El resumen se copia al portapapeles sólo por acción de la persona usuaria; excluye detalles de salud.
-- No constituye prescripción de actividad física para una persona determinada. Las rutinas del portal son ejemplos de diseño de interfaz.
-- Antes de comercializar la solución, integrar correctamente privacidad, autenticación, almacenamiento y revisión legal del cliente.
-- Esta versión no trae `package-lock.json` porque no se pudo acceder al registro de npm durante el empaquetado. `npm install` lo generará en tu computadora. Luego deberías versionarlo en Git y cambiar CI a `npm ci`.
+## Estado de desarrollo
 
-## Créditos de dirección de diseño
+### Implementado
 
-Inspiración conceptual (sin copiar código, imágenes ni contenido de esas webs):
+- Sitio multipágina.
+- Diseño responsive.
+- Navegación móvil.
+- Catálogo filtrable.
+- Detalles de programas.
+- Formulario demostrativo.
+- Portal demostrativo.
+- Animaciones y transiciones.
 
-- [Studio Bon](https://studiobon.ca/) — composición minimalista/editorial.
-- [BLOOM Reformer Pilates](https://www.purepixels.nl/project/46/bloom-reformer-pilates) — recortes orgánicos de fotografías.
-- [Alo Moves](https://www.alomoves.com/) — jerarquía comercial, exploración de programas y evolución hacia portal.
+### Pendiente
+
+- Autenticación.
+- Base de datos.
+- Panel administrativo.
+- Inscripciones reales.
+- Biblioteca de videos.
+- Gestión de alumnos.
+- Rutinas persistentes.
+- Seguimiento individual.
+- Integraciones comerciales.
+
+## Calidad y accesibilidad
+
+El proyecto incorpora:
+
+- TypeScript estricto.
+- Componentes reutilizables.
+- Estructura modular.
+- Reglas de formato.
+- Comprobaciones de código.
+- HTML semántico.
+- Estados de interacción.
+- Diseño responsive.
+- Preferencias de movimiento reducido.
+
+La compatibilidad completa con WCAG y los resultados de rendimiento todavía requieren auditorías adicionales.
+
+## Referencias de diseño
+
+Inspiración visual y funcional:
+
+- Studio Bon: identidad editorial.
+- BLOOM Reformer Pilates: composición fotográfica.
+- Alo Moves: presentación de programas y experiencia de plataforma.
+
+Las referencias se utilizan como inspiración conceptual. No se reproduce su código ni su contenido.
+
+## Fotografías
+
+Las fotografías actuales son ilustrativas y se cargan desde Unsplash.
+
+Antes de comercializar o publicar una versión definitiva para un cliente, será necesario revisar los permisos de utilización y sustituir el material cuando corresponda.
+
+## Privacidad
+
+El formulario de demostración no almacena ni transmite respuestas a un backend.
+
+El portal utiliza datos ficticios y estados temporales.
+
+Para una versión comercial con información real se deberán implementar autenticación, protección de datos y mecanismos de almacenamiento adecuados.
+
+## Roadmap
+
+1. Refinamiento visual y experiencia móvil.
+2. Mejoras comerciales y de navegación.
+3. Animaciones avanzadas.
+4. Formulario y experiencia del alumno.
+5. Configuración reutilizable para clientes.
+6. Integraciones, backend y producción.
+
+## Repositorio
+
+https://github.com/CamiloVenesia/forma-studio
 
 ---
 
-**Desarrollo conceptual escalable para portfolio y futuros clientes del rubro fitness.**
+FORMA Studio es un proyecto de desarrollo web orientado a combinar identidad visual, experiencia de usuario, ingeniería de software y escalabilidad comercial.

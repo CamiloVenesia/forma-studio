@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# Demo conceptual: habilitar indexación sólo al publicar una web real.

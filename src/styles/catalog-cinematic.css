@@ -1,0 +1,679 @@
+/*
+ * FORMA Studio
+ * Bloque 4.5 — Programas cinematográficos
+ * Se importa después de premium.css.
+ */
+
+/* PORTADA DE PROGRAMAS */
+
+.page-hero--catalog {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(44px, 5vw, 90px) 0 46px;
+  background: radial-gradient(circle at 78% 35%, rgb(189 205 176 / 29%), transparent 45%), #e5e4da;
+}
+
+.catalog-hero__layout {
+  position: relative;
+  display: grid;
+  align-items: center;
+  gap: 36px;
+  min-width: 0;
+}
+
+.catalog-hero__copy {
+  position: relative;
+  z-index: 4;
+  min-width: 0;
+}
+
+.page-hero--catalog h1 {
+  max-width: 750px;
+  margin: 25px 0 0;
+  font-size: clamp(3.65rem, 7.8vw, 8.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.065em;
+  text-wrap: balance;
+}
+
+.page-hero--catalog h1 em {
+  display: inline-block;
+  color: #547455;
+}
+
+.page-hero--catalog .catalog-hero__lead {
+  max-width: 390px;
+  margin-top: 29px;
+  color: #4d6151;
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  line-height: 1.75;
+}
+
+.catalog-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 28px;
+  align-items: center;
+  margin-top: 31px;
+}
+
+.catalog-hero__discover {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 51px;
+  padding: 14px 19px;
+  background: #273f2f;
+  color: #f7f5ee;
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition:
+    background 240ms ease,
+    transform 240ms ease;
+}
+
+.catalog-hero__discover svg {
+  transition: transform 280ms ease;
+}
+
+.catalog-hero__discover:hover {
+  background: #446c4b;
+  transform: translateY(-3px);
+}
+
+.catalog-hero__discover:hover svg {
+  transform: translateY(4px);
+}
+
+.catalog-hero__count {
+  color: #687b69;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.page-hero--catalog .commercial-disclaimer {
+  max-width: 385px !important;
+  margin-top: 30px !important;
+  padding-left: 13px;
+  font-size: 0.78rem !important;
+  line-height: 1.65 !important;
+  color: #67766a;
+}
+
+/* COMPOSICIÓN FOTOGRÁFICA */
+
+.catalog-hero__art {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-width: 0;
+  height: 470px;
+  isolation: isolate;
+}
+
+.catalog-hero__outline {
+  position: absolute;
+  z-index: -1;
+  top: 6%;
+  left: 5%;
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(59 86 62 / 14%);
+  font: 400 clamp(5rem, 14vw, 13rem) / 1 var(--serif);
+  letter-spacing: -0.085em;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+.catalog-hero__orbit {
+  position: absolute;
+  z-index: -1;
+  right: 3%;
+  top: 5%;
+  width: 65%;
+  aspect-ratio: 1;
+  border: 1px solid rgb(56 89 63 / 17%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.catalog-hero__orbit::before,
+.catalog-hero__orbit::after {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border: 1px solid rgb(56 89 63 / 10%);
+  border-radius: 50%;
+}
+
+.catalog-hero__orbit::after {
+  inset: 30%;
+}
+
+.catalog-hero__parallax {
+  position: absolute;
+  min-width: 0;
+}
+
+.catalog-hero__parallax--strength {
+  z-index: 1;
+  left: 2%;
+  top: 2%;
+  width: 60%;
+  height: 84%;
+}
+
+.catalog-hero__parallax--pilates {
+  z-index: 2;
+  right: 1%;
+  top: 27%;
+  width: 54%;
+  height: 66%;
+}
+
+.catalog-hero__entrance {
+  width: 100%;
+  height: 100%;
+}
+
+.catalog-hero__image-link {
+  position: relative;
+  display: block;
+  isolation: isolate;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #bcc7b7;
+  box-shadow: 0 27px 55px rgb(23 46 29 / 14%);
+}
+
+.catalog-hero__image-link--strength {
+  border-radius: 46% 46% 4px 4px / 23% 23% 4px 4px;
+}
+
+.catalog-hero__image-link--pilates {
+  border-radius: 4px 4px 45% 45% / 4px 4px 22% 22%;
+}
+
+.catalog-hero__image-link img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.76) contrast(0.97);
+  transition:
+    transform 850ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 850ms ease;
+}
+
+.catalog-hero__image-link:hover img,
+.catalog-hero__image-link:focus-visible img {
+  transform: scale(1.075);
+  filter: saturate(0.98) contrast(1.02);
+}
+
+.catalog-hero__image-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgb(14 31 19 / 10%), transparent 38%, rgb(14 31 19 / 24%));
+  pointer-events: none;
+}
+
+/* Etiquetas centradas, lejos de la curva */
+
+.catalog-hero__photo-tag {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 21px;
+  transform: translateX(-50%);
+  display: inline-block;
+  max-width: calc(100% - 28px);
+  padding: 9px 14px;
+  background: #f4f0e9;
+  color: #26372d;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.catalog-hero__photo-arrow {
+  position: absolute;
+  z-index: 3;
+  right: 18px;
+  bottom: 18px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f4f0e9;
+  color: #26372d;
+  transition:
+    transform 300ms ease,
+    background 300ms ease;
+}
+
+.catalog-hero__image-link--pilates .catalog-hero__photo-arrow {
+  bottom: 25%;
+}
+
+.catalog-hero__image-link:hover .catalog-hero__photo-arrow {
+  transform: rotate(45deg);
+  background: #c4d6b9;
+}
+
+.catalog-hero__seal {
+  position: absolute;
+  z-index: 4;
+  left: 47%;
+  bottom: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 115px;
+  height: 115px;
+  border-radius: 50%;
+  background: #d6e4c8;
+  box-shadow: 0 14px 35px rgb(25 49 30 / 13%);
+  color: #304a36;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.6;
+  text-align: center;
+  pointer-events: none;
+}
+
+.catalog-hero__seal strong {
+  font: italic 400 1.55rem / 1 var(--serif);
+  letter-spacing: -0.04em;
+}
+
+.catalog-hero__footnote {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #627a65;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.catalog-hero__bottom-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #668b6e;
+  transform-origin: left;
+  animation: catalog-line-in 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes catalog-line-in {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ETIQUETAS EN LAS TARJETAS CURVAS */
+
+/*
+ * En el video las etiquetas estaban situadas
+ * en el extremo superior izquierdo.
+ *
+ * La propia curva las recortaba. Se corrige
+ * su posición, NO el border-radius.
+ */
+
+.catalog-card__discipline,
+.spotlight-item__visual > span:not(.spotlight-item__arrow) {
+  position: absolute;
+  z-index: 4;
+  top: 22px;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  display: inline-block;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  padding: 10px 15px;
+  transform: translateX(-50%);
+  background: #f4f0e9;
+  color: #26372d;
+  font-size: 0.71rem;
+  font-weight: 700;
+  letter-spacing: 0.075em;
+  line-height: 1.2;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Las flechas conservan espacio dentro de
+   las curvas inferiores. */
+
+.spotlight-item--1 .spotlight-item__arrow {
+  bottom: 26%;
+}
+
+/* INTERACCIONES DEL CATÁLOGO */
+
+.catalog-card__visual {
+  isolation: isolate;
+}
+
+/* No modificamos el borde curvo existente. */
+
+.catalog-card__visual::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 28%, rgb(255 255 255 / 15%) 48%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 950ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.catalog-card__arrow {
+  z-index: 3;
+  transition:
+    transform 300ms ease,
+    background 300ms ease;
+}
+
+.catalog-card__visual img {
+  transition:
+    transform 800ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 600ms ease;
+}
+
+.catalog-card:hover .catalog-card__visual img,
+.catalog-card:focus-visible .catalog-card__visual img {
+  transform: scale(1.065);
+  filter: saturate(0.92);
+}
+
+.catalog-card:hover .catalog-card__visual::after,
+.catalog-card:focus-visible .catalog-card__visual::after {
+  transform: translateX(120%);
+}
+
+.catalog-card:hover .catalog-card__arrow,
+.catalog-card:focus-visible .catalog-card__arrow {
+  transform: rotate(45deg);
+  background: #c8d9be;
+}
+
+.catalog-card__info h2 {
+  transition: color 280ms ease;
+}
+
+.catalog-card:hover .catalog-card__info h2 {
+  color: #57775a;
+}
+
+.spotlight-item__visual {
+  isolation: isolate;
+}
+
+.spotlight-item__visual img {
+  transition:
+    transform 850ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 600ms ease;
+}
+
+/* CTA inferior */
+
+.catalog-end {
+  position: relative;
+}
+
+.catalog-end::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 80px;
+  height: 3px;
+  background: #688e6d;
+}
+
+/* ESCRITORIO */
+
+@media (min-width: 900px) {
+  .catalog-hero__layout {
+    grid-template-columns:
+      minmax(0, 0.94fr)
+      minmax(0, 1.06fr);
+    gap: clamp(35px, 5vw, 100px);
+    min-height: 550px;
+  }
+
+  .catalog-hero__art {
+    height: clamp(460px, 42vw, 625px);
+  }
+
+  .catalog-hero__copy {
+    padding-block: 35px;
+  }
+
+  .catalog-hero__parallax--strength {
+    width: 59%;
+    height: 83%;
+  }
+
+  .catalog-hero__parallax--pilates {
+    width: 53%;
+    height: 65%;
+  }
+
+  .catalog-hero__seal {
+    width: 126px;
+    height: 126px;
+  }
+}
+
+/* TABLET Y MÓVIL */
+
+@media (max-width: 899px) {
+  .page-hero--catalog {
+    padding-top: 43px;
+    padding-bottom: 38px;
+  }
+
+  .catalog-hero__layout {
+    gap: 28px;
+  }
+
+  .page-hero--catalog h1 {
+    max-width: 700px;
+    font-size: clamp(3.2rem, 10.5vw, 6.2rem);
+  }
+
+  .catalog-hero__art {
+    width: min(100%, 660px);
+    height: 480px;
+    margin-inline: auto;
+  }
+
+  .catalog-hero__copy {
+    padding-bottom: 2px;
+  }
+
+  .catalog-hero__lead {
+    max-width: 450px;
+  }
+}
+
+@media (max-width: 599px) {
+  .page-hero--catalog {
+    padding-top: 35px;
+  }
+
+  .page-hero--catalog h1 {
+    max-width: 100%;
+    margin-top: 21px;
+    font-size: clamp(2.8rem, 11.2vw, 4.15rem);
+    line-height: 1.04;
+    overflow-wrap: normal;
+  }
+
+  .page-hero--catalog h1 em {
+    display: inline;
+  }
+
+  .page-hero--catalog .catalog-hero__lead {
+    max-width: 350px;
+    margin-top: 20px;
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+
+  .catalog-hero__actions {
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .catalog-hero__discover {
+    font-size: 0.8rem;
+    padding: 12px 14px;
+    gap: 12px;
+  }
+
+  .catalog-hero__count {
+    font-size: 0.61rem;
+  }
+
+  .page-hero--catalog .commercial-disclaimer {
+    margin-top: 24px !important;
+    font-size: 0.73rem !important;
+  }
+
+  .catalog-hero__art {
+    height: 370px;
+    margin-top: 5px;
+  }
+
+  .catalog-hero__parallax--strength {
+    left: 0;
+    top: 0;
+    width: 65%;
+    height: 84%;
+  }
+
+  .catalog-hero__parallax--pilates {
+    right: 0;
+    top: 24%;
+    width: 56%;
+    height: 67%;
+  }
+
+  .catalog-hero__photo-tag {
+    top: 16px;
+    padding: 7px 10px;
+    font-size: 0.57rem;
+    letter-spacing: 0.04em;
+  }
+
+  .catalog-hero__photo-arrow {
+    width: 35px;
+    height: 35px;
+    right: 11px;
+    bottom: 11px;
+  }
+
+  .catalog-hero__seal {
+    left: 40%;
+    bottom: 9%;
+    width: 83px;
+    height: 83px;
+    font-size: 0.47rem;
+  }
+
+  .catalog-hero__seal strong {
+    font-size: 1.2rem;
+  }
+
+  .catalog-hero__footnote {
+    font-size: 0.52rem;
+    gap: 6px;
+  }
+
+  .catalog-hero__outline {
+    font-size: 20vw;
+  }
+
+  .catalog-card__discipline,
+  .spotlight-item__visual > span:not(.spotlight-item__arrow) {
+    top: 15px;
+    max-width: calc(100% - 24px);
+    padding: 8px 11px;
+    font-size: 0.65rem;
+    letter-spacing: 0.055em;
+  }
+
+  .catalog-card__info h2 {
+    font-size: clamp(2rem, 8.5vw, 2.5rem);
+  }
+}
+
+@media (max-width: 359px) {
+  .page-hero--catalog h1 {
+    font-size: 2.7rem;
+    letter-spacing: -0.07em;
+  }
+
+  .catalog-hero__art {
+    height: 325px;
+  }
+
+  .catalog-hero__count {
+    display: none;
+  }
+
+  .catalog-hero__seal {
+    width: 72px;
+    height: 72px;
+  }
+}
+
+/* MOVIMIENTO REDUCIDO */
+
+@media (prefers-reduced-motion: reduce) {
+  .catalog-hero__bottom-line {
+    animation: none;
+  }
+
+  .catalog-card__visual::after {
+    display: none;
+  }
+
+  .catalog-hero__image-link img,
+  .catalog-hero__photo-arrow,
+  .catalog-hero__discover,
+  .catalog-hero__discover svg,
+  .catalog-card__visual img,
+  .catalog-card__arrow,
+  .catalog-card__info h2,
+  .spotlight-item__visual img {
+    transition: none;
+  }
+}

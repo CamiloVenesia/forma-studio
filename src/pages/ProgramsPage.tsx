@@ -1,10 +1,9 @@
-import { useMemo } from 'react';
-import { ArrowUpRight, RotateCcw, SlidersHorizontal } from 'lucide-react';
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useMemo, useRef, useState } from 'react';
+import { ArrowDown, ArrowUpRight, RotateCcw, SlidersHorizontal } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
+import { Link } from 'react-router-dom';
 
 import { ArrowLink } from '../components/common/ArrowLink';
-import { Reveal } from '../components/common/Reveal';
 import { SectionLabel } from '../components/common/SectionLabel';
 import { programs } from '../data/programs';
 import type { Discipline, ProgramLevel } from '../types/domain';
@@ -28,38 +27,217 @@ const levels: ReadonlyArray<{
   { value: 'multinivel', label: 'Multinivel' },
 ];
 
-export function ProgramsPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
+const strengthProgram = programs.find((program) => program.discipline === 'fuerza');
 
-  const selectedDiscipline = searchParams.get('disciplina');
-  const selectedLevel = searchParams.get('nivel');
+const pilatesProgram = programs.find((program) => program.discipline === 'pilates');
 
-  const discipline: Discipline | 'todos' =
-    selectedDiscipline === 'fuerza' || selectedDiscipline === 'pilates'
-      ? selectedDiscipline
-      : 'todos';
-
-  const level: ProgramLevel | 'todos' =
-    selectedLevel === 'inicial' || selectedLevel === 'intermedio' || selectedLevel === 'multinivel'
-      ? selectedLevel
-      : 'todos';
-
+function CatalogHero() {
+  const ref = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
 
-  function updateFilter(name: 'disciplina' | 'nivel', value: string) {
-    const next = new URLSearchParams(searchParams);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  });
 
-    if (value === 'todos') {
-      next.delete(name);
-    } else {
-      next.set(name, value);
-    }
+  const strengthY = useTransform(scrollYProgress, [0, 1], [0, reducedMotion ? 0 : 65]);
 
-    setSearchParams(next, {
-      replace: true,
-      preventScrollReset: true,
-    });
-  }
+  const pilatesY = useTransform(scrollYProgress, [0, 1], [0, reducedMotion ? 0 : -45]);
+
+  return (
+    <section ref={ref} className="page-hero page-hero--soft page-hero--catalog">
+      <div className="container catalog-hero__layout">
+        <motion.div
+          className="catalog-hero__copy"
+          initial={reducedMotion ? false : { opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: reducedMotion ? 0 : 0.85,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
+          <SectionLabel number="01 /">EXPLORÁ LOS PROGRAMAS</SectionLabel>
+
+          <h1 className="display-title">
+            Un plan
+            <br />
+            para <em>tu momento.</em>
+          </h1>
+
+          <p className="catalog-hero__lead">
+            Fuerza para avanzar. Pilates para conectar. Dos formas de empezar a moverte con
+            intención.
+          </p>
+
+          <div className="catalog-hero__actions">
+            <a className="catalog-hero__discover" href="#catalogo">
+              Explorá los programas
+              <ArrowDown size={19} aria-hidden="true" />
+            </a>
+
+            <span className="catalog-hero__count">
+              {String(programs.length).padStart(2, '0')}
+              {' / '}PROGRAMAS
+            </span>
+          </div>
+
+          <p className="commercial-disclaimer">
+            Catálogo de demostración: los programas son ejemplos adaptables para futuros
+            profesionales y estudios.
+          </p>
+        </motion.div>
+
+        <div className="catalog-hero__art">
+          <span className="catalog-hero__outline" aria-hidden="true">
+            FORMA
+          </span>
+
+          <span className="catalog-hero__orbit" aria-hidden="true" />
+
+          {strengthProgram && (
+            <motion.div
+              className="catalog-hero__parallax catalog-hero__parallax--strength"
+              style={{ y: strengthY }}
+            >
+              <motion.div
+                className="catalog-hero__entrance"
+                initial={
+                  reducedMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                        y: 75,
+                        rotate: -7,
+                        scale: 0.93,
+                      }
+                }
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  rotate: -4,
+                  scale: 1,
+                }}
+                transition={{
+                  duration: reducedMotion ? 0 : 1.05,
+                  delay: reducedMotion ? 0 : 0.2,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <Link
+                  to={`/programas/${strengthProgram.slug}`}
+                  className="catalog-hero__image-link catalog-hero__image-link--strength"
+                  aria-label="Explorar programas de entrenamiento"
+                >
+                  <img
+                    src={strengthProgram.image}
+                    alt={strengthProgram.imageAlt}
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                  />
+
+                  <span className="catalog-hero__photo-tag">01 / FUERZA</span>
+
+                  <span className="catalog-hero__photo-arrow" aria-hidden="true">
+                    <ArrowUpRight size={23} />
+                  </span>
+                </Link>
+              </motion.div>
+            </motion.div>
+          )}
+
+          {pilatesProgram && (
+            <motion.div
+              className="catalog-hero__parallax catalog-hero__parallax--pilates"
+              style={{ y: pilatesY }}
+            >
+              <motion.div
+                className="catalog-hero__entrance"
+                initial={
+                  reducedMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                        y: -65,
+                        rotate: 8,
+                        scale: 0.92,
+                      }
+                }
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  rotate: 5,
+                  scale: 1,
+                }}
+                transition={{
+                  duration: reducedMotion ? 0 : 1.15,
+                  delay: reducedMotion ? 0 : 0.4,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <Link
+                  to={`/programas/${pilatesProgram.slug}`}
+                  className="catalog-hero__image-link catalog-hero__image-link--pilates"
+                  aria-label="Explorar programas de pilates"
+                >
+                  <img
+                    src={pilatesProgram.image}
+                    alt={pilatesProgram.imageAlt}
+                    loading="eager"
+                    decoding="async"
+                  />
+
+                  <span className="catalog-hero__photo-tag">02 / PILATES</span>
+
+                  <span className="catalog-hero__photo-arrow" aria-hidden="true">
+                    <ArrowUpRight size={23} />
+                  </span>
+                </Link>
+              </motion.div>
+            </motion.div>
+          )}
+
+          <motion.div
+            className="catalog-hero__seal"
+            initial={reducedMotion ? false : { opacity: 0, scale: 0.4, rotate: -45 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              rotate: 12,
+            }}
+            transition={{
+              duration: reducedMotion ? 0 : 1,
+              delay: reducedMotion ? 0 : 0.8,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            aria-hidden="true"
+          >
+            MOVETE
+            <strong>A TU</strong>
+            MANERA
+          </motion.div>
+
+          <div className="catalog-hero__footnote" aria-hidden="true">
+            <span>FUERZA</span>
+            <span>·</span>
+            <span>CONTROL</span>
+            <span>·</span>
+            <span>MOVIMIENTO</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="catalog-hero__bottom-line" aria-hidden="true" />
+    </section>
+  );
+}
+
+export function ProgramsPage() {
+  const [discipline, setDiscipline] = useState<Discipline | 'todos'>('todos');
+
+  const [level, setLevel] = useState<ProgramLevel | 'todos'>('todos');
+
+  const reducedMotion = useReducedMotion();
 
   const filtered = useMemo(
     () =>
@@ -74,41 +252,19 @@ export function ProgramsPage() {
   const hasFilters = discipline !== 'todos' || level !== 'todos';
 
   function resetFilters() {
-    setSearchParams(
-      {},
-      {
-        replace: true,
-        preventScrollReset: true,
-      },
-    );
+    setDiscipline('todos');
+    setLevel('todos');
   }
 
   return (
     <>
-      <section className="page-hero page-hero--soft">
-        <div className="container">
-          <Reveal>
-            <SectionLabel number="01 /">EXPLORÁ LOS PROGRAMAS</SectionLabel>
+      <CatalogHero />
 
-            <h1 className="display-title">
-              Un plan para <br />
-              <em>tu momento.</em>
-            </h1>
-
-            <p>
-              Elegí entre fuerza y pilates. Compará objetivos y niveles antes de decidir cómo querés
-              entrenar.
-            </p>
-
-            <p className="commercial-disclaimer">
-              Catálogo de demostración: los programas son ejemplos adaptables para futuros
-              profesionales y estudios.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="catalog container section-spacing" aria-label="Catálogo de programas">
+      <section
+        id="catalogo"
+        className="catalog container section-spacing"
+        aria-label="Catálogo de programas"
+      >
         <div className="catalog__filters">
           <div className="catalog__categories" role="group" aria-label="Filtrar por disciplina">
             {disciplines.map((item) => (
@@ -117,7 +273,7 @@ export function ProgramsPage() {
                 type="button"
                 className={`catalog-filter-button${discipline === item.value ? ' is-active' : ''}`}
                 aria-pressed={discipline === item.value}
-                onClick={() => updateFilter('disciplina', item.value)}
+                onClick={() => setDiscipline(item.value)}
               >
                 {discipline === item.value && (
                   <motion.span
@@ -143,9 +299,13 @@ export function ProgramsPage() {
 
           <label className="catalog__mode">
             <SlidersHorizontal size={18} aria-hidden="true" />
+
             <span>Nivel</span>
 
-            <select value={level} onChange={(event) => updateFilter('nivel', event.target.value)}>
+            <select
+              value={level}
+              onChange={(event) => setLevel(event.target.value as ProgramLevel | 'todos')}
+            >
               {levels.map((item) => (
                 <option key={item.value} value={item.value}>
                   {item.label}
@@ -181,8 +341,8 @@ export function ProgramsPage() {
                     ? false
                     : {
                         opacity: 0,
-                        y: 22,
-                        scale: 0.98,
+                        y: 28,
+                        scale: 0.96,
                       }
                 }
                 animate={{
@@ -195,12 +355,12 @@ export function ProgramsPage() {
                     ? { opacity: 1 }
                     : {
                         opacity: 0,
-                        y: -12,
-                        scale: 0.98,
+                        y: -14,
+                        scale: 0.97,
                       }
                 }
                 transition={{
-                  duration: reducedMotion ? 0 : 0.36,
+                  duration: reducedMotion ? 0 : 0.47,
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
@@ -256,7 +416,8 @@ export function ProgramsPage() {
       <section className="catalog-end container">
         <div>
           <h2 className="display-title">
-            ¿No sabés por <br />
+            ¿No sabés por
+            <br />
             <em>dónde empezar?</em>
           </h2>
 

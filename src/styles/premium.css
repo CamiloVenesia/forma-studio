@@ -1,0 +1,546 @@
+/* MENÚ MÓVIL: SUPERFICIE SÓLIDA */
+
+.site-header {
+  isolation: isolate;
+}
+
+.mobile-nav {
+  z-index: 5;
+  top: 100%;
+  height: calc(100dvh - 72px);
+  opacity: 1;
+  background: #20372a;
+  box-shadow: 0 20px 50px rgb(10 24 14 / 20%);
+  transform: translateY(-12px);
+  transition:
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 320ms;
+}
+
+.mobile-nav--open {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* STORYTELLING: REVELADO VERTICAL ENTRE CAPÍTULOS */
+
+.story-desktop__sticky {
+  background: #172d21;
+}
+
+.story-scene--wipe {
+  overflow: hidden;
+  background: #172d21;
+  backface-visibility: hidden;
+}
+
+.story-scene--wipe .story-scene__image {
+  will-change: auto;
+  object-position: center 38%;
+}
+
+.story-scene--wipe .story-scene__content {
+  max-width: min(1040px, 79vw);
+}
+
+.story-scene--wipe .story-scene__content h2 {
+  text-wrap: balance;
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .story-desktop {
+    height: 228svh;
+  }
+
+  .story-scene--wipe .story-scene__shade {
+    background:
+      linear-gradient(90deg, rgb(8 25 14 / 76%), rgb(8 25 14 / 12%) 76%),
+      linear-gradient(0deg, rgb(8 25 14 / 35%), transparent 75%);
+  }
+}
+
+/* STORYTELLING MÓVIL */
+
+.story-mobile__scene {
+  min-height: clamp(440px, 68svh, 630px);
+}
+
+.story-mobile__number {
+  position: absolute;
+  right: var(--gutter);
+  top: 26px;
+  font: 400 2.6rem / 1 var(--serif);
+  color: rgb(255 255 255 / 60%);
+  pointer-events: none;
+}
+
+.story-mobile__content h2 {
+  overflow-wrap: normal;
+  text-wrap: balance;
+}
+
+/* SIGNATURE MOMENT */
+
+.signature {
+  background: #152b20;
+  color: #f4f0e9;
+}
+
+.signature__scroll {
+  position: relative;
+  height: 180svh;
+}
+
+.signature__sticky {
+  position: sticky;
+  top: 85px;
+  height: calc(100svh - 85px);
+  min-height: 490px;
+  isolation: isolate;
+  overflow: hidden;
+  background: #1e392a;
+}
+
+.signature__mobile {
+  position: relative;
+  min-height: clamp(510px, 71svh, 690px);
+  isolation: isolate;
+  overflow: hidden;
+  background: #1e392a;
+}
+
+.signature__photo,
+.signature__scrim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.signature__photo {
+  z-index: -2;
+  overflow: hidden;
+}
+
+.signature__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 48% 50%;
+  filter: saturate(0.72);
+}
+
+.signature__scrim {
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(8 25 14 / 61%), rgb(8 25 14 / 17%) 80%),
+    linear-gradient(0deg, rgb(8 25 14 / 55%), transparent 65%);
+}
+
+/* Paneles que se separan */
+
+.signature__panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50.06%;
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+
+  padding: clamp(22px, 4vw, 80px);
+  overflow: hidden;
+
+  background: #243d2f;
+  color: #f4f0e9;
+
+  will-change: transform;
+}
+
+.signature__panel--left {
+  left: 0;
+  align-items: flex-end;
+  text-align: right;
+  border-right: 1px solid rgb(255 255 255 / 20%);
+}
+
+.signature__panel--right {
+  right: 0;
+  align-items: flex-start;
+  background: #b7c8ae;
+  color: #213d2a;
+}
+
+.signature__panel span {
+  font: 400 clamp(2.8rem, 7vw, 8rem) / 0.96 var(--serif);
+  letter-spacing: -0.07em;
+}
+
+.signature__panel strong {
+  font: italic 400 clamp(3rem, 8vw, 9rem) / 0.96 var(--serif);
+  letter-spacing: -0.07em;
+}
+
+/* Mensaje revelado detrás de los paneles */
+
+.signature__message {
+  position: absolute;
+  z-index: 2;
+
+  left: max(var(--gutter), calc((100vw - var(--max-width)) / 2));
+
+  bottom: clamp(58px, 12vh, 142px);
+  max-width: min(1030px, 88%);
+}
+
+.signature__message > span {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  margin-bottom: 22px;
+}
+
+.signature__message h2 {
+  font: 400 clamp(3.7rem, 8.2vw, 9.5rem) / 0.96 var(--serif);
+  letter-spacing: -0.07em;
+  text-wrap: balance;
+}
+
+.signature__message h2 em {
+  color: #d1e6c8;
+}
+
+.signature__message p {
+  max-width: 430px;
+  margin-top: 22px;
+  color: #f4f0e9;
+  font-size: 1.08rem;
+  line-height: 1.6;
+}
+
+/* Progreso de la animación */
+
+.signature__progress {
+  position: absolute;
+  z-index: 5;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgb(244 240 233 / 24%);
+}
+
+.signature__progress > div {
+  width: 100%;
+  height: 100%;
+  background: #d5e6cc;
+  transform-origin: left center;
+}
+
+/* Cierre y CTA de la escena */
+
+.signature__outro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 25px;
+  padding-block: 38px 43px;
+}
+
+.signature__outro span {
+  font-size: 0.7rem;
+  letter-spacing: 0.13em;
+  font-weight: 700;
+  color: #c4d9c0;
+}
+
+.signature__outro p {
+  margin-top: 12px;
+  font: 400 clamp(1.8rem, 5vw, 3rem) / 1.1 var(--serif);
+}
+
+.signature__outro p em {
+  color: #c0d7b8;
+}
+
+.signature__action {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+.signature__action > svg {
+  opacity: 0.55;
+}
+
+@media (min-width: 768px) {
+  .signature__outro {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+/* COMPOSICIÓN ESPECÍFICA DE TABLET Y MÓVIL */
+
+@media (max-width: 1023px) {
+  .signature__message {
+    left: var(--gutter);
+    bottom: 45px;
+    max-width: calc(100% - var(--gutter) * 2);
+  }
+
+  .signature__message h2 {
+    font-size: clamp(2.55rem, 9vw, 5.3rem);
+  }
+
+  .signature__message p {
+    font-size: 0.98rem;
+  }
+}
+
+/* AJUSTES MÓVILES: 320–767 PX */
+
+@media (max-width: 767px) {
+  .container,
+  .philosophy__grid,
+  .spotlight__head,
+  .advisory__layout,
+  .advisory__copy,
+  .advisory__preview,
+  .catalog__filters,
+  .catalog__grid,
+  .catalog-motion-item,
+  .catalog-card,
+  .catalog-card__info {
+    min-width: 0;
+  }
+
+  /* Titulares adaptados a pantallas estrechas */
+
+  .display-title {
+    font-size: clamp(2.65rem, 10.4vw, 3.8rem);
+    line-height: 1.04;
+    letter-spacing: -0.052em;
+    overflow-wrap: break-word;
+  }
+
+  .hero--cinematic h1 {
+    font-size: clamp(2.75rem, 12vw, 4.5rem);
+  }
+
+  .philosophy__title {
+    font-size: clamp(2.8rem, 10.7vw, 3.75rem);
+  }
+
+  .spotlight__head h2,
+  .page-hero h1,
+  .coaching-hero h1,
+  .advisory__copy h2 {
+    font-size: clamp(2.15rem, 9vw, 3.35rem);
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
+  /* Menos separaciones excesivas */
+
+  .spotlight__grid,
+  .advisory__layout,
+  .faq__layout {
+    gap: 25px;
+  }
+
+  .spotlight-item__visual {
+    aspect-ratio: 1 / 0.98;
+  }
+
+  .spotlight__all {
+    margin-top: 30px;
+  }
+
+  /* Storytelling móvil más variado */
+
+  .story__intro {
+    min-height: 30svh;
+    padding-block: 42px;
+  }
+
+  .story__intro h2 {
+    font-size: clamp(2.4rem, 9.3vw, 3.9rem);
+    overflow-wrap: break-word;
+  }
+
+  .story-mobile__scene {
+    min-height: clamp(410px, 64svh, 560px);
+    padding: 32px var(--gutter) 37px;
+  }
+
+  .story-mobile__content h2 {
+    font-size: clamp(2.15rem, 9.1vw, 3.4rem);
+  }
+
+  .story-mobile__content p {
+    font-size: 0.97rem;
+    line-height: 1.5;
+  }
+
+  /* El capítulo 2 rompe la secuencia
+     de fotografías a pantalla completa. */
+
+  .story-mobile__scene:nth-child(2) {
+    display: grid;
+    grid-template-rows: 55% auto;
+    min-height: 540px;
+    padding: 0;
+    background: #e5e7dc;
+    color: #233b2b;
+  }
+
+  .story-mobile__scene:nth-child(2) .story-mobile__visual {
+    position: relative;
+    z-index: 0;
+    height: 100%;
+  }
+
+  .story-mobile__scene:nth-child(2) .story-mobile__content {
+    padding: 24px var(--gutter) 30px;
+    align-self: center;
+  }
+
+  .story-mobile__scene:nth-child(2) .story-mobile__content h2,
+  .story-mobile__scene:nth-child(2) .story-mobile__content h2 em,
+  .story-mobile__scene:nth-child(2) .story-mobile__content p {
+    color: #233b2b;
+  }
+
+  .story-mobile__scene:nth-child(2) .story-mobile__number {
+    display: none;
+  }
+
+  /* Signature Moment móvil */
+
+  .signature__message > span {
+    font-size: 0.66rem;
+    letter-spacing: 0.09em;
+    margin-bottom: 15px;
+  }
+
+  .signature__message h2 {
+    font-size: clamp(2.4rem, 9.7vw, 3.5rem);
+  }
+
+  /* Vista de asesoramiento:
+     corregir ancho del panel ilustrativo */
+
+  .preview-sheet {
+    width: 100%;
+    min-width: 0;
+    padding-inline: 17px;
+  }
+
+  .preview-sheet__top {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .preview-sheet__greeting {
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    overflow-wrap: break-word;
+  }
+
+  .preview-sheet__row {
+    grid-template-columns: 20px minmax(0, 1fr) auto;
+    gap: 7px;
+  }
+
+  .preview-sheet__row strong {
+    font-size: 1rem;
+    min-width: 0;
+  }
+
+  .preview-sheet__row > span:last-child {
+    max-width: 73px;
+    text-align: right;
+    overflow-wrap: break-word;
+    font-size: 0.64rem;
+  }
+
+  /* Filtros del catálogo:
+     evitar que el selector sobresalga */
+
+  .catalog__mode {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    width: 100%;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .catalog__mode select {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    font-size: 0.875rem;
+  }
+
+  .catalog-card__info h2 {
+    font-size: clamp(2rem, 8.3vw, 2.4rem);
+    overflow-wrap: break-word;
+  }
+
+  .catalog-end h2,
+  .final-cta h2 {
+    font-size: clamp(2.7rem, 10vw, 3.6rem);
+    overflow-wrap: break-word;
+  }
+
+  .section-spacing {
+    padding-block: 56px;
+  }
+}
+
+/* PANTALLAS MUY ESTRECHAS */
+
+@media (max-width: 359px) {
+  :root {
+    --gutter: 17px;
+  }
+
+  .display-title,
+  .spotlight__head h2 {
+    font-size: 2.15rem;
+  }
+
+  .hero--cinematic h1 {
+    font-size: 2.65rem;
+  }
+
+  .story-mobile__content h2 {
+    font-size: 2.1rem;
+  }
+}
+
+/* ACCESIBILIDAD */
+
+@media (prefers-reduced-motion: reduce) {
+  .signature__scroll {
+    height: auto;
+  }
+
+  .signature__sticky {
+    position: relative;
+    top: auto;
+    min-height: 580px;
+    height: 72svh;
+  }
+
+  .story-scene--wipe,
+  .signature__panel {
+    will-change: auto;
+  }
+}

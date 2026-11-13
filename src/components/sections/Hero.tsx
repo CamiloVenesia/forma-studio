@@ -1,78 +1,83 @@
-import { ArrowDownRight, Asterisk } from 'lucide-react';
-import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
 import { useRef } from 'react';
+import { ArrowDownRight, Asterisk } from 'lucide-react';
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react';
 
 import { ArrowLink } from '../common/ArrowLink';
 import { site } from '../../config/site';
 
 const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+const headline = [
+  { id: 'uno', content: <>Moverse</> },
+  { id: 'dos', content: <em>también es</em> },
+  {
+    id: 'tres',
+    content: (
+      <>
+        elegirte<span>.</span>
+      </>
+    ),
+  },
+];
+
 export function Hero() {
-  const photoRef = useRef<HTMLDivElement>(null);
-  const reducedMotion = useReducedMotion();
+  const heroRef = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
-    target: photoRef,
-    offset: ['start end', 'end start'],
+    target: heroRef,
+    offset: ['start start', 'end start'],
   });
 
-  const imageY = useTransform(scrollYProgress, [0, 1], [-14, 34]);
+  const smooth = useSpring(scrollYProgress, {
+    stiffness: 110,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
-  const lines = [
-    { key: 'moverse', content: 'Moverse' },
-    { key: 'tambien', content: <em>también es</em> },
-    {
-      key: 'elegirte',
-      content: (
-        <>
-          elegirte<span>.</span>
-        </>
-      ),
-    },
-  ];
+  const photoY = useTransform(smooth, [0, 1], [0, 64]);
+  const displayY = useTransform(smooth, [0, 1], [0, -35]);
+  const outlineX = useTransform(smooth, [0, 1], [0, -85]);
 
   return (
-    <section className="hero container" aria-labelledby="hero-title">
+    <section ref={heroRef} className="hero container hero--cinematic" aria-labelledby="hero-title">
       <div className="hero__text">
         <motion.span
           className="eyebrow hero__eyebrow"
-          initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+          initial={reduced ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: reducedMotion ? 0 : 0.6,
-            ease,
-          }}
+          transition={{ duration: reduced ? 0 : 0.8, ease }}
         >
           <span className="eyebrow-line" />
           {site.hero.eyebrow}
         </motion.span>
 
-        <h1 id="hero-title">
-          {lines.map(({ key, content }, index) => (
-            <span className="hero__line-mask" key={key}>
+        <motion.h1 id="hero-title" style={reduced ? undefined : { y: displayY }}>
+          {headline.map((line, index) => (
+            <span className="hero__line-mask" key={line.id}>
               <motion.span
-                className={`hero__line${index === 2 ? ' hero__line--last' : ''}`}
-                initial={reducedMotion ? false : { y: '115%' }}
-                animate={{ y: '0%' }}
+                className={`hero__line ${index === 2 ? 'hero__line--last' : ''}`}
+                initial={reduced ? false : { y: '112%', rotate: 2 }}
+                animate={{ y: '0%', rotate: 0 }}
                 transition={{
-                  duration: reducedMotion ? 0 : 0.94,
-                  delay: reducedMotion ? 0 : 0.12 + index * 0.13,
+                  duration: reduced ? 0 : 1.15,
+                  delay: reduced ? 0 : 0.1 + index * 0.14,
                   ease,
                 }}
               >
-                {content}
+                {line.content}
               </motion.span>
             </span>
           ))}
-        </h1>
+        </motion.h1>
 
         <motion.p
           className="hero__intro"
-          initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+          initial={reduced ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: reducedMotion ? 0 : 0.75,
-            delay: reducedMotion ? 0 : 0.5,
+            duration: reduced ? 0 : 0.85,
+            delay: reduced ? 0 : 0.6,
             ease,
           }}
         >
@@ -81,11 +86,11 @@ export function Hero() {
 
         <motion.div
           className="hero__buttons"
-          initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+          initial={reduced ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            duration: reducedMotion ? 0 : 0.7,
-            delay: reducedMotion ? 0 : 0.62,
+            duration: reduced ? 0 : 0.75,
+            delay: reduced ? 0 : 0.72,
             ease,
           }}
         >
@@ -96,56 +101,53 @@ export function Hero() {
         </motion.div>
 
         <div className="hero__foot">
-          <span>FÍSICO Y MENTAL, EN EQUILIBRIO</span>
+          <span>UNA EXPERIENCIA EN MOVIMIENTO</span>
           <ArrowDownRight size={22} aria-hidden="true" />
         </div>
       </div>
 
-      <div ref={photoRef} className="hero__art">
+      <div className="hero__art">
+        <motion.span
+          className="hero__oversized-word"
+          aria-hidden="true"
+          style={reduced ? undefined : { x: outlineX }}
+        >
+          FORMA
+        </motion.span>
+
         <motion.div
           className="hero__image-wrap"
-          initial={reducedMotion ? false : { opacity: 0, y: 28, scale: 0.97 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
+          initial={reduced ? false : { clipPath: 'inset(0 100% 0 0)' }}
+          animate={{ clipPath: 'inset(0 0% 0 0)' }}
           transition={{
-            duration: reducedMotion ? 0 : 1.05,
-            delay: reducedMotion ? 0 : 0.2,
+            duration: reduced ? 0 : 1.45,
+            delay: reduced ? 0 : 0.26,
             ease,
           }}
         >
           <motion.img
             src={site.images.hero}
-            alt="Persona en una práctica de movimiento y entrenamiento"
+            alt="Persona realizando actividad física sobre una colchoneta"
             fetchPriority="high"
-            loading="eager"
             decoding="async"
-            style={reducedMotion ? undefined : { y: imageY }}
+            loading="eager"
+            initial={reduced ? false : { scale: 1.23 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: reduced ? 0 : 1.9, ease }}
+            style={reduced ? undefined : { y: photoY }}
           />
-
-          {!reducedMotion && (
-            <motion.div
-              className="hero__photo-curtain"
-              aria-hidden="true"
-              initial={{ scaleY: 1 }}
-              animate={{ scaleY: 0 }}
-              transition={{
-                duration: 1.05,
-                delay: 0.38,
-                ease,
-              }}
-            />
-          )}
         </motion.div>
 
         <motion.div
           className="hero__seal"
           aria-hidden="true"
-          initial={reducedMotion ? false : { opacity: 0, scale: 0.8, rotate: 22 }}
+          initial={reduced ? false : { opacity: 0, scale: 0.4, rotate: -45 }}
           animate={{ opacity: 1, scale: 1, rotate: 11 }}
-          whileHover={reducedMotion ? undefined : { scale: 1.06, rotate: 0 }}
           transition={{
-            duration: reducedMotion ? 0 : 0.7,
-            delay: reducedMotion ? 0 : 0.8,
-            ease,
+            type: 'spring',
+            stiffness: 150,
+            damping: 16,
+            delay: reduced ? 0 : 0.95,
           }}
         >
           <Asterisk size={28} strokeWidth={1.4} />

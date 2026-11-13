@@ -1,100 +1,311 @@
 /*
- * BLOQUE 4 — Motion system
- * Interacciones funcionales, animaciones editoriales y movimiento reducido.
- * Utiliza transform y opacity en la mayoría de transiciones.
+ * FORMA / Performance & Art Direction
+ *
+ * Las secciones comerciales siempre son visibles.
+ * Animaciones: transform + opacity.
+ * Evitamos ocultar tarjetas enteras con clip-path.
  */
 
 :root {
-  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --motion-fast: 180ms;
-  --motion-base: 320ms;
-  --motion-slow: 650ms;
+  --cinematic-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* El contenido de las rutas puede transicionar sin alterar la maqueta. */
+/* TRANSICIONES DE RUTA */
 
 .route-stage {
   min-width: 0;
+  background: var(--paper);
 }
 
-/* Portada: revelado de líneas sin recortar los descendentes. */
+.route-loading--branded {
+  min-height: min(65svh, 600px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background: var(--paper);
+}
+
+.route-loading__brand {
+  font: 400 clamp(3.5rem, 10vw, 6rem)/1 var(--serif);
+  letter-spacing: -0.07em;
+  color: var(--forest);
+}
+
+.route-loading__caption {
+  font-size: 0.84rem;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+
+/* HERO CINEMATOGRÁFICO */
+
+.hero--cinematic {
+  isolation: isolate;
+}
 
 .hero__line-mask {
   display: block;
   overflow: hidden;
-  padding-block: 0.065em;
-  margin-block: -0.065em;
+  margin-block: -0.06em;
+  padding-block: 0.06em;
 }
 
 .hero__line-mask > .hero__line {
   display: block;
-  will-change: transform;
+  transform-origin: left bottom;
+}
+
+.hero__art {
+  isolation: isolate;
+}
+
+.hero__oversized-word {
+  position: absolute;
+  left: -12%;
+  top: 18%;
+  z-index: -1;
+
+  color: transparent;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+
+  font: 400 clamp(8rem, 25vw, 26rem)/0.8 var(--serif);
+  letter-spacing: -0.1em;
+
+  -webkit-text-stroke: 1px rgba(48, 71, 53, 0.16);
 }
 
 .hero__image-wrap {
   isolation: isolate;
-}
-
-.hero__photo-curtain {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: #c5cfbf;
-  transform-origin: center bottom;
+  background: #bdc9b7;
 }
 
 .hero__seal {
-  z-index: 3;
+  z-index: 2;
+  box-shadow: 0 14px 35px rgba(24, 43, 28, 0.14);
 }
 
-/* Los CTA responden con un fondo sutil y un movimiento breve de la flecha. */
+/* TIPOGRAFÍA CINÉTICA */
 
-.arrow-link {
+.kinetic-type {
+  overflow: clip;
+  padding-block: 18px;
+  color: var(--paper);
+  background: var(--forest);
+}
+
+.kinetic-type__rail {
+  display: grid;
+  gap: 1px;
+}
+
+.kinetic-type__row {
+  display: flex;
+  gap: clamp(20px, 4vw, 60px);
+  align-items: center;
+  width: max-content;
+  white-space: nowrap;
+
+  font: 400 clamp(2.45rem, 8.5vw, 8.5rem)/1 var(--serif);
+  letter-spacing: -0.065em;
+
+  backface-visibility: hidden;
+}
+
+.kinetic-type__row i {
+  color: #b7cdaa;
+  font: 400 0.5em/1 var(--serif);
+}
+
+.kinetic-type__row--outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(244, 240, 233, 0.7);
+}
+
+.kinetic-type__row--outline i {
+  -webkit-text-stroke: 0;
+}
+
+/* INTRODUCCIÓN AL STORYTELLING */
+
+.story {
+  background: #1b2d23;
+  color: #fff;
+}
+
+.story__intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  min-height: 34svh;
+  padding-block: 48px;
+  gap: 17px;
+}
+
+.story__intro h2 {
+  font: 400 clamp(2.9rem, 10vw, 8.5rem)/0.98 var(--serif);
+  letter-spacing: -0.06em;
+  overflow-wrap: normal;
+}
+
+.story__intro h2 em {
+  color: #d5e6cc;
+}
+
+.story__intro .section-label span {
+  color: #c3ddba;
+}
+
+.story__intro-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #d7e5d2;
+}
+
+/* STORYTELLING MÓVIL */
+
+.story-mobile {
+  display: grid;
+  gap: 4px;
+}
+
+.story-mobile__scene {
   position: relative;
   isolation: isolate;
+
+  min-height: clamp(440px, 72svh, 720px);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  padding: 45px var(--gutter) 50px;
   overflow: hidden;
+  background: #354a3a;
 }
 
-.arrow-link::before {
+.story-mobile__visual,
+.story-mobile__visual img,
+.story-mobile__shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.story-mobile__visual {
+  z-index: -1;
+}
+
+.story-mobile__visual img {
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.story-mobile__shade {
+  background: linear-gradient(
+    180deg,
+    rgba(5, 20, 9, 0.04) 20%,
+    rgba(5, 20, 9, 0.23) 45%,
+    rgba(5, 20, 9, 0.84) 100%
+  );
+}
+
+.story-mobile__content {
+  z-index: 1;
+  max-width: 570px;
+}
+
+.story-mobile__content > span {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin-bottom: 15px;
+}
+
+.story-mobile__content h2 {
+  font: 400 clamp(2.65rem, 10.2vw, 5.2rem)/0.99 var(--serif);
+  letter-spacing: -0.06em;
+
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+.story-mobile__content h2 em {
+  color: #dcebd4;
+}
+
+.story-mobile__content p {
+  max-width: 360px;
+  margin-top: 14px;
+
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+/* PROGRAMAS DESTACADOS */
+
+.spotlight-motion {
+  display: block;
+  min-width: 0;
+}
+
+.spotlight-motion .spotlight-item {
+  display: block;
+}
+
+.spotlight-motion .spotlight-item__visual {
+  isolation: isolate;
+  background: #b8c7b7;
+}
+
+.spotlight-motion .spotlight-item__visual img {
+  position: relative;
+  z-index: 0;
+
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spotlight-item__visual::after {
   content: '';
   position: absolute;
   inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: currentColor;
-  opacity: 0.09;
-  transform: translateY(103%);
-  transition: transform var(--motion-base) var(--motion-ease);
-}
-
-.arrow-link > span,
-.arrow-link > svg {
-  position: relative;
   z-index: 1;
+
+  pointer-events: none;
+
+  background: linear-gradient(180deg, transparent 60%, rgba(20, 37, 25, 0.2));
+
+  opacity: 0;
+  transition: opacity 0.5s;
 }
 
-.arrow-link:active {
-  transform: scale(0.985);
+.spotlight-motion .spotlight-item__visual > span {
+  z-index: 2;
 }
 
-.underlined-link {
-  position: relative;
+.spotlight-item__arrow svg,
+.catalog-card__arrow svg,
+.arrow-link svg,
+.underlined-link svg {
+  transition: transform 0.34s var(--cinematic-ease);
 }
 
-.underlined-link::after {
-  content: '';
-  position: absolute;
-  inset-inline: 0;
-  bottom: -1px;
-  height: 2px;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--motion-base) var(--motion-ease);
-}
-
-/* Selección animada dentro del filtro de disciplina. */
+/* CONTROLES Y CATÁLOGO */
 
 .catalog-filter-button {
   position: relative;
@@ -110,6 +321,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
+
   background: var(--forest);
   pointer-events: none;
 }
@@ -123,138 +335,271 @@
   min-width: 0;
 }
 
-/* Imágenes: énfasis visual al explorar, sin parallax en móviles. */
-
-.spotlight-item__visual,
-.catalog-card__visual {
-  isolation: isolate;
-}
-
-.spotlight-item__visual::after,
-.catalog-card__visual::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg, transparent 55%, rgba(29, 47, 34, 0.2));
-  opacity: 0;
-  transition: opacity var(--motion-slow) var(--motion-ease);
-}
-
-.spotlight-item__visual > span,
-.catalog-card__discipline,
-.catalog-card__arrow {
-  z-index: 1;
-}
-
-/* Estados funcionales. */
-
-.accordion__item button svg {
-  transition: transform var(--motion-base) var(--motion-ease);
-}
-
-.accordion__item.is-active button svg {
-  transform: rotate(90deg);
-}
-
-.choice,
-.goal-chip,
-.workout-tabs button,
-.complete-button {
-  transition:
-    background var(--motion-fast) ease,
-    border-color var(--motion-fast) ease,
-    transform var(--motion-fast) ease,
-    box-shadow var(--motion-fast) ease;
-}
-
 .choice:has(input:focus-visible),
 .goal-chip:has(input:focus-visible) {
   outline: 3px solid #8c9e78;
   outline-offset: 3px;
 }
 
-/* Evitar movimiento innecesario en los controles táctiles. */
+/* AJUSTES PARA CELULARES */
+
+@media (max-width: 767px) {
+  .hero--cinematic {
+    gap: 10px;
+    padding-block: 20px 30px;
+  }
+
+  .hero h1 {
+    font-size: clamp(3.55rem, 14vw, 5.6rem);
+    margin: 17px 0 13px;
+  }
+
+  .hero__intro {
+    max-width: 370px;
+    line-height: 1.58;
+  }
+
+  .hero__buttons {
+    margin-top: 16px;
+  }
+
+  .hero__art {
+    padding-inline: 4%;
+  }
+
+  .hero__image-wrap {
+    aspect-ratio: 1 / 1.02;
+  }
+
+  .hero__seal {
+    width: 83px;
+    height: 83px;
+    right: -1%;
+    bottom: 16%;
+  }
+
+  .hero__seal span {
+    font-size: 0.45rem;
+  }
+
+  .story__intro h2 {
+    font-size: clamp(2.75rem, 10vw, 4.1rem);
+  }
+
+  .spotlight__head {
+    margin-bottom: 28px;
+  }
+
+  .spotlight__grid {
+    gap: 42px;
+  }
+
+  .spotlight__all {
+    margin-top: 32px;
+  }
+}
+
+/* TABLETS */
+
+@media (min-width: 768px) {
+  .story__intro {
+    min-height: 40svh;
+    padding-block: 75px;
+  }
+
+  .story-mobile {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 4px;
+  }
+
+  .story-mobile__scene {
+    min-height: 640px;
+    padding: 34px 22px 42px;
+  }
+
+  .story-mobile__content h2 {
+    font-size: clamp(2.4rem, 3.2vw, 4.5rem);
+  }
+
+  .story-mobile__content p {
+    font-size: 0.95rem;
+  }
+
+  .spotlight__grid {
+    align-items: start;
+  }
+
+  .spotlight-motion:nth-child(2) {
+    margin-top: 0;
+  }
+}
+
+/* EXPERIENCIA INMERSIVA DE ESCRITORIO */
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .story-desktop {
+    position: relative;
+    height: 245svh;
+  }
+
+  .story-desktop__sticky {
+    position: sticky;
+    top: 85px;
+
+    height: calc(100svh - 85px);
+    min-height: 520px;
+
+    isolation: isolate;
+    overflow: hidden;
+    background: #213629;
+  }
+
+  .story-scene,
+  .story-scene__image,
+  .story-scene__shade {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .story-scene {
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .story-scene__image {
+    z-index: -2;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .story-scene__shade {
+    z-index: -1;
+
+    background:
+      linear-gradient(90deg, rgba(8, 20, 11, 0.77), rgba(8, 20, 11, 0.17) 80%),
+      linear-gradient(0deg, rgba(8, 20, 11, 0.35), transparent 65%);
+  }
+
+  .story-scene__content {
+    position: absolute;
+    z-index: 1;
+
+    left: var(--gutter);
+    bottom: clamp(65px, 11vh, 125px);
+
+    max-width: min(1050px, 78vw);
+  }
+
+  .story-scene__eyebrow {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+
+  .story-scene__content h2 {
+    margin: 17px 0 20px;
+
+    font: 400 clamp(4.7rem, 8vw, 9rem)/0.96 var(--serif);
+    letter-spacing: -0.068em;
+  }
+
+  .story-scene__content h2 em {
+    color: #d8eacb;
+  }
+
+  .story-scene__content p {
+    max-width: 470px;
+    font-size: 1.12rem;
+    line-height: 1.65;
+  }
+
+  .story-scene__watermark {
+    position: absolute;
+    right: 4vw;
+    bottom: -7vw;
+
+    font: 400 28vw/1 var(--serif);
+    color: rgba(255, 255, 255, 0.1);
+
+    pointer-events: none;
+  }
+
+  /* Indicador de progreso: animación GPU */
+
+  .story-desktop__hud {
+    position: absolute;
+    z-index: 5;
+
+    top: 8%;
+    right: var(--gutter);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .story-desktop__hud > span:first-child {
+    writing-mode: vertical-rl;
+  }
+
+  .story-desktop__track {
+    height: 140px;
+    width: 2px;
+
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  .story-desktop__track > div {
+    width: 100%;
+    height: 100%;
+
+    background: #fff;
+    transform-origin: top center;
+  }
+}
+
+/* EFECTOS PARA PUNTEROS */
 
 @media (hover: hover) and (pointer: fine) {
-  .arrow-link:hover::before,
-  .arrow-link:focus-visible::before {
-    transform: translateY(0);
-  }
-
-  .underlined-link:hover::after,
-  .underlined-link:focus-visible::after {
-    transform: scaleX(1);
-  }
-
-  .spotlight-item:hover .spotlight-item__visual::after,
-  .spotlight-item:focus-visible .spotlight-item__visual::after,
-  .catalog-card:hover .catalog-card__visual::after,
-  .catalog-card:focus-visible .catalog-card__visual::after {
-    opacity: 1;
-  }
-
-  .spotlight-item:focus-visible .spotlight-item__visual img,
-  .catalog-card:focus-visible .catalog-card__visual img {
+  .spotlight-item:hover .spotlight-item__visual img,
+  .spotlight-item:focus-visible .spotlight-item__visual img {
     transform: scale(1.045);
   }
 
-  .choice:hover,
-  .goal-chip:hover,
-  .workout-tabs button:hover {
-    transform: translateY(-2px);
+  .spotlight-item:hover .spotlight-item__visual::after,
+  .spotlight-item:focus-visible .spotlight-item__visual::after {
+    opacity: 1;
   }
 
-  .mobile-nav > a:not(.mobile-nav__cta):hover {
-    padding-left: 8px;
+  .spotlight-item:hover .spotlight-item__arrow svg,
+  .catalog-card:hover .catalog-card__arrow svg,
+  .arrow-link:hover svg,
+  .underlined-link:hover svg {
+    transform: translate(3px, -3px);
   }
 }
 
-/* La navegación por teclado recibe las mismas respuestas visuales. */
-
-.arrow-link:focus-visible::before {
-  transform: translateY(0);
-}
-
-.underlined-link:focus-visible::after {
-  transform: scaleX(1);
-}
-
-.spotlight-item:focus-visible .spotlight-item__visual::after,
-.catalog-card:focus-visible .catalog-card__visual::after {
-  opacity: 1;
-}
-
-/* Marquee: pausar si el usuario quiere leerlo. */
-
-@media (hover: hover) and (pointer: fine) {
-  .marquee:hover .marquee__track {
-    animation-play-state: paused;
-  }
-}
+/* MOVIMIENTO REDUCIDO */
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__line-mask > .hero__line {
-    will-change: auto;
+  .kinetic-type__row {
+    transform: none !important;
   }
 
   .marquee__track {
     animation: none !important;
+  }
+
+  .spotlight-motion .spotlight-item__visual img {
+    transition: none;
     transform: none !important;
-  }
-
-  .arrow-link::before,
-  .underlined-link::after,
-  .spotlight-item__visual::after,
-  .catalog-card__visual::after {
-    transition: none !important;
-  }
-
-  .choice:hover,
-  .goal-chip:hover,
-  .workout-tabs button:hover,
-  .arrow-link:active {
-    transform: none;
   }
 }

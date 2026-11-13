@@ -1,13 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { ArrowUpRight, RotateCcw, SlidersHorizontal } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { ArrowLink } from '../components/common/ArrowLink';
 import { Reveal } from '../components/common/Reveal';
 import { SectionLabel } from '../components/common/SectionLabel';
 import { programs } from '../data/programs';
-
 import type { Discipline, ProgramLevel } from '../types/domain';
 
 const disciplines = [
@@ -30,11 +29,37 @@ const levels: ReadonlyArray<{
 ];
 
 export function ProgramsPage() {
-  const [discipline, setDiscipline] = useState<Discipline | 'todos'>('todos');
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [level, setLevel] = useState<ProgramLevel | 'todos'>('todos');
+  const selectedDiscipline = searchParams.get('disciplina');
+  const selectedLevel = searchParams.get('nivel');
+
+  const discipline: Discipline | 'todos' =
+    selectedDiscipline === 'fuerza' || selectedDiscipline === 'pilates'
+      ? selectedDiscipline
+      : 'todos';
+
+  const level: ProgramLevel | 'todos' =
+    selectedLevel === 'inicial' || selectedLevel === 'intermedio' || selectedLevel === 'multinivel'
+      ? selectedLevel
+      : 'todos';
 
   const reducedMotion = useReducedMotion();
+
+  function updateFilter(name: 'disciplina' | 'nivel', value: string) {
+    const next = new URLSearchParams(searchParams);
+
+    if (value === 'todos') {
+      next.delete(name);
+    } else {
+      next.set(name, value);
+    }
+
+    setSearchParams(next, {
+      replace: true,
+      preventScrollReset: true,
+    });
+  }
 
   const filtered = useMemo(
     () =>
@@ -49,8 +74,13 @@ export function ProgramsPage() {
   const hasFilters = discipline !== 'todos' || level !== 'todos';
 
   function resetFilters() {
-    setDiscipline('todos');
-    setLevel('todos');
+    setSearchParams(
+      {},
+      {
+        replace: true,
+        preventScrollReset: true,
+      },
+    );
   }
 
   return (
@@ -87,7 +117,7 @@ export function ProgramsPage() {
                 type="button"
                 className={`catalog-filter-button${discipline === item.value ? ' is-active' : ''}`}
                 aria-pressed={discipline === item.value}
-                onClick={() => setDiscipline(item.value)}
+                onClick={() => updateFilter('disciplina', item.value)}
               >
                 {discipline === item.value && (
                   <motion.span
@@ -115,10 +145,7 @@ export function ProgramsPage() {
             <SlidersHorizontal size={18} aria-hidden="true" />
             <span>Nivel</span>
 
-            <select
-              value={level}
-              onChange={(event) => setLevel(event.target.value as ProgramLevel | 'todos')}
-            >
+            <select value={level} onChange={(event) => updateFilter('nivel', event.target.value)}>
               {levels.map((item) => (
                 <option key={item.value} value={item.value}>
                   {item.label}
@@ -179,7 +206,12 @@ export function ProgramsPage() {
               >
                 <Link className="catalog-card" to={`/programas/${program.slug}`}>
                   <div className="catalog-card__visual">
-                    <img src={program.image} alt={program.imageAlt} loading="lazy" />
+                    <img
+                      src={program.image}
+                      alt={program.imageAlt}
+                      loading="lazy"
+                      decoding="async"
+                    />
 
                     <span className="catalog-card__discipline">
                       {program.discipline === 'fuerza' ? 'ENTRENAMIENTO' : 'PILATES'}

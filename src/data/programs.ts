@@ -1,4 +1,5 @@
 import type { Program } from '../types/domain';
+import { media } from './media';
 
 /**
  * Programas ficticios para una demostración comercial reutilizable.
@@ -14,9 +15,10 @@ export const programs: Program[] = [
     shortDescription: 'Aprendé a entrenar con una base clara y progresiva.',
     description:
       'Una propuesta de iniciación al trabajo de fuerza: técnica, organización y progresiones que pueden adaptarse a la experiencia y al contexto de cada persona.',
-    image:
-      'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=85',
+    image: media.catalogStrengthStart,
     imageAlt: 'Área de mancuernas de un gimnasio',
+    detailImage: media.detailStrengthStart,
+    detailImageAlt: 'Persona realizando un levantamiento de pesas',
     duration: 'A definir según objetivos',
     intensity: 'Inicial',
     modalities: ['online', 'presencial'],
@@ -47,9 +49,10 @@ export const programs: Program[] = [
     shortDescription: 'Dale estructura a tu progreso y a tus objetivos.',
     description:
       'Un concepto para personas con experiencia que buscan entrenar con más planificación, registrar avances y revisar la selección de ejercicios con criterio.',
-    image:
-      'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=1200&q=85',
+    image: media.catalogStrengthProgress,
     imageAlt: 'Persona realizando entrenamiento de fuerza',
+    detailImage: media.detailStrengthProgress,
+    detailImageAlt: 'Persona elevando una barra durante una sesión de fuerza',
     duration: 'A definir según objetivos',
     intensity: 'Intermedio',
     modalities: ['online', 'presencial'],
@@ -80,9 +83,10 @@ export const programs: Program[] = [
     shortDescription: 'Explorá control, fluidez y movimiento consciente.',
     description:
       'Una propuesta de práctica de pilates con foco en coordinación, movilidad y control. La dificultad puede adaptarse a cada nivel y modalidad.',
-    image:
-      'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=85',
-    imageAlt: 'Persona practicando ejercicios en colchoneta',
+    image: media.catalogPilatesFlow,
+    imageAlt: 'Persona practicando pilates en un reformer',
+    detailImage: media.detailPilatesFlow,
+    detailImageAlt: 'Persona realizando pilates sobre una máquina reformer',
     duration: 'A definir según objetivos',
     intensity: 'Multinivel',
     modalities: ['online', 'presencial'],
@@ -113,9 +117,10 @@ export const programs: Program[] = [
     shortDescription: 'Empezá desde los principios del movimiento.',
     description:
       'Una introducción gradual a pilates para familiarizarse con sus principios, conocer secuencias simples y desarrollar seguridad en la práctica.',
-    image:
-      'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1200&q=85',
-    imageAlt: 'Espacio con colchonetas para práctica de movimiento',
+    image: media.catalogPilatesStart,
+    imageAlt: 'Persona practicando movilidad sobre una colchoneta',
+    detailImage: media.detailPilatesStart,
+    detailImageAlt: 'Ejercicio de iniciación a pilates sobre reformer',
     duration: 'A definir según objetivos',
     intensity: 'Inicial',
     modalities: ['online', 'presencial'],

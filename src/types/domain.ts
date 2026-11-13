@@ -13,6 +13,8 @@ export interface Program {
   description: string;
   image: string;
   imageAlt: string;
+  detailImage: string;
+  detailImageAlt: string;
   duration: string;
   intensity: string;
   modalities: Modality[];

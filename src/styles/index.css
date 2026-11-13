@@ -15,3 +15,56 @@
   padding: 0.15em 0.26em 0.25em 0.12em;
   margin: -0.12em -0.26em -0.19em -0.12em;
 }
+
+.spotlight .section-label > span {
+  color: #304536;
+}
+
+.journey .section-label > span {
+  color: #dcebd4;
+}
+
+.advisory .section-label > span {
+  color: #27392e;
+}
+
+.advisory .preview-sheet__row span {
+  color: #445a47;
+}
+
+.advisory .preview-sheet__progress b small {
+  color: #445a47;
+}
+
+.advisory .preview-sheet__bottom {
+  color: #39523f;
+}
+
+.final-cta__watermark {
+  display: none;
+}
+
+.final-cta::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  right: -3vw;
+  bottom: -3vw;
+
+  width: min(100%, 900px);
+  height: clamp(180px, 24vw, 360px);
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 300'%3E%3Ctext x='0' y='245' font-family='Georgia' font-size='285' fill='white' fill-opacity='0.035'%3Eforma.%3C/text%3E%3C/svg%3E");
+
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  background-size: contain;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+.final-cta__inner {
+  position: relative;
+  z-index: 1;
+}

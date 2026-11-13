@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
 
 export function Marquee() {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
@@ -15,7 +15,7 @@ export function Marquee() {
   const backward = useTransform(scrollYProgress, [0, 1], ['3%', '-12%']);
 
   return (
-    <div ref={ref} className="kinetic-type" aria-label="Fuerza, movimiento, libertad y control">
+    <section ref={ref} className="kinetic-type" aria-label="Fuerza, movimiento, libertad y control">
       <div className="kinetic-type__rail" aria-hidden="true">
         <motion.div className="kinetic-type__row" style={reduced ? undefined : { x: forward }}>
           <span>FUERZA</span>
@@ -37,6 +37,6 @@ export function Marquee() {
           <span>A TU RITMO</span>
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 }

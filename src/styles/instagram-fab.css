@@ -1,0 +1,208 @@
+.instagram-fab {
+  position: fixed;
+  z-index: 80;
+  right: clamp(16px, 2.5vw, 36px);
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  width: 60px;
+  height: 60px;
+  overflow: visible;
+
+  border-radius: 100px;
+  background: #27392e;
+  color: #f4f0e9;
+
+  box-shadow:
+    0 13px 32px rgb(18 39 25 / 28%),
+    0 0 0 1px rgb(255 255 255 / 14%);
+
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+
+  animation: instagram-fab-enter 750ms cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  transition:
+    width 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 350ms ease,
+    box-shadow 350ms ease;
+}
+
+/* Halo exterior */
+
+.instagram-fab::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+
+  border: 1px solid rgb(91 135 101 / 28%);
+  border-radius: inherit;
+
+  opacity: 0;
+  transform: scale(0.9);
+
+  transition:
+    opacity 350ms ease,
+    transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  pointer-events: none;
+}
+
+/* Ícono */
+
+.instagram-fab__icon {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  flex: 0 0 60px;
+  place-items: center;
+
+  width: 60px;
+  height: 60px;
+
+  border-radius: 50%;
+  color: #f4f0e9;
+}
+
+.instagram-fab__icon svg {
+  transition:
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 250ms ease;
+}
+
+/* Texto que aparece en escritorio */
+
+.instagram-fab__label {
+  display: block;
+  max-width: 0;
+
+  overflow: hidden;
+  white-space: nowrap;
+
+  color: #f4f0e9;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+
+  opacity: 0;
+  transform: translateX(8px);
+
+  transition:
+    max-width 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 250ms ease,
+    transform 350ms ease;
+}
+
+/* Interacción escritorio */
+
+@media (hover: hover) and (pointer: fine) {
+  .instagram-fab:hover {
+    width: 190px;
+    background: #345842;
+
+    box-shadow:
+      0 20px 44px rgb(18 39 25 / 30%),
+      0 0 0 1px rgb(172 207 176 / 32%);
+  }
+
+  .instagram-fab:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .instagram-fab:hover .instagram-fab__label {
+    max-width: 125px;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .instagram-fab:hover .instagram-fab__icon svg {
+    transform: rotate(-12deg) scale(1.12);
+  }
+}
+
+.instagram-fab:focus-visible {
+  width: 190px;
+  outline: 3px solid #9ec29e;
+  outline-offset: 5px;
+}
+
+.instagram-fab:focus-visible::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.instagram-fab:focus-visible .instagram-fab__label {
+  max-width: 125px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.instagram-fab:active .instagram-fab__icon svg {
+  transform: scale(0.9);
+}
+
+/* Animación de aparición */
+
+@keyframes instagram-fab-enter {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Celulares */
+
+@media (max-width: 767px) {
+  .instagram-fab {
+    right: 18px;
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+
+    width: 54px;
+    height: 54px;
+  }
+
+  .instagram-fab__icon {
+    flex-basis: 54px;
+    width: 54px;
+    height: 54px;
+  }
+
+  .instagram-fab__icon svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .instagram-fab__label {
+    display: none;
+  }
+
+  .instagram-fab:focus-visible {
+    width: 54px;
+  }
+}
+
+/* Respeto por movimiento reducido */
+
+@media (prefers-reduced-motion: reduce) {
+  .instagram-fab {
+    animation: none;
+    transition: none;
+  }
+
+  .instagram-fab::before,
+  .instagram-fab__icon svg,
+  .instagram-fab__label {
+    transition: none;
+  }
+}

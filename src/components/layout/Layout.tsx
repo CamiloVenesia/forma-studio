@@ -4,14 +4,8 @@ import { useLocation, useOutlet } from 'react-router-dom';
 
 import { Footer } from './Footer';
 import { Header } from './Header';
+import { InstagramFab } from '../common/InstagramFab';
 
-/**
- * No bloqueamos el renderizado esperando
- * la salida de la ruta anterior.
- *
- * Las rutas lazy muestran un estado de carga
- * visible en lugar de una pantalla vacía.
- */
 export function Layout() {
   const { pathname } = useLocation();
   const outlet = useOutlet();
@@ -41,7 +35,14 @@ export function Layout() {
         <motion.div
           key={pathname}
           className="route-stage"
-          initial={reducedMotion ? false : { opacity: 0.95, y: 7 }}
+          initial={
+            reducedMotion
+              ? false
+              : {
+                  opacity: 0.95,
+                  y: 7,
+                }
+          }
           animate={{
             opacity: 1,
             y: 0,
@@ -70,6 +71,8 @@ export function Layout() {
       </main>
 
       <Footer />
+
+      <InstagramFab />
     </>
   );
 }

@@ -8,3 +8,10 @@
 @import './animations.css';
 @import './premium.css';
 @import './catalog-cinematic.css';
+@import './hero-premium.css';
+@import './instagram-fab.css';
+
+.hero.hero-v2 .hero-v2__line-mask {
+  padding: 0.15em 0.26em 0.25em 0.12em;
+  margin: -0.12em -0.26em -0.19em -0.12em;
+}

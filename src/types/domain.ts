@@ -1,10 +1,12 @@
 export type Discipline = 'fuerza' | 'pilates';
 export type Modality = 'online' | 'presencial';
 export type Experience = 'inicio' | 'retomo' | 'intermedio' | 'avanzado';
+export type ProgramLevel = 'inicial' | 'intermedio' | 'multinivel';
 
 export interface Program {
   slug: string;
   discipline: Discipline;
+  level: ProgramLevel;
   eyebrow: string;
   name: string;
   shortDescription: string;
@@ -16,6 +18,7 @@ export interface Program {
   modalities: Modality[];
   benefits: string[];
   forYou: string;
+  approach: string[];
   sampleWeek: string[];
 }
 

@@ -1,112 +1,144 @@
 import type { Program } from '../types/domain';
 
-/** Contenido editorial demostrativo. No son planes terapéuticos ni asesoramiento individual. */
+/**
+ * Programas ficticios para una demostración comercial reutilizable.
+ * Los contenidos no son prescripciones ni promesas de servicios disponibles.
+ */
 export const programs: Program[] = [
   {
     slug: 'fuerza-esencial',
     discipline: 'fuerza',
-    eyebrow: '01 / FUERZA',
+    level: 'inicial',
+    eyebrow: '01 / ENTRENAMIENTO',
     name: 'Fuerza esencial',
-    shortDescription: 'Una base sólida, sin apuros.',
+    shortDescription: 'Aprendé a entrenar con una base clara y progresiva.',
     description:
-      'Un recorrido progresivo para familiarizarte con el entrenamiento de fuerza, ganar confianza con los movimientos y empezar a construir una práctica sostenible.',
+      'Una propuesta de iniciación al trabajo de fuerza: técnica, organización y progresiones que pueden adaptarse a la experiencia y al contexto de cada persona.',
     image:
       'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1200&q=85',
-    imageAlt: 'Zona de mancuernas en un gimnasio contemporáneo',
-    duration: 'Adaptable',
+    imageAlt: 'Área de mancuernas de un gimnasio',
+    duration: 'A definir según objetivos',
     intensity: 'Inicial',
     modalities: ['online', 'presencial'],
     benefits: [
-      'Fundamentos de técnica',
-      'Organización de sesiones',
-      'Progresión adaptada',
-      'Acompañamiento del proceso',
+      'Aprender patrones básicos de movimiento',
+      'Construir una rutina sostenible',
+      'Comprender la progresión de cargas',
+      'Ganar confianza en el gimnasio',
     ],
-    forYou: 'Si estás empezando o querés volver a entrenar con una estructura clara.',
+    forYou: 'Para quienes nunca entrenaron fuerza o quieren retomar después de una pausa.',
+    approach: [
+      'Conocer el punto de partida y la disponibilidad.',
+      'Seleccionar ejercicios acordes con la experiencia.',
+      'Revisar el aprendizaje técnico y los avances.',
+    ],
     sampleWeek: [
-      'Día 01 — Patrón de sentadilla y empuje',
-      'Día 02 — Movimientos de tracción y estabilidad',
-      'Día 03 — Trabajo global y movilidad',
+      'Día 01 — Sentadilla, empuje y estabilidad',
+      'Día 02 — Tracción, bisagra de cadera y movilidad',
+      'Día 03 — Fuerza global y repaso técnico',
     ],
   },
   {
     slug: 'fuerza-evolucion',
     discipline: 'fuerza',
-    eyebrow: '02 / FUERZA',
+    level: 'intermedio',
+    eyebrow: '02 / ENTRENAMIENTO',
     name: 'Fuerza evolución',
-    shortDescription: 'Progreso con intención.',
+    shortDescription: 'Dale estructura a tu progreso y a tus objetivos.',
     description:
-      'Para quienes ya entrenan y buscan desarrollar una planificación más consistente, con foco en la ejecución, el seguimiento y la progresión gradual.',
+      'Un concepto para personas con experiencia que buscan entrenar con más planificación, registrar avances y revisar la selección de ejercicios con criterio.',
     image:
       'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=1200&q=85',
-    imageAlt: 'Sesión de entrenamiento en gimnasio',
-    duration: 'Adaptable',
-    intensity: 'Intermedia',
+    imageAlt: 'Persona realizando entrenamiento de fuerza',
+    duration: 'A definir según objetivos',
+    intensity: 'Intermedio',
     modalities: ['online', 'presencial'],
     benefits: [
-      'Objetivos definidos',
-      'Selección de ejercicios',
-      'Registro de progreso',
-      'Ajustes del programa',
+      'Organizar objetivos de entrenamiento',
+      'Estructurar sesiones y descansos',
+      'Registrar cargas y repeticiones',
+      'Revisar la progresión periódicamente',
     ],
-    forYou: 'Si tenés experiencia y querés entrenar con una dirección más clara.',
+    forYou: 'Para personas que ya entrenan y buscan más claridad en su planificación.',
+    approach: [
+      'Revisar experiencia, objetivos y ejercicios habituales.',
+      'Organizar el trabajo en sesiones complementarias.',
+      'Observar tendencias y ajustar la planificación.',
+    ],
     sampleWeek: [
-      'Día 01 — Tren inferior',
-      'Día 02 — Tren superior',
-      'Día 03 — Fuerza global y accesorios',
+      'Día 01 — Énfasis en tren inferior',
+      'Día 02 — Énfasis en tren superior',
+      'Día 03 — Fuerza global y trabajo accesorio',
     ],
   },
   {
     slug: 'pilates-flow',
     discipline: 'pilates',
+    level: 'multinivel',
     eyebrow: '03 / PILATES',
     name: 'Pilates flow',
-    shortDescription: 'Fuerza, fluidez y control.',
+    shortDescription: 'Explorá control, fluidez y movimiento consciente.',
     description:
-      'Sesiones que exploran la coordinación, la movilidad y el control del movimiento, respetando el ritmo y las posibilidades de cada persona.',
+      'Una propuesta de práctica de pilates con foco en coordinación, movilidad y control. La dificultad puede adaptarse a cada nivel y modalidad.',
     image:
       'https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=1200&q=85',
-    imageAlt: 'Práctica de actividad física en colchoneta',
-    duration: 'Adaptable',
-    intensity: 'Todos los niveles',
+    imageAlt: 'Persona practicando ejercicios en colchoneta',
+    duration: 'A definir según objetivos',
+    intensity: 'Multinivel',
     modalities: ['online', 'presencial'],
-    benefits: ['Conciencia corporal', 'Movilidad', 'Control y coordinación', 'Progresión gradual'],
-    forYou: 'Si buscás una práctica consciente y una nueva forma de conectarte con el movimiento.',
+    benefits: [
+      'Explorar la coordinación',
+      'Mejorar la conciencia del movimiento',
+      'Integrar movilidad y control',
+      'Practicar a un ritmo adaptable',
+    ],
+    forYou: 'Para quienes quieren incorporar una práctica corporal con atención al movimiento.',
+    approach: [
+      'Identificar experiencia y preferencias.',
+      'Seleccionar secuencias acordes con el nivel.',
+      'Ajustar el ritmo y las variantes de ejercicios.',
+    ],
     sampleWeek: [
       'Sesión 01 — Centro y respiración',
       'Sesión 02 — Movilidad y control',
-      'Sesión 03 — Fluidez y estabilidad',
+      'Sesión 03 — Integración y fluidez',
     ],
   },
   {
     slug: 'pilates-fundamentos',
     discipline: 'pilates',
+    level: 'inicial',
     eyebrow: '04 / PILATES',
     name: 'Pilates fundamentos',
-    shortDescription: 'Empezar desde lo esencial.',
+    shortDescription: 'Empezá desde los principios del movimiento.',
     description:
-      'Una introducción al trabajo consciente del movimiento. El objetivo es conocer los principios básicos y desarrollar una práctica a tu medida.',
+      'Una introducción gradual a pilates para familiarizarse con sus principios, conocer secuencias simples y desarrollar seguridad en la práctica.',
     image:
       'https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1200&q=85',
-    imageAlt: 'Espacio para práctica de movimiento y pilates',
-    duration: 'Adaptable',
+    imageAlt: 'Espacio con colchonetas para práctica de movimiento',
+    duration: 'A definir según objetivos',
     intensity: 'Inicial',
     modalities: ['online', 'presencial'],
     benefits: [
-      'Principios básicos',
-      'Movimiento consciente',
-      'Atención a la postura',
-      'Ritmo personalizado',
+      'Conocer los fundamentos de pilates',
+      'Explorar estabilidad y respiración',
+      'Aprender secuencias sencillas',
+      'Adaptar la práctica a tu ritmo',
     ],
-    forYou: 'Si querés descubrir pilates y construir una práctica cómoda y progresiva.',
+    forYou: 'Para personas que desean comenzar pilates con una introducción progresiva.',
+    approach: [
+      'Conversar sobre experiencia y objetivos.',
+      'Introducir movimientos y variantes iniciales.',
+      'Revisar la ejecución y ajustar la dificultad.',
+    ],
     sampleWeek: [
-      'Sesión 01 — Introducción al movimiento',
-      'Sesión 02 — Estabilidad y control',
-      'Sesión 03 — Integración de movimientos',
+      'Sesión 01 — Principios y respiración',
+      'Sesión 02 — Estabilidad y coordinación',
+      'Sesión 03 — Secuencias integradas',
     ],
   },
 ];
 
-export function getProgram(slug: string | undefined) {
+export function getProgram(slug: string | undefined): Program | undefined {
   return programs.find((program) => program.slug === slug);
 }

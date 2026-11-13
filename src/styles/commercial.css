@@ -1,0 +1,287 @@
+/*
+ * Bloque 3 — Claridad comercial y exploración de programas.
+ * Extensiones puntuales sobre los estilos del Bloque 2.
+ * Enfoque mobile-first; no se añaden tarjetas decorativas.
+ */
+
+/* Catálogo: filtros que realmente diferencian las propuestas */
+
+.commercial-disclaimer {
+  max-width: 540px !important;
+  margin-top: 15px !important;
+  padding-left: 14px;
+  border-left: 2px solid #91a58d;
+  font-size: 0.875rem !important;
+  line-height: 1.7 !important;
+}
+
+.commercial-catalog-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 20px;
+  margin: 22px 0 28px;
+}
+
+.commercial-catalog-tools .catalog__count {
+  margin: 0;
+}
+
+.commercial-reset {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--touch-target);
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  padding: 8px 0;
+  background: transparent;
+  color: var(--forest);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.commercial-card-link {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--touch-target);
+  margin-top: 12px;
+  color: var(--forest) !important;
+  font-size: 0.875rem !important;
+  font-weight: 700;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+}
+
+.commercial-card-link svg {
+  transition: transform 0.24s ease;
+}
+
+.catalog-card:hover .commercial-card-link svg,
+.catalog-card:focus-visible .commercial-card-link svg {
+  transform: translate(3px, -3px);
+}
+
+.catalog__empty {
+  max-width: 520px;
+}
+
+.catalog__empty h2 {
+  font: 400 clamp(2rem, 7vw, 3rem)/1.15 var(--serif);
+  margin-bottom: 12px;
+}
+
+.catalog__empty p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.catalog__empty button {
+  min-height: var(--touch-target);
+  font-weight: 700;
+  color: var(--forest);
+}
+
+/* Detalle: información de decisión y metodología */
+
+.detail-hero__copy .commercial-program-target {
+  border-left: 2px solid #91a58d;
+  padding-left: 14px;
+  margin-top: -8px;
+  margin-bottom: 28px;
+  font-size: 0.94rem;
+}
+
+.commercial-approach {
+  background: #dde5d8;
+}
+
+.commercial-approach__layout {
+  display: grid;
+  gap: 38px;
+}
+
+.commercial-approach h2 {
+  margin: 27px 0;
+}
+
+.commercial-approach__layout > div:first-child p {
+  max-width: 440px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.commercial-approach__steps {
+  border-top: 1px solid var(--line);
+}
+
+.commercial-approach__step {
+  display: grid;
+  grid-template-columns: 33px minmax(0, 1fr);
+  gap: 12px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.commercial-approach__step span {
+  color: var(--accent-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding-top: 5px;
+}
+
+.commercial-approach__step p {
+  font: 400 clamp(1.3rem, 5.5vw, 1.9rem)/1.35 var(--serif);
+}
+
+.commercial-modality {
+  background: var(--paper);
+}
+
+.commercial-modality h2 {
+  margin: 27px 0 20px;
+}
+
+.commercial-modality__intro {
+  max-width: 610px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.commercial-modality__options {
+  display: grid;
+  gap: 35px;
+  margin-top: 45px;
+}
+
+.commercial-modality__option {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  min-height: 270px;
+  border-top: 1px solid var(--line);
+  padding-top: 26px;
+}
+
+.commercial-modality__option > span {
+  color: var(--accent-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.commercial-modality__option h3 {
+  margin-top: 18px;
+  font: 400 clamp(2.5rem, 9vw, 4.5rem)/1.1 var(--serif);
+  letter-spacing: -0.04em;
+}
+
+.commercial-modality__option p {
+  margin: 13px 0 24px;
+  max-width: 420px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.commercial-modality__option .arrow-link {
+  margin-top: auto;
+}
+
+/* Asesoramiento: servicio comercial separado del portal */
+
+.commercial-coaching-process {
+  background: var(--forest);
+  color: var(--paper);
+}
+
+.commercial-coaching-process__grid {
+  display: grid;
+  gap: 40px;
+}
+
+.commercial-coaching-process h2 {
+  margin: 27px 0;
+}
+
+.commercial-coaching-process h2 em {
+  color: #b9ceb1;
+}
+
+.commercial-coaching-process__grid > div:first-child p {
+  max-width: 440px;
+  color: #d5e3d1;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.commercial-coaching-process__steps {
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.commercial-coaching-process__step {
+  display: grid;
+  grid-template-columns: 35px minmax(0, 1fr);
+  gap: 15px;
+  padding: 26px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.commercial-coaching-process__step > span {
+  padding-top: 6px;
+  color: #b9ceb1;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.commercial-coaching-process__step h3 {
+  font: 400 clamp(1.6rem, 6vw, 2.2rem)/1.2 var(--serif);
+}
+
+.commercial-coaching-process__step p {
+  margin-top: 10px;
+  max-width: 420px;
+  color: #d5e3d1;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.commercial-section-intro {
+  max-width: 620px;
+  margin-top: 22px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/* Tablet y escritorio */
+
+@media (min-width: 768px) {
+  .commercial-approach__layout,
+  .commercial-coaching-process__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(45px, 7vw, 120px);
+    align-items: start;
+  }
+
+  .commercial-modality__options {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(35px, 6vw, 95px);
+    margin-top: 70px;
+  }
+
+  .commercial-modality__option {
+    min-height: 315px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .commercial-card-link svg {
+    transition: none;
+  }
+}

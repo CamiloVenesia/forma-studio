@@ -6,17 +6,17 @@ export function FinalCta() {
     <section className="final-cta">
       <div className="container final-cta__inner">
         <Reveal>
-          <span className="eyebrow">EL MOMENTO ES AHORA</span>
+          <span className="eyebrow">FUERZA · PILATES · ONLINE Y PRESENCIAL</span>
           <h2>
-            Tu mejor versión
-            <br />
-            no se encuentra.
-            <br />
-            <em>Se construye.</em>
+            Encontrá una forma <br />
+            <em>de empezar.</em>
           </h2>
-          <p>Empezá por algo simple: conocernos y encontrar un plan que encaje en tu vida.</p>
+          <p>
+            Explorá las propuestas y descubrí cómo podría organizarse un entrenamiento a tu medida.
+            Esta versión es una demostración.
+          </p>
           <ArrowLink to="/empezar" variant="light">
-            Quiero empezar
+            Completar formulario de muestra
           </ArrowLink>
         </Reveal>
       </div>

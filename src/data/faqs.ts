@@ -1,27 +1,33 @@
+/** Respuestas comerciales ilustrativas para adaptar a cada cliente. */
 export const faqs = [
   {
-    question: '¿Puedo empezar si nunca entrené?',
+    question: '¿Puedo comenzar si nunca entrené?',
     answer:
-      'Sí. El punto de partida cambia de persona a persona. La modalidad y la planificación se adaptan a tu experiencia y a lo que necesitás aprender.',
+      'Sí. El catálogo de ejemplo incluye propuestas iniciales. En un servicio real, el profesional define el punto de partida según objetivos, experiencia y evaluación correspondiente.',
   },
   {
     question: '¿Los programas son online o presenciales?',
     answer:
-      'El concepto contempla ambas modalidades tanto para fuerza como para pilates. La disponibilidad, los horarios y los espacios presenciales se definirán para cada profesional o estudio.',
+      'La demostración contempla ambas modalidades para fuerza y pilates. La disponibilidad, sedes, horarios y condiciones se configuran para cada profesional o estudio.',
   },
   {
-    question: '¿Necesito tener equipamiento en casa?',
+    question: '¿Necesito equipamiento para entrenar desde casa?',
     answer:
-      'No necesariamente. En la consulta inicial se evalúa dónde querés entrenar y qué elementos tenés disponibles para elegir una opción adecuada.',
+      'Depende de la propuesta. El formulario permite indicar los elementos disponibles, pero el equipamiento necesario se confirma con el profesional antes de comenzar.',
   },
   {
-    question: '¿Cómo funciona el asesoramiento personalizado?',
+    question: '¿Qué diferencia hay entre asesoramiento y espacio alumno?',
     answer:
-      'Es una funcionalidad planificada para una etapa posterior. Permitirá organizar rutinas, ejercicios y seguimiento individual. Actualmente el área de alumnos es sólo una demostración interactiva.',
+      'El asesoramiento es el servicio de orientación y planificación que ofrecería un profesional. El espacio alumno es una futura herramienta digital para consultar rutinas y progreso; hoy existe únicamente como demostración con datos ficticios.',
+  },
+  {
+    question: '¿Esta web permite inscribirme de verdad?',
+    answer:
+      'Todavía no. FORMA es una demostración de portfolio. Podés probar el formulario, pero sus respuestas no se envían ni se almacenan y no se contrata ningún servicio.',
   },
   {
     question: '¿Qué pasa si tengo alguna lesión o molestia?',
     answer:
-      'Antes de iniciar, conversá sobre cualquier limitación o condición relevante con un profesional calificado. Un programa de ejercicio no reemplaza la evaluación médica ni la rehabilitación indicada.',
+      'Ante una lesión, dolor persistente o limitación de salud, consultá con un profesional sanitario y avisá al responsable del entrenamiento mediante un canal privado adecuado. Esta demostración no ofrece evaluación médica.',
   },
 ];

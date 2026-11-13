@@ -1,11 +1,13 @@
 import { useMemo, useState } from 'react';
 import { ArrowUpRight, RotateCcw, SlidersHorizontal } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Link } from 'react-router-dom';
 
 import { ArrowLink } from '../components/common/ArrowLink';
 import { Reveal } from '../components/common/Reveal';
 import { SectionLabel } from '../components/common/SectionLabel';
 import { programs } from '../data/programs';
+
 import type { Discipline, ProgramLevel } from '../types/domain';
 
 const disciplines = [
@@ -17,7 +19,10 @@ const disciplines = [
   label: string;
 }>;
 
-const levels: ReadonlyArray<{ value: ProgramLevel | 'todos'; label: string }> = [
+const levels: ReadonlyArray<{
+  value: ProgramLevel | 'todos';
+  label: string;
+}> = [
   { value: 'todos', label: 'Todos los niveles' },
   { value: 'inicial', label: 'Inicial' },
   { value: 'intermedio', label: 'Intermedio' },
@@ -26,7 +31,10 @@ const levels: ReadonlyArray<{ value: ProgramLevel | 'todos'; label: string }> = 
 
 export function ProgramsPage() {
   const [discipline, setDiscipline] = useState<Discipline | 'todos'>('todos');
+
   const [level, setLevel] = useState<ProgramLevel | 'todos'>('todos');
+
+  const reducedMotion = useReducedMotion();
 
   const filtered = useMemo(
     () =>
@@ -51,14 +59,17 @@ export function ProgramsPage() {
         <div className="container">
           <Reveal>
             <SectionLabel number="01 /">EXPLORÁ LOS PROGRAMAS</SectionLabel>
+
             <h1 className="display-title">
               Un plan para <br />
               <em>tu momento.</em>
             </h1>
+
             <p>
               Elegí entre fuerza y pilates. Compará objetivos y niveles antes de decidir cómo querés
               entrenar.
             </p>
+
             <p className="commercial-disclaimer">
               Catálogo de demostración: los programas son ejemplos adaptables para futuros
               profesionales y estudios.
@@ -74,11 +85,28 @@ export function ProgramsPage() {
               <button
                 key={item.value}
                 type="button"
-                className={discipline === item.value ? 'is-active' : ''}
+                className={`catalog-filter-button${discipline === item.value ? ' is-active' : ''}`}
                 aria-pressed={discipline === item.value}
                 onClick={() => setDiscipline(item.value)}
               >
-                {item.label}
+                {discipline === item.value && (
+                  <motion.span
+                    layoutId="catalog-active-discipline"
+                    className="catalog-filter-button__highlight"
+                    aria-hidden="true"
+                    transition={
+                      reducedMotion
+                        ? { duration: 0 }
+                        : {
+                            type: 'spring',
+                            stiffness: 420,
+                            damping: 36,
+                          }
+                    }
+                  />
+                )}
+
+                <span className="catalog-filter-button__label">{item.label}</span>
               </button>
             ))}
           </div>
@@ -86,6 +114,7 @@ export function ProgramsPage() {
           <label className="catalog__mode">
             <SlidersHorizontal size={18} aria-hidden="true" />
             <span>Nivel</span>
+
             <select
               value={level}
               onChange={(event) => setLevel(event.target.value as ProgramLevel | 'todos')}
@@ -104,6 +133,7 @@ export function ProgramsPage() {
             {filtered.length} {filtered.length === 1 ? 'programa' : 'programas'} disponibles para
             explorar
           </p>
+
           {hasFilters && (
             <button className="commercial-reset" type="button" onClick={resetFilters}>
               <RotateCcw size={16} aria-hidden="true" />
@@ -113,35 +143,77 @@ export function ProgramsPage() {
         </div>
 
         <div className="catalog__grid">
-          {filtered.map((program, index) => (
-            <Reveal key={program.slug} delay={(index % 2) * 0.08}>
-              <Link className="catalog-card" to={`/programas/${program.slug}`}>
-                <div className="catalog-card__visual">
-                  <img src={program.image} alt={program.imageAlt} loading="lazy" />
-                  <span className="catalog-card__discipline">
-                    {program.discipline === 'fuerza' ? 'ENTRENAMIENTO' : 'PILATES'}
-                  </span>
-                  <span className="catalog-card__arrow" aria-hidden="true">
-                    <ArrowUpRight size={22} />
-                  </span>
-                </div>
-                <div className="catalog-card__info">
-                  <span>{program.intensity} · Online y presencial</span>
-                  <h2>{program.name}</h2>
-                  <p>{program.shortDescription}</p>
-                  <span className="commercial-card-link">
-                    Conocer el programa <ArrowUpRight size={17} aria-hidden="true" />
-                  </span>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
+          <AnimatePresence initial={false} mode={reducedMotion ? 'sync' : 'popLayout'}>
+            {filtered.map((program) => (
+              <motion.div
+                key={program.slug}
+                className="catalog-motion-item"
+                layout={!reducedMotion}
+                initial={
+                  reducedMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                        y: 22,
+                        scale: 0.98,
+                      }
+                }
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  scale: 1,
+                }}
+                exit={
+                  reducedMotion
+                    ? { opacity: 1 }
+                    : {
+                        opacity: 0,
+                        y: -12,
+                        scale: 0.98,
+                      }
+                }
+                transition={{
+                  duration: reducedMotion ? 0 : 0.36,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <Link className="catalog-card" to={`/programas/${program.slug}`}>
+                  <div className="catalog-card__visual">
+                    <img src={program.image} alt={program.imageAlt} loading="lazy" />
+
+                    <span className="catalog-card__discipline">
+                      {program.discipline === 'fuerza' ? 'ENTRENAMIENTO' : 'PILATES'}
+                    </span>
+
+                    <span className="catalog-card__arrow" aria-hidden="true">
+                      <ArrowUpRight size={22} />
+                    </span>
+                  </div>
+
+                  <div className="catalog-card__info">
+                    <span>{program.intensity} · Online y presencial</span>
+
+                    <h2>{program.name}</h2>
+
+                    <p>{program.shortDescription}</p>
+
+                    <span className="commercial-card-link">
+                      Conocer el programa
+                      <ArrowUpRight size={17} aria-hidden="true" />
+                    </span>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
 
         {filtered.length === 0 && (
           <div className="catalog__empty" role="status">
             <h2>Probá con otra combinación.</h2>
+
             <p>En esta demostración no hay programas para los filtros elegidos.</p>
+
             <button type="button" onClick={resetFilters}>
               Mostrar todos
             </button>
@@ -155,11 +227,13 @@ export function ProgramsPage() {
             ¿No sabés por <br />
             <em>dónde empezar?</em>
           </h2>
+
           <p>
             El formulario te ayuda a ordenar tus objetivos, experiencia y disponibilidad antes de
             elegir una propuesta.
           </p>
         </div>
+
         <ArrowLink to="/empezar">Explorar mi punto de partida</ArrowLink>
       </section>
     </>

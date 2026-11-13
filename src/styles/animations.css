@@ -1,0 +1,260 @@
+/*
+ * BLOQUE 4 — Motion system
+ * Interacciones funcionales, animaciones editoriales y movimiento reducido.
+ * Utiliza transform y opacity en la mayoría de transiciones.
+ */
+
+:root {
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-fast: 180ms;
+  --motion-base: 320ms;
+  --motion-slow: 650ms;
+}
+
+/* El contenido de las rutas puede transicionar sin alterar la maqueta. */
+
+.route-stage {
+  min-width: 0;
+}
+
+/* Portada: revelado de líneas sin recortar los descendentes. */
+
+.hero__line-mask {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.065em;
+  margin-block: -0.065em;
+}
+
+.hero__line-mask > .hero__line {
+  display: block;
+  will-change: transform;
+}
+
+.hero__image-wrap {
+  isolation: isolate;
+}
+
+.hero__photo-curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: #c5cfbf;
+  transform-origin: center bottom;
+}
+
+.hero__seal {
+  z-index: 3;
+}
+
+/* Los CTA responden con un fondo sutil y un movimiento breve de la flecha. */
+
+.arrow-link {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.arrow-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: currentColor;
+  opacity: 0.09;
+  transform: translateY(103%);
+  transition: transform var(--motion-base) var(--motion-ease);
+}
+
+.arrow-link > span,
+.arrow-link > svg {
+  position: relative;
+  z-index: 1;
+}
+
+.arrow-link:active {
+  transform: scale(0.985);
+}
+
+.underlined-link {
+  position: relative;
+}
+
+.underlined-link::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--motion-base) var(--motion-ease);
+}
+
+/* Selección animada dentro del filtro de disciplina. */
+
+.catalog-filter-button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.catalog__categories .catalog-filter-button.is-active {
+  background: transparent;
+}
+
+.catalog-filter-button__highlight {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--forest);
+  pointer-events: none;
+}
+
+.catalog-filter-button__label {
+  position: relative;
+  z-index: 1;
+}
+
+.catalog-motion-item {
+  min-width: 0;
+}
+
+/* Imágenes: énfasis visual al explorar, sin parallax en móviles. */
+
+.spotlight-item__visual,
+.catalog-card__visual {
+  isolation: isolate;
+}
+
+.spotlight-item__visual::after,
+.catalog-card__visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 55%, rgba(29, 47, 34, 0.2));
+  opacity: 0;
+  transition: opacity var(--motion-slow) var(--motion-ease);
+}
+
+.spotlight-item__visual > span,
+.catalog-card__discipline,
+.catalog-card__arrow {
+  z-index: 1;
+}
+
+/* Estados funcionales. */
+
+.accordion__item button svg {
+  transition: transform var(--motion-base) var(--motion-ease);
+}
+
+.accordion__item.is-active button svg {
+  transform: rotate(90deg);
+}
+
+.choice,
+.goal-chip,
+.workout-tabs button,
+.complete-button {
+  transition:
+    background var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    transform var(--motion-fast) ease,
+    box-shadow var(--motion-fast) ease;
+}
+
+.choice:has(input:focus-visible),
+.goal-chip:has(input:focus-visible) {
+  outline: 3px solid #8c9e78;
+  outline-offset: 3px;
+}
+
+/* Evitar movimiento innecesario en los controles táctiles. */
+
+@media (hover: hover) and (pointer: fine) {
+  .arrow-link:hover::before,
+  .arrow-link:focus-visible::before {
+    transform: translateY(0);
+  }
+
+  .underlined-link:hover::after,
+  .underlined-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .spotlight-item:hover .spotlight-item__visual::after,
+  .spotlight-item:focus-visible .spotlight-item__visual::after,
+  .catalog-card:hover .catalog-card__visual::after,
+  .catalog-card:focus-visible .catalog-card__visual::after {
+    opacity: 1;
+  }
+
+  .spotlight-item:focus-visible .spotlight-item__visual img,
+  .catalog-card:focus-visible .catalog-card__visual img {
+    transform: scale(1.045);
+  }
+
+  .choice:hover,
+  .goal-chip:hover,
+  .workout-tabs button:hover {
+    transform: translateY(-2px);
+  }
+
+  .mobile-nav > a:not(.mobile-nav__cta):hover {
+    padding-left: 8px;
+  }
+}
+
+/* La navegación por teclado recibe las mismas respuestas visuales. */
+
+.arrow-link:focus-visible::before {
+  transform: translateY(0);
+}
+
+.underlined-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.spotlight-item:focus-visible .spotlight-item__visual::after,
+.catalog-card:focus-visible .catalog-card__visual::after {
+  opacity: 1;
+}
+
+/* Marquee: pausar si el usuario quiere leerlo. */
+
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__line-mask > .hero__line {
+    will-change: auto;
+  }
+
+  .marquee__track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .arrow-link::before,
+  .underlined-link::after,
+  .spotlight-item__visual::after,
+  .catalog-card__visual::after {
+    transition: none !important;
+  }
+
+  .choice:hover,
+  .goal-chip:hover,
+  .workout-tabs button:hover,
+  .arrow-link:active {
+    transform: none;
+  }
+}

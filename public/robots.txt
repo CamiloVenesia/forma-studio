@@ -1,3 +1,5 @@
+
 User-agent: *
-Disallow: /
-# Demo conceptual: habilitar indexación sólo al publicar una web real.
+Allow: /
+
+Sitemap: https://forma-studiofit.vercel.app/sitemap.xml

@@ -1,4 +1,3 @@
-
 import { media } from '../data/media';
 
 export const site = {
@@ -13,9 +12,13 @@ export const site = {
   },
 
   meta: {
-    title: 'FORMA Studio — Movimiento a tu manera',
+    url: 'https://forma-studiofit.vercel.app',
+    title: 'FORMA Studio | Movimiento, fuerza y pilates',
     description:
-      'Entrenamiento y pilates, online y presencial. Explorá propuestas y encontrá una forma de moverte a tu ritmo.',
+      'FORMA Studio reúne una identidad visual y una experiencia digital centradas en el movimiento, la fuerza y el pilates.',
+    socialImage:
+      'https://images.unsplash.com/photo-1518611012118-696072aa579a?fit=crop&w=1200&h=630&q=85&fm=jpg',
+    socialImageAlt: 'Escena de entrenamiento del universo visual de FORMA Studio',
   },
 
   hero: {

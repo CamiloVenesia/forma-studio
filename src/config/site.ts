@@ -1,3 +1,4 @@
+
 import { media } from '../data/media';
 
 export const site = {
@@ -7,7 +8,7 @@ export const site = {
     slogan: 'Movimiento a tu manera.',
     email: 'formastudio@gmail.com',
     whatsappNumber: '549341XXXXXXX',
-    instagramUrl: 'https://www.instagram.com/pilarprado00',
+    instagramUrl: 'https://www.instagram.com/enforma_formacion/',
     locale: 'es-AR',
   },
 

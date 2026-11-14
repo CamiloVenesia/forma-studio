@@ -43,6 +43,32 @@ const scenes: Scene[] = [
 
 const desktopQuery = '(min-width: 1024px) and (prefers-reduced-motion: no-preference)';
 
+/*
+ * Imágenes optimizadas para el storytelling móvil.
+ *
+ * Conservamos:
+ * - La fotografía original.
+ * - El encuadre y object-fit del CSS.
+ * - Las animaciones.
+ *
+ * Reducimos:
+ * - Resoluciones innecesarias.
+ * - Calidad de compresión de 82 a 74.
+ */
+
+function mobileStoryImage(source: string, width: number): string {
+  const resized = unsplashWidth(source, width);
+
+  if (!resized.startsWith('https://images.unsplash.com/')) {
+    return resized;
+  }
+
+  const url = new URL(resized);
+  url.searchParams.set('q', '74');
+
+  return url.toString();
+}
+
 function subscribeDesktop(onChange: () => void) {
   const match = window.matchMedia(desktopQuery);
 
@@ -72,7 +98,6 @@ function DesktopScene({
 
   const arrival = index === 0 ? 0.02 : index === 1 ? 0.43 : 0.77;
 
-  // Paneles sólidos: no hay fundidos cruzados.
   const panelY = useTransform(
     progress,
     index === 0 ? [0, 1] : [0, entrance, arrival, 1],
@@ -180,12 +205,14 @@ function MobileScene({ scene, index }: { scene: Scene; index: number }) {
     <article className="story-mobile__scene">
       <div className="story-mobile__visual">
         <motion.img
-          src={unsplashWidth(scene.image, 720)}
-          srcSet={`${unsplashWidth(scene.image, 720)} 720w, ${unsplashWidth(
-            scene.image,
-            1200,
-          )} 1200w`}
-          sizes="100vw"
+          src={mobileStoryImage(scene.image, 720)}
+          srcSet={[
+            `${mobileStoryImage(scene.image, 480)} 480w`,
+            `${mobileStoryImage(scene.image, 640)} 640w`,
+            `${mobileStoryImage(scene.image, 800)} 800w`,
+            `${mobileStoryImage(scene.image, 960)} 960w`,
+          ].join(', ')}
+          sizes="(min-width: 768px) 33vw, 100vw"
           alt=""
           loading="lazy"
           decoding="async"

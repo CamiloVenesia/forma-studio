@@ -57,16 +57,7 @@ const desktopQuery = '(min-width: 1024px) and (prefers-reduced-motion: no-prefer
  */
 
 function mobileStoryImage(source: string, width: number): string {
-  const resized = unsplashWidth(source, width);
-
-  if (!resized.startsWith('https://images.unsplash.com/')) {
-    return resized;
-  }
-
-  const url = new URL(resized);
-  url.searchParams.set('q', '74');
-
-  return url.toString();
+  return unsplashWidth(source, width);
 }
 
 function subscribeDesktop(onChange: () => void) {

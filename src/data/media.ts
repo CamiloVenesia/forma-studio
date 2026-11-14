@@ -1,10 +1,5 @@
-/**
- * Banco fotográfico temporal de la demo.
- * Una URL por contexto visual: evita repetir fotografías entre secciones.
- * Antes de comercializar, revisar derechos y alojar versiones optimizadas.
- */
-const photo = (id: string, width = 1200) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=82`;
+/** Banco fotográfico servido localmente desde public/images. */
+const photo = (id: string, width = 1200) => `/images/${id}-${width}.webp`;
 
 export const media = {
   hero: photo('photo-1518611012118-696072aa579a', 1500),

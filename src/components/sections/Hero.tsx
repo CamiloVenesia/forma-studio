@@ -37,7 +37,7 @@ const photographs = {
 } as const;
 
 function photoUrl(id: string, width: number) {
-  return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
+  return `/images/${id}-${width}.webp`;
 }
 
 const imageVariants = {

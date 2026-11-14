@@ -16,8 +16,7 @@ export const site = {
     title: 'FORMA Studio | Movimiento, fuerza y pilates',
     description:
       'FORMA Studio reúne una identidad visual y una experiencia digital centradas en el movimiento, la fuerza y el pilates.',
-    socialImage:
-      'https://images.unsplash.com/photo-1518611012118-696072aa579a?fit=crop&w=1200&h=630&q=85&fm=jpg',
+    socialImage: 'https://forma-studiofit.vercel.app/images/forma-og.jpg',
     socialImageAlt: 'Escena de entrenamiento del universo visual de FORMA Studio',
   },
 

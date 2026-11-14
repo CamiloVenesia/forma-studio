@@ -13,7 +13,6 @@ const links = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
-
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const mobileNavRef = useRef<HTMLElement>(null);
 
@@ -31,7 +30,6 @@ export function Header() {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setOpen(false);
-
         menuButtonRef.current?.focus({
           preventScroll: true,
         });
@@ -49,11 +47,9 @@ export function Header() {
         ...(menuButtonRef.current ? [menuButtonRef.current] : []),
         ...navigationLinks,
       ];
-
       const first = focusableElements[0];
       const last = focusableElements.at(-1);
 
-      // Validación explícita para TypeScript estricto.
       if (!first || !last) return;
 
       if (event.shiftKey && document.activeElement === first) {
@@ -66,7 +62,6 @@ export function Header() {
     };
 
     window.addEventListener('keydown', onKeyDown);
-
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', onKeyDown);
@@ -101,7 +96,7 @@ export function Header() {
         </nav>
 
         <Link className="header-cta" to="/empezar">
-          Empezar
+          Quiero entrenar
           <ArrowUpRight aria-hidden="true" size={17} />
         </Link>
 
@@ -147,7 +142,7 @@ export function Header() {
           to="/empezar"
           onClick={() => setOpen(false)}
         >
-          Empezar ahora
+          Quiero empezar a entrenar
           <ArrowUpRight size={18} aria-hidden="true" />
         </Link>
 

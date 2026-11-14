@@ -8,12 +8,15 @@ export function Footer() {
       <div className="container footer-top">
         <div>
           <span className="eyebrow eyebrow--muted">MOVIMIENTO A TU MANERA</span>
+
           <Link to="/" className="footer-brand">
             {site.brand.name.toLowerCase()}
             <i>.</i>
           </Link>
+
           <p>Tu proceso. Tu tiempo. Tu forma de moverte.</p>
         </div>
+
         <div className="footer-columns">
           <div>
             <span>EXPLORAR</span>
@@ -21,9 +24,10 @@ export function Footer() {
             <Link to="/asesoramiento">Asesoramiento</Link>
             <Link to="/espacio">Espacio alumno</Link>
           </div>
+
           <div>
             <span>INFORMACIÓN</span>
-            <Link to="/empezar">Empezar</Link>
+            <Link to="/empezar">Cómo empezar a entrenar</Link>
             <Link to="/privacidad">Privacidad</Link>
             <a href="#top">
               Volver arriba <ArrowUpRight size={13} aria-hidden="true" />
@@ -31,6 +35,7 @@ export function Footer() {
           </div>
         </div>
       </div>
+
       <div className="container footer-bottom">
         <span>
           © {new Date().getFullYear()} {site.brand.name} STUDIO

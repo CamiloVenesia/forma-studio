@@ -4,35 +4,63 @@ export function PrivacyPage() {
   return (
     <section className="legal-page container">
       <span className="eyebrow">INFORMACIÓN / PRIVACIDAD</span>
+
       <h1 className="display-title">
-        Privacidad
+        Tu privacidad
         <br />
-        <em>en esta demo.</em>
+        <em>importa.</em>
       </h1>
+
       <div className="legal-content">
         <p>
-          FORMA Studio es un proyecto demostrativo sin relación comercial con un estudio o
-          profesional real. El formulario se ejecuta enteramente dentro de tu navegador: no realiza
-          solicitudes para enviar los datos personales a un servidor, no genera cuentas y no los
-          guarda en almacenamiento local.
+          FORMA Studio busca ofrecer una experiencia de navegación clara y respetuosa con la
+          privacidad de quienes visitan el sitio.
         </p>
+
+        <h2>Rutinas y progreso</h2>
+
         <p>
-          Al cerrar o actualizar esta página se descartan los campos del formulario. El botón
-          “Copiar resumen” funciona sólo si lo elegís y excluye detalles de salud. No se utiliza
-          analítica publicitaria ni una herramienta de seguimiento propia.
+          La sección de rutinas permite marcar sesiones completadas sin crear una cuenta. Cuando el
+          navegador lo permite, el progreso se guarda localmente en ese dispositivo. No se
+          sincroniza con un servidor.
         </p>
+
+        <h2>Preferencias de entrenamiento</h2>
+
         <p>
-          Este sitio carga tipografías desde Google Fonts e imágenes de Unsplash, servicios externos
-          que pueden registrar solicitudes técnicas según sus propias políticas. Antes de ofrecerlo
-          comercialmente conviene servir recursos localmente y publicar una política de privacidad
-          adaptada al proveedor real, su jurisdicción y al formulario final.
+          El formulario de preparación de consultas permite seleccionar objetivos y preferencias.
+          Actualmente no realiza un envío automático al servidor. El resumen puede copiarse
+          manualmente por decisión del visitante.
         </p>
+
+        <h2>Recursos y enlaces externos</h2>
+
         <p>
-          El área de alumnos utiliza ejemplos ficticios y no conserva el progreso al recargar. Este
-          texto no sustituye una política legal definitiva de un servicio real.
+          Las fotografías y tipografías principales se sirven desde el propio sitio. Algunos enlaces
+          pueden dirigirte a plataformas externas, cuyas políticas de privacidad son independientes.
         </p>
-        <Link className="underlined-link" to="/empezar">
-          Volver al formulario →
+
+        <p>
+          El servicio de alojamiento puede procesar registros técnicos necesarios para entregar el
+          sitio y mantener su seguridad.
+        </p>
+
+        <h2>Información sensible</h2>
+
+        <p>
+          No compartas diagnósticos, estudios médicos ni información clínica sensible mediante los
+          formularios o enlaces públicos.
+        </p>
+
+        <h2>Control de tus datos</h2>
+
+        <p>
+          Podés reiniciar tu progreso desde la sección de rutinas o eliminar los datos del sitio
+          mediante la configuración de tu navegador.
+        </p>
+
+        <Link className="underlined-link" to="/">
+          Volver al inicio
         </Link>
       </div>
     </section>

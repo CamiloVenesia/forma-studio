@@ -1,0 +1,175 @@
+/* Menú móvil */
+
+.mobile-nav {
+  background: #5e363c;
+  box-shadow: 0 20px 50px rgb(55 26 33 / 24%);
+}
+
+/* Storytelling */
+
+.story,
+.story-desktop__sticky,
+.story-scene--wipe {
+  background: #47272e;
+  color: #fff8f4;
+}
+
+.story__intro {
+  color: #fff8f4;
+}
+
+.story__intro h2 em,
+.story-scene__content h2 em,
+.story-mobile__content h2 em {
+  color: #f2c8c1;
+}
+
+.story__intro .section-label span,
+.story__intro-hint {
+  color: #f1d7d1;
+}
+
+/* Storytelling en dispositivos móviles */
+
+.story-mobile__scene {
+  background: #5e363c;
+  color: #fff8f4;
+}
+
+.story-mobile__shade {
+  background: linear-gradient(
+    180deg,
+    rgb(54 23 31 / 5%) 20%,
+    rgb(54 23 31 / 28%) 45%,
+    rgb(39 15 22 / 86%) 100%
+  );
+}
+
+.story-mobile__content > span {
+  color: #f4ded9;
+}
+
+.story-mobile__content p {
+  color: #fff8f4;
+}
+
+.story-mobile__number {
+  color: rgb(255 245 242 / 75%);
+}
+
+/* Segunda escena en móviles */
+
+@media (max-width: 767px) {
+  .story-mobile__scene:nth-child(2) {
+    background: #f2d7d2;
+    color: var(--burgundy);
+  }
+
+  .story-mobile__scene:nth-child(2) .story-mobile__content h2,
+  .story-mobile__scene:nth-child(2) .story-mobile__content h2 em,
+  .story-mobile__scene:nth-child(2) .story-mobile__content p,
+  .story-mobile__scene:nth-child(2) .story-mobile__content > span {
+    color: var(--burgundy);
+  }
+}
+
+/* Storytelling cinematográfico en escritorio */
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .story-desktop__sticky {
+    background: #47272e;
+  }
+
+  .story-scene--wipe .story-scene__shade,
+  .story-scene__shade {
+    background:
+      linear-gradient(90deg, rgb(43 17 24 / 76%), rgb(43 17 24 / 13%) 76%),
+      linear-gradient(0deg, rgb(43 17 24 / 40%), transparent 75%);
+  }
+}
+
+/* Indicadores del storytelling */
+
+.story-desktop__track {
+  background: rgb(255 235 230 / 40%);
+}
+
+.story-desktop__track > div {
+  background: #f2d7d2;
+}
+
+/* Signature Moment */
+
+.signature {
+  background: #40232b;
+  color: #fff8f4;
+}
+
+.signature__sticky,
+.signature__mobile {
+  background: #4b2932;
+}
+
+/* Iluminación cinematográfica */
+
+.signature__scrim {
+  background:
+    linear-gradient(90deg, rgb(43 17 24 / 66%), rgb(43 17 24 / 16%) 80%),
+    linear-gradient(0deg, rgb(43 17 24 / 58%), transparent 65%);
+}
+
+/* Paneles animados */
+
+.signature__panel {
+  background: #5e363c;
+  color: #fff8f4;
+}
+
+.signature__panel--left {
+  background: #5e363c;
+  color: #fff8f4;
+}
+
+.signature__panel--right {
+  background: #f2d7d2;
+  color: #5e363c;
+}
+
+/* Mensajes */
+
+.signature__message {
+  color: #fff8f4;
+}
+
+.signature__message h2 em {
+  color: #f2c8c1;
+}
+
+.signature__message p {
+  color: #fff1ed;
+}
+
+/* Barra de progreso */
+
+.signature__progress {
+  background: rgb(247 240 235 / 30%);
+}
+
+.signature__progress > div {
+  background: #e9aaa5;
+}
+
+/* Cierre cinematográfico */
+
+.signature__outro {
+  background: #40232b;
+  color: #fff8f4;
+}
+
+.signature__outro span {
+  color: #f0c5bf;
+}
+
+.signature__outro p em {
+  color: #f2c8c1;
+}

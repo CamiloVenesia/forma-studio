@@ -1,17 +1,17 @@
 /*
- * FORMA Studio
- * Bloque 4.5 — Programas cinematográficos
- * Se importa después de premium.css.
+ * FORMA Studio — Catálogo cinematográfico
+ * Identidad rosa, terracota y bordó.
  */
 
-/* PORTADA DE PROGRAMAS */
+/* Portada de Programas */
 
 .page-hero--catalog {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   padding: clamp(44px, 5vw, 90px) 0 46px;
-  background: radial-gradient(circle at 78% 35%, rgb(189 205 176 / 29%), transparent 45%), #e5e4da;
+  background:
+    radial-gradient(circle at 78% 35%, rgb(216 161 156 / 35%), transparent 45%), var(--cream);
 }
 
 .catalog-hero__layout {
@@ -35,20 +35,23 @@
   line-height: 0.98;
   letter-spacing: -0.065em;
   text-wrap: balance;
+  color: var(--burgundy);
 }
 
 .page-hero--catalog h1 em {
   display: inline-block;
-  color: #547455;
+  color: #ad666a;
 }
 
 .page-hero--catalog .catalog-hero__lead {
   max-width: 390px;
   margin-top: 29px;
-  color: #4d6151;
+  color: #6a5052;
   font-size: clamp(1rem, 1.25vw, 1.15rem);
   line-height: 1.75;
 }
+
+/* Acciones */
 
 .catalog-hero__actions {
   display: flex;
@@ -65,8 +68,8 @@
   gap: 24px;
   min-height: 51px;
   padding: 14px 19px;
-  background: #273f2f;
-  color: #f7f5ee;
+  background: var(--burgundy);
+  color: var(--cream);
   font-size: 0.88rem;
   font-weight: 700;
   transition:
@@ -79,7 +82,7 @@
 }
 
 .catalog-hero__discover:hover {
-  background: #446c4b;
+  background: var(--burgundy-hover);
   transform: translateY(-3px);
 }
 
@@ -88,7 +91,7 @@
 }
 
 .catalog-hero__count {
-  color: #687b69;
+  color: #82444a;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.13em;
@@ -100,10 +103,10 @@
   padding-left: 13px;
   font-size: 0.78rem !important;
   line-height: 1.65 !important;
-  color: #67766a;
+  color: #6a5052;
 }
 
-/* COMPOSICIÓN FOTOGRÁFICA */
+/* Composición fotográfica */
 
 .catalog-hero__art {
   position: relative;
@@ -120,7 +123,7 @@
   top: 6%;
   left: 5%;
   color: transparent;
-  -webkit-text-stroke: 1px rgb(59 86 62 / 14%);
+  -webkit-text-stroke: 1px rgb(173 102 106 / 20%);
   font: 400 clamp(5rem, 14vw, 13rem) / 1 var(--serif);
   letter-spacing: -0.085em;
   white-space: nowrap;
@@ -135,7 +138,7 @@
   top: 5%;
   width: 65%;
   aspect-ratio: 1;
-  border: 1px solid rgb(56 89 63 / 17%);
+  border: 1px solid rgb(173 102 106 / 23%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -145,7 +148,7 @@
   content: '';
   position: absolute;
   inset: 12%;
-  border: 1px solid rgb(56 89 63 / 10%);
+  border: 1px solid rgb(173 102 106 / 13%);
   border-radius: 50%;
 }
 
@@ -179,6 +182,8 @@
   height: 100%;
 }
 
+/* Fotografías */
+
 .catalog-hero__image-link {
   position: relative;
   display: block;
@@ -186,9 +191,11 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #bcc7b7;
-  box-shadow: 0 27px 55px rgb(23 46 29 / 14%);
+  background: #d8a19c;
+  box-shadow: 0 27px 55px rgb(94 54 60 / 18%);
 }
+
+/* Conservamos las curvas originales */
 
 .catalog-hero__image-link--strength {
   border-radius: 46% 46% 4px 4px / 23% 23% 4px 4px;
@@ -204,7 +211,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  filter: saturate(0.76) contrast(0.97);
+  filter: saturate(0.82) contrast(0.98);
   transition:
     transform 850ms cubic-bezier(0.22, 1, 0.36, 1),
     filter 850ms ease;
@@ -213,7 +220,7 @@
 .catalog-hero__image-link:hover img,
 .catalog-hero__image-link:focus-visible img {
   transform: scale(1.075);
-  filter: saturate(0.98) contrast(1.02);
+  filter: saturate(1) contrast(1.02);
 }
 
 .catalog-hero__image-link::after {
@@ -221,11 +228,11 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(180deg, rgb(14 31 19 / 10%), transparent 38%, rgb(14 31 19 / 24%));
+  background: linear-gradient(180deg, rgb(60 31 36 / 10%), transparent 38%, rgb(60 31 36 / 28%));
   pointer-events: none;
 }
 
-/* Etiquetas centradas, lejos de la curva */
+/* Etiquetas lejos de las curvas */
 
 .catalog-hero__photo-tag {
   position: absolute;
@@ -236,8 +243,8 @@
   display: inline-block;
   max-width: calc(100% - 28px);
   padding: 9px 14px;
-  background: #f4f0e9;
-  color: #26372d;
+  background: var(--cream);
+  color: var(--burgundy);
   font-size: 0.67rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -255,8 +262,8 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #f4f0e9;
-  color: #26372d;
+  background: var(--cream);
+  color: var(--burgundy);
   transition:
     transform 300ms ease,
     background 300ms ease;
@@ -268,8 +275,10 @@
 
 .catalog-hero__image-link:hover .catalog-hero__photo-arrow {
   transform: rotate(45deg);
-  background: #c4d6b9;
+  background: var(--pink-light);
 }
+
+/* Sello */
 
 .catalog-hero__seal {
   position: absolute;
@@ -283,9 +292,9 @@
   width: 115px;
   height: 115px;
   border-radius: 50%;
-  background: #d6e4c8;
-  box-shadow: 0 14px 35px rgb(25 49 30 / 13%);
-  color: #304a36;
+  background: #f2d7d2;
+  box-shadow: 0 14px 35px rgb(94 54 60 / 17%);
+  color: var(--burgundy);
   font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.09em;
@@ -299,6 +308,8 @@
   letter-spacing: -0.04em;
 }
 
+/* Detalles */
+
 .catalog-hero__footnote {
   position: absolute;
   right: 0;
@@ -306,7 +317,7 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  color: #627a65;
+  color: #82444a;
   font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -318,7 +329,7 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background: #668b6e;
+  background: #ad666a;
   transform-origin: left;
   animation: catalog-line-in 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -333,15 +344,7 @@
   }
 }
 
-/* ETIQUETAS EN LAS TARJETAS CURVAS */
-
-/*
- * En el video las etiquetas estaban situadas
- * en el extremo superior izquierdo.
- *
- * La propia curva las recortaba. Se corrige
- * su posición, NO el border-radius.
- */
+/* Etiquetas de tarjetas curvas */
 
 .catalog-card__discipline,
 .spotlight-item__visual > span:not(.spotlight-item__arrow) {
@@ -356,8 +359,8 @@
   max-width: calc(100% - 32px);
   padding: 10px 15px;
   transform: translateX(-50%);
-  background: #f4f0e9;
-  color: #26372d;
+  background: var(--cream);
+  color: var(--burgundy);
   font-size: 0.71rem;
   font-weight: 700;
   letter-spacing: 0.075em;
@@ -366,20 +369,15 @@
   white-space: nowrap;
 }
 
-/* Las flechas conservan espacio dentro de
-   las curvas inferiores. */
-
 .spotlight-item--1 .spotlight-item__arrow {
   bottom: 26%;
 }
 
-/* INTERACCIONES DEL CATÁLOGO */
+/* Interacciones del catálogo */
 
 .catalog-card__visual {
   isolation: isolate;
 }
-
-/* No modificamos el borde curvo existente. */
 
 .catalog-card__visual::after {
   content: '';
@@ -387,7 +385,7 @@
   z-index: 1;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(110deg, transparent 28%, rgb(255 255 255 / 15%) 48%, transparent 70%);
+  background: linear-gradient(110deg, transparent 28%, rgb(255 238 234 / 18%) 48%, transparent 70%);
   transform: translateX(-120%);
   transition: transform 950ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -408,7 +406,7 @@
 .catalog-card:hover .catalog-card__visual img,
 .catalog-card:focus-visible .catalog-card__visual img {
   transform: scale(1.065);
-  filter: saturate(0.92);
+  filter: saturate(0.95);
 }
 
 .catalog-card:hover .catalog-card__visual::after,
@@ -419,7 +417,7 @@
 .catalog-card:hover .catalog-card__arrow,
 .catalog-card:focus-visible .catalog-card__arrow {
   transform: rotate(45deg);
-  background: #c8d9be;
+  background: #f2d7d2;
 }
 
 .catalog-card__info h2 {
@@ -427,7 +425,7 @@
 }
 
 .catalog-card:hover .catalog-card__info h2 {
-  color: #57775a;
+  color: #82444a;
 }
 
 .spotlight-item__visual {
@@ -453,10 +451,10 @@
   left: 0;
   width: 80px;
   height: 3px;
-  background: #688e6d;
+  background: #ad666a;
 }
 
-/* ESCRITORIO */
+/* Desktop */
 
 @media (min-width: 900px) {
   .catalog-hero__layout {
@@ -491,7 +489,7 @@
   }
 }
 
-/* TABLET Y MÓVIL */
+/* Tablet */
 
 @media (max-width: 899px) {
   .page-hero--catalog {
@@ -522,6 +520,8 @@
     max-width: 450px;
   }
 }
+
+/* Mobile */
 
 @media (max-width: 599px) {
   .page-hero--catalog {
@@ -635,6 +635,8 @@
   }
 }
 
+/* Celulares muy estrechos */
+
 @media (max-width: 359px) {
   .page-hero--catalog h1 {
     font-size: 2.7rem;
@@ -655,7 +657,7 @@
   }
 }
 
-/* MOVIMIENTO REDUCIDO */
+/* Accesibilidad */
 
 @media (prefers-reduced-motion: reduce) {
   .catalog-hero__bottom-line {

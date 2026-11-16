@@ -1,0 +1,387 @@
+/* Encabezados de páginas internas */
+
+.page-hero--soft {
+  background: #f2d7d2;
+  color: var(--burgundy);
+}
+
+.page-hero h1,
+.detail-hero h1,
+.coaching-hero h1,
+.apply-page__intro h1 {
+  color: var(--burgundy);
+}
+
+/* Catálogo de programas */
+
+.catalog__categories button,
+.library-filters button {
+  border-color: #d8a19c;
+  color: var(--burgundy);
+}
+
+.catalog__categories button:hover,
+.library-filters button:hover {
+  background: #f2d7d2;
+}
+
+.catalog__categories button.is-active,
+.library-filters button.is-active {
+  background: var(--burgundy);
+  color: var(--cream);
+  border-color: var(--burgundy);
+}
+
+/* Indicador animado de filtros */
+
+.catalog-filter-button__highlight {
+  background: var(--burgundy);
+}
+
+.catalog__mode select {
+  border-color: #d8a19c;
+  color: var(--burgundy);
+  background: var(--cream);
+}
+
+/* Tarjetas */
+
+.catalog-card__visual,
+.catalog-card__image {
+  background: #e7bdb7;
+}
+
+.catalog-card__discipline {
+  background: var(--cream);
+  color: var(--burgundy);
+}
+
+.catalog-card__arrow {
+  background: var(--cream);
+  color: var(--burgundy);
+}
+
+.catalog-card__info h2,
+.catalog-end h2 {
+  color: var(--burgundy);
+}
+
+.catalog-card__info span {
+  color: #78454a;
+}
+
+/* Detalle del programa */
+
+.detail-hero__photo {
+  background: #e7bdb7;
+}
+
+.detail-about {
+  background: #5e363c;
+  color: #fff8f4;
+}
+
+.detail-about h2 em {
+  color: #f2c8c1;
+}
+
+.detail-facts span {
+  color: #f3ddd6;
+}
+
+.detail-week {
+  background: #f0dbd5;
+  color: var(--burgundy);
+}
+
+.benefit-line span,
+.week-example span {
+  color: #82444a;
+}
+
+/* Secciones comerciales */
+
+.commercial-disclaimer,
+.detail-hero__copy .commercial-program-target {
+  border-left-color: var(--terracotta);
+}
+
+.commercial-approach {
+  background: #f2d7d2;
+  color: var(--burgundy);
+}
+
+.commercial-approach__step span,
+.commercial-modality__option > span {
+  color: #82444a;
+}
+
+.commercial-modality {
+  background: var(--cream);
+}
+
+.commercial-coaching-process {
+  background: #502f35;
+  color: #fff8f4;
+}
+
+.commercial-coaching-process h2 em {
+  color: #f2c8c1;
+}
+
+.commercial-coaching-process__grid > div:first-child p,
+.commercial-coaching-process__step p {
+  color: #f3ddd6;
+}
+
+.commercial-coaching-process__step > span {
+  color: #f2c8c1;
+}
+
+/* Asesoramiento */
+
+.coaching-hero {
+  background: var(--cream);
+}
+
+.coaching-features {
+  background: #f2d7d2;
+  color: var(--burgundy);
+}
+
+.coaching-features__list article {
+  border-top-color: rgb(94 54 60 / 25%);
+}
+
+.coaching-features__list article > span,
+.coaching-features__list article > svg {
+  color: #82444a;
+}
+
+.coaching-stage {
+  background: var(--cream);
+}
+
+/* Página Empezar */
+
+.apply-page {
+  background: var(--cream);
+  color: var(--dark-text);
+}
+
+.apply-page__sidebar-note {
+  border-left-color: var(--terracotta);
+}
+
+/* Wizard: tarjeta principal */
+
+.wizard {
+  background: #fffaf7;
+  border-color: #e7c6c0;
+  box-shadow: 0 15px 65px rgb(94 54 60 / 7%);
+}
+
+.wizard__top {
+  color: var(--burgundy);
+}
+
+.wizard__progress {
+  background: #edd0ca;
+}
+
+.wizard__progress > div {
+  background: var(--terracotta);
+}
+
+.wizard__steps span {
+  color: #78454a;
+}
+
+.wizard__steps span.is-current {
+  color: var(--burgundy);
+}
+
+.wizard__steps span.is-done {
+  color: #82444a;
+}
+
+/* Opciones del formulario */
+
+.choice,
+.goal-chip {
+  border-color: #d8b4ae;
+  background: #fffaf7;
+  color: var(--dark-text);
+}
+
+.choice:hover,
+.choice--selected,
+.goal-chip--selected {
+  background: #f2d7d2;
+  border-color: var(--terracotta);
+}
+
+.choice input,
+.goal-chip input,
+.consent input {
+  accent-color: var(--burgundy);
+}
+
+.choice__indicator {
+  color: var(--burgundy);
+}
+
+.choice:has(input:focus-visible),
+.goal-chip:has(input:focus-visible) {
+  outline-color: var(--terracotta);
+}
+
+/* Campos de texto */
+
+.text-field input,
+.text-field select {
+  border-color: #cfa8a4;
+  background: #fffdfb;
+  color: var(--dark-text);
+}
+
+.text-field input:focus,
+.text-field select:focus {
+  outline-color: var(--terracotta);
+}
+
+.text-field input::placeholder {
+  color: #796365;
+}
+
+/* Objetivos y mensajes */
+
+.wizard__notice {
+  background: #f6e5df;
+  border-left-color: var(--terracotta);
+  color: var(--burgundy);
+}
+
+.wizard__actions {
+  border-top-color: #e7c6c0;
+}
+
+.consent,
+.wizard__privacy {
+  color: #6a5052;
+}
+
+/* Finalización del formulario */
+
+.wizard-done__icon {
+  background: #f2d7d2;
+  color: var(--burgundy);
+}
+
+.wizard-done h2 em {
+  color: #82444a;
+}
+
+.copy-feedback {
+  color: #82444a !important;
+}
+
+.wizard-summary textarea {
+  background: #fff5f1;
+  border-color: #d8a19c;
+  color: var(--burgundy);
+}
+
+/* Portal de alumnos */
+
+.portal-page {
+  background: #f7f0eb;
+  color: var(--dark-text);
+}
+
+.portal-demo-notice {
+  border-bottom-color: #d8a19c;
+}
+
+.portal-demo-notice > span {
+  background: #f2d7d2;
+  color: var(--burgundy);
+}
+
+.portal-progress {
+  background: #f2d7d2;
+  color: var(--burgundy);
+}
+
+.portal-progress strong small {
+  color: #82444a;
+}
+
+.portal-progress__track {
+  background: #ddaaa6;
+}
+
+.portal-progress__track > div {
+  background: var(--burgundy);
+}
+
+/* Entrenamientos */
+
+.workout-tabs button {
+  background: #fffaf7;
+  border-color: #e0c0ba;
+  color: var(--burgundy);
+}
+
+.workout-tabs button.is-active {
+  background: #f2d7d2;
+  border-color: var(--terracotta);
+}
+
+.workout-tabs small {
+  color: #78454a;
+}
+
+.workout-detail {
+  background: #fffaf7;
+}
+
+.exercise-rows,
+.exercise-row {
+  border-color: #e0c0ba;
+}
+
+.complete-button {
+  background: var(--burgundy);
+  color: var(--cream);
+}
+
+.complete-button--done {
+  background: #82444a;
+  color: #fff8f4;
+}
+
+/* Biblioteca */
+
+.portal-aside,
+.library-list details {
+  border-color: #d8a19c;
+}
+
+.portal-disclaimer {
+  border-top-color: #d8a19c;
+  color: #6a5052;
+}
+
+/* Página de privacidad y 404 */
+
+.legal-page,
+.not-found {
+  background: var(--cream);
+  color: var(--dark-text);
+}
+
+.legal-page h1,
+.not-found h1 {
+  color: var(--burgundy);
+}

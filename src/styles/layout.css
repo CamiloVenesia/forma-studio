@@ -1,11 +1,18 @@
-/* Header */
+/*
+ * FORMA Studio
+ * Nueva identidad visual: rosa, terracota y bordó.
+ *
+ * Header, menú responsive y footer.
+ */
+
+/* HEADER */
 
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
 
-  background: rgba(244, 240, 233, 0.94);
+  background: rgb(247 240 235 / 95%);
 
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -24,7 +31,7 @@
   gap: 28px;
 }
 
-/* Marca */
+/* MARCA */
 
 .brand {
   display: inline-flex;
@@ -35,13 +42,21 @@
   letter-spacing: -0.085em;
   line-height: 1;
 
+  color: var(--burgundy);
+
   flex-shrink: 0;
+
+  transition: color 250ms ease;
+}
+
+.brand:hover {
+  color: var(--burgundy-hover);
 }
 
 .brand i,
 .footer-brand i {
   font-style: normal;
-  color: #839878;
+  color: var(--terracotta);
 }
 
 .brand span {
@@ -49,17 +64,19 @@
   font-weight: 700;
   font-size: 0.49rem;
   letter-spacing: 0.15em;
+
   margin-left: 11px;
+  color: var(--dark-text);
 }
 
-/* Navegación de escritorio */
+/* NAVEGACIÓN DESKTOP */
 
 .desktop-nav,
 .header-cta {
   display: none;
 }
 
-/* Botón del menú móvil */
+/* BOTÓN DEL MENÚ MÓVIL */
 
 .menu-toggle {
   margin-left: auto;
@@ -74,10 +91,22 @@
   border: 0;
 
   padding: 9px;
-  color: var(--forest);
+  color: var(--burgundy);
+
+  transition:
+    color 250ms ease,
+    transform 250ms ease;
 }
 
-/* Menú móvil */
+.menu-toggle:hover {
+  color: var(--terracotta);
+}
+
+.menu-toggle:active {
+  transform: scale(0.94);
+}
+
+/* MENÚ MÓVIL */
 
 .mobile-nav {
   position: absolute;
@@ -88,8 +117,8 @@
   height: calc(100dvh - 72px);
   overflow-y: auto;
 
-  background: var(--forest);
-  color: var(--paper);
+  background: var(--burgundy);
+  color: var(--cream);
 
   display: flex;
   flex-direction: column;
@@ -115,12 +144,18 @@
   pointer-events: auto;
 }
 
+/* ETIQUETA SUPERIOR */
+
 .mobile-nav__eyebrow {
   font-size: 0.75rem;
   letter-spacing: 0.16em;
-  color: var(--sage);
+
+  color: var(--pink-light);
+
   margin-bottom: 25px;
 }
+
+/* ENLACES DEL MENÚ */
 
 .mobile-nav > a:not(.mobile-nav__cta) {
   display: flex;
@@ -132,25 +167,46 @@
 
   padding: 17px 0;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgb(247 240 235 / 20%);
+
+  transition:
+    color 250ms ease,
+    padding-left 300ms ease;
+}
+
+.mobile-nav > a:not(.mobile-nav__cta):hover {
+  color: var(--pink-light);
+  padding-left: 5px;
 }
 
 .mobile-nav > a.is-active {
-  color: #b5c2aa;
+  color: #ffe5df;
 }
+
+/* NUMERACIÓN DEL MENÚ */
 
 .mobile-nav > a:not(.mobile-nav__cta) span {
   font:
     600 0.75rem 'DM Sans',
     sans-serif;
-  color: var(--sage);
+
+  color: var(--pink-light);
+
   align-self: flex-start;
   padding-top: 10px;
 }
 
 .mobile-nav > a:not(.mobile-nav__cta) svg {
   margin-left: auto;
+
+  transition: transform 300ms ease;
 }
+
+.mobile-nav > a:not(.mobile-nav__cta):hover svg {
+  transform: rotate(45deg);
+}
+
+/* CTA DEL MENÚ MÓVIL */
 
 .mobile-nav__cta {
   display: inline-flex;
@@ -160,28 +216,40 @@
 
   margin-top: 35px;
 
-  background: var(--paper);
-  color: var(--forest);
+  background: var(--pink-light);
+  color: var(--burgundy);
 
   padding: 18px 20px;
 
   font-size: 0.85rem;
   font-weight: 700;
+
+  transition:
+    background 300ms ease,
+    transform 300ms ease;
 }
+
+.mobile-nav__cta:hover {
+  background: #ffe7e1;
+  transform: translateY(-3px);
+}
+
+/* TEXTO INFERIOR DEL MENÚ */
 
 .mobile-nav small {
   font-size: 0.72rem;
   margin-top: auto;
   padding-top: 35px;
+
   letter-spacing: 0.12em;
-  color: #a2b3a5;
+  color: #efd2ce;
 }
 
-/* Footer */
+/* FOOTER */
 
 .site-footer {
-  background: #203027;
-  color: #e8eee4;
+  background: #4b292f;
+  color: var(--cream);
   padding-top: 60px;
 }
 
@@ -189,26 +257,48 @@
   display: flex;
   flex-direction: column;
   gap: 62px;
+
   padding-bottom: 70px;
 }
+
+/* LOGOTIPO DEL FOOTER */
 
 .footer-brand {
   display: block;
   width: fit-content;
 
-  font: 400 clamp(5.2rem, 19vw, 9rem)/1 var(--serif);
+  font: 400 clamp(5.2rem, 19vw, 9rem) / 1 var(--serif);
 
   letter-spacing: -0.09em;
   margin: 14px 0 10px;
+
+  color: var(--cream);
+
+  transition:
+    color 300ms ease,
+    transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+.footer-brand:hover {
+  color: #f2d7d2;
+  transform: translateX(4px);
+}
+
+.footer-brand i {
+  color: #dda29d;
+}
+
+/* DESCRIPCIÓN DEL FOOTER */
 
 .footer-top p {
   max-width: 270px;
 
-  color: #c0d0c0;
+  color: #efd8d4;
   font-size: 0.94rem;
   line-height: 1.7;
 }
+
+/* COLUMNAS DEL FOOTER */
 
 .footer-columns {
   display: grid;
@@ -224,10 +314,13 @@
 
 .footer-columns span {
   font-size: 0.75rem;
-  color: #bed0bd;
+  color: #f1d5cf;
+
   letter-spacing: 0.13em;
   margin-bottom: 7px;
 }
+
+/* ENLACES DEL FOOTER */
 
 .footer-columns a {
   font-size: 0.875rem;
@@ -239,20 +332,28 @@
   gap: 5px;
   align-items: center;
 
-  transition: color 0.2s;
+  color: var(--cream);
+
+  transition:
+    color 250ms ease,
+    transform 250ms ease;
 }
 
 .footer-columns a:hover {
-  color: #b4c5a7;
+  color: #ffc7ba;
+  transform: translateX(3px);
 }
+
+/* PARTE INFERIOR DEL FOOTER */
 
 .footer-bottom {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+
   justify-content: space-between;
 
-  border-top: 1px solid rgba(255, 255, 255, 0.17);
+  border-top: 1px solid rgb(247 240 235 / 20%);
 
   padding-block: 25px;
 }
@@ -260,16 +361,19 @@
 .footer-bottom span {
   font-size: 0.75rem;
   letter-spacing: 0.04em;
-  color: #c0cfc0;
+
+  color: #f0d8d4;
   line-height: 1.6;
 }
 
-/* Escritorio */
+/* DESKTOP */
 
 @media (min-width: 1024px) {
   .header-inner {
     height: 85px;
   }
+
+  /* NAVEGACIÓN */
 
   .desktop-nav {
     margin-left: auto;
@@ -281,16 +385,22 @@
   }
 
   .desktop-nav a {
+    position: relative;
+
     font-size: 0.75rem;
     font-weight: 600;
-    position: relative;
-    transition: color 0.2s;
+
+    color: var(--dark-text);
+
+    transition: color 250ms ease;
   }
 
   .desktop-nav a.is-active,
   .desktop-nav a:hover {
-    color: #819579;
+    color: var(--accent-text);
   }
+
+  /* SUBRAYADO ANIMADO */
 
   .desktop-nav a::after {
     content: '';
@@ -311,30 +421,48 @@
     right: 0;
   }
 
+  /* BOTÓN PRINCIPAL */
+
   .header-cta {
     display: inline-flex;
     align-items: center;
     gap: 14px;
 
-    color: var(--paper);
-    background: var(--forest);
+    color: var(--cream);
+    background: var(--burgundy);
 
     padding: 14px 19px;
 
     font-size: 0.73rem;
     font-weight: 700;
 
-    transition: background 0.3s;
+    transition:
+      background 300ms ease,
+      transform 300ms ease,
+      box-shadow 300ms ease;
   }
 
   .header-cta:hover {
-    background: #4c6451;
+    background: var(--burgundy-hover);
+    transform: translateY(-2px);
+
+    box-shadow: 0 10px 28px rgb(94 54 60 / 18%);
+  }
+
+  .header-cta svg {
+    transition: transform 300ms ease;
+  }
+
+  .header-cta:hover svg {
+    transform: translate(3px, -3px);
   }
 
   .menu-toggle,
   .mobile-nav {
     display: none;
   }
+
+  /* FOOTER */
 
   .footer-top {
     flex-direction: row;
@@ -344,5 +472,23 @@
 
   .footer-columns {
     min-width: 375px;
+  }
+}
+
+/* MOVIMIENTO REDUCIDO */
+
+@media (prefers-reduced-motion: reduce) {
+  .brand,
+  .menu-toggle,
+  .mobile-nav,
+  .mobile-nav > a,
+  .mobile-nav__cta,
+  .footer-brand,
+  .footer-columns a,
+  .desktop-nav a,
+  .desktop-nav a::after,
+  .header-cta,
+  .header-cta svg {
+    transition: none;
   }
 }

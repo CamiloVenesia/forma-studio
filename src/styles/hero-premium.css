@@ -1,9 +1,6 @@
 /*
- * FORMA Studio
- * Bloque 4.6.1 — Hero cinematográfico
- *
- * Fotografías editoriales, transición lateral,
- * movimiento 3D y responsive.
+ * FORMA Studio — Hero cinematográfico
+ * Identidad rosa, arcilla y bordó.
  */
 
 .hero.hero-v2 {
@@ -18,7 +15,7 @@
   overflow: clip;
 }
 
-/* AMBIENTE GENERAL */
+/* Ambiente editorial */
 
 .hero.hero-v2::before {
   content: '';
@@ -26,12 +23,12 @@
   z-index: -1;
   inset: 0 -8vw;
   background:
-    radial-gradient(ellipse at 76% 40%, rgb(178 199 168 / 29%), transparent 54%),
-    radial-gradient(ellipse at 5% 85%, rgb(231 222 208 / 31%), transparent 50%);
+    radial-gradient(ellipse at 76% 40%, rgb(216 161 156 / 29%), transparent 54%),
+    radial-gradient(ellipse at 5% 85%, rgb(242 215 210 / 40%), transparent 50%);
   pointer-events: none;
 }
 
-/* COLUMNA DE TEXTO */
+/* Columna de texto */
 
 .hero-v2__text {
   position: relative;
@@ -43,7 +40,7 @@
 }
 
 .hero-v2__eyebrow {
-  color: #657565;
+  color: #79444c;
   font-size: 0.7rem;
   letter-spacing: 0.16em;
 }
@@ -52,7 +49,7 @@
   width: max-content;
   max-width: 100%;
   margin: 22px 0 0;
-  color: #273d2e;
+  color: var(--burgundy);
   font: 400 clamp(3.2rem, 11.7vw, 5rem) / 0.965 var(--serif);
   letter-spacing: -0.069em;
   text-wrap: nowrap;
@@ -71,15 +68,15 @@
 }
 
 .hero-v2__title-line em {
-  color: #6c8868;
+  color: #ad666a;
   font-weight: 400;
 }
 
 .hero-v2__period {
-  color: #88a783;
+  color: #c78b87;
 }
 
-/* INTRODUCCIÓN Y BOTONES */
+/* Introducción */
 
 .hero-v2__lower {
   position: relative;
@@ -90,7 +87,7 @@
 
 .hero-v2__intro {
   max-width: 420px;
-  color: #586c5d;
+  color: #6a5052;
   font-size: clamp(0.94rem, 1.2vw, 1.08rem);
   line-height: 1.73;
 }
@@ -104,13 +101,14 @@
 }
 
 .hero-v2__buttons .arrow-link--dark {
-  background: #253f2e;
-  box-shadow: 0 12px 28px rgb(30 58 38 / 13%);
+  background: var(--burgundy);
+  color: var(--cream);
+  box-shadow: 0 12px 28px rgb(94 54 60 / 17%);
 }
 
 .hero-v2__buttons .arrow-link--dark:hover,
 .hero-v2__buttons .arrow-link--dark:focus-visible {
-  background: #4a6b4c;
+  background: var(--burgundy-hover);
   transform: translateY(-3px);
 }
 
@@ -120,7 +118,7 @@
   align-items: center;
   width: min(100%, 460px);
   margin-top: 64px;
-  color: #7f8d7f;
+  color: #82444a;
   font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.13em;
@@ -129,7 +127,7 @@
 .hero-v2__foot-line {
   flex: 1;
   height: 1px;
-  background: #becab9;
+  background: #d8a19c;
 }
 
 .hero-v2__foot svg {
@@ -147,7 +145,7 @@
   }
 }
 
-/* COMPOSICIÓN FOTOGRÁFICA */
+/* Composición fotográfica */
 
 .hero-v2__visual {
   position: relative;
@@ -164,7 +162,7 @@
   top: 18%;
   left: -9%;
   color: transparent;
-  -webkit-text-stroke: 1px rgb(70 94 72 / 15%);
+  -webkit-text-stroke: 1px rgb(173 102 106 / 20%);
   font: 400 clamp(6rem, 20vw, 18rem) / 1 var(--serif);
   letter-spacing: -0.095em;
   white-space: nowrap;
@@ -179,7 +177,7 @@
   top: 5%;
   width: 65%;
   aspect-ratio: 1;
-  border: 1px solid rgb(83 121 86 / 20%);
+  border: 1px solid rgb(173 102 106 / 24%);
   border-radius: 50%;
   pointer-events: none;
   animation: hero-orbit-breathe 8s ease-in-out infinite;
@@ -189,7 +187,7 @@
   content: '';
   position: absolute;
   inset: 16%;
-  border: 1px solid rgb(83 121 86 / 13%);
+  border: 1px solid rgb(173 102 106 / 15%);
   border-radius: inherit;
 }
 
@@ -197,7 +195,7 @@
   top: 19%;
   right: 12%;
   width: 44%;
-  border-color: rgb(83 121 86 / 12%);
+  border-color: rgb(173 102 106 / 13%);
   animation-duration: 11s;
   animation-delay: -3s;
 }
@@ -221,10 +219,7 @@
   pointer-events: none;
 }
 
-/*
- * Conservamos EXACTAMENTE la forma orgánica
- * de la imagen.
- */
+/* Fotografía con forma orgánica original */
 
 .hero-v2__photo-frame {
   position: absolute;
@@ -238,10 +233,10 @@
 
   border-radius: 46% 46% 3px 3px / 23% 23% 3px 3px;
 
-  background: #adc0a7;
+  background: #d8a19c;
   box-shadow:
-    0 28px 55px rgb(31 57 39 / 17%),
-    0 8px 20px rgb(31 57 39 / 9%);
+    0 28px 55px rgb(94 54 60 / 18%),
+    0 8px 20px rgb(94 54 60 / 9%);
 
   transform-style: preserve-3d;
   pointer-events: auto;
@@ -250,16 +245,16 @@
 
 .hero-v2__visual:hover .hero-v2__photo-frame {
   box-shadow:
-    0 40px 75px rgb(31 57 39 / 23%),
-    0 12px 30px rgb(31 57 39 / 11%);
+    0 40px 75px rgb(94 54 60 / 24%),
+    0 12px 30px rgb(94 54 60 / 12%);
 }
 
-/* PARALLAX Y ZOOM */
+/* Parallax y zoom */
 
 .hero-v2__photo-parallax {
   position: absolute;
   inset: -7% 0;
-  background: #adc0a7;
+  background: #d8a19c;
 }
 
 .hero-v2__photo-zoom {
@@ -273,14 +268,6 @@
   transform: scale(1.028);
 }
 
-/*
- * Todas las imágenes están superpuestas,
- * pero nunca se mezclan por opacidad.
- *
- * Motion anima la entrada desde la derecha,
- * mostrando un borde diagonal.
- */
-
 .hero-v2__photo {
   position: absolute;
   inset: 0;
@@ -289,11 +276,11 @@
   height: 100%;
   object-fit: cover;
   object-position: center 45%;
-  filter: saturate(0.82) contrast(1.03);
+  filter: saturate(0.86) contrast(1.03);
   backface-visibility: hidden;
 }
 
-/* BRILLO EDITORIAL */
+/* Reflejo cinematográfico */
 
 .hero-v2__photo-frame::after {
   content: '';
@@ -301,11 +288,10 @@
   z-index: 7;
   inset: 0;
 
-  background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 17%) 50%, transparent 70%);
+  background: linear-gradient(105deg, transparent 30%, rgb(255 239 235 / 20%) 50%, transparent 70%);
 
   transform: translateX(-145%);
   transition: transform 1050ms cubic-bezier(0.22, 1, 0.36, 1);
-
   pointer-events: none;
 }
 
@@ -313,18 +299,16 @@
   position: absolute;
   z-index: 3;
   inset: 0;
-
   background: linear-gradient(
     180deg,
     transparent 38%,
-    rgb(8 28 17 / 17%) 55%,
-    rgb(8 28 17 / 76%) 100%
+    rgb(60 31 36 / 20%) 55%,
+    rgb(40 20 25 / 79%) 100%
   );
-
   pointer-events: none;
 }
 
-/* LEYENDA SOBRE LA FOTOGRAFÍA */
+/* Texto sobre fotografía */
 
 .hero-v2__photo-caption {
   position: absolute;
@@ -353,19 +337,17 @@
   text-wrap: balance;
 }
 
-/* NUMERACIÓN */
+/* Numeración */
 
 .hero-v2__photo-index {
   position: absolute;
   z-index: 5;
   top: 28%;
   right: 25px;
-
-  color: rgb(255 255 255 / 85%);
+  color: rgb(255 255 255 / 95%);
   font: 400 2.4rem / 1 var(--serif);
-
   letter-spacing: -0.07em;
-  text-shadow: 0 2px 15px rgb(0 0 0 / 18%);
+  text-shadow: 0 2px 15px rgb(40 20 25 / 35%);
   pointer-events: none;
 }
 
@@ -377,29 +359,27 @@
   letter-spacing: 0.04em;
 }
 
-/* SELLO FLOTANTE */
+/* Sello flotante */
 
 .hero-v2__seal {
   position: absolute;
   z-index: 6;
   top: 49%;
   right: 0;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8px;
-
   width: clamp(92px, 10vw, 132px);
   aspect-ratio: 1;
 
-  border: 1px solid rgb(49 76 54 / 16%);
+  border: 1px solid rgb(94 54 60 / 20%);
   border-radius: 50%;
-  background: #d4e3c7;
+  background: #f2d7d2;
+  box-shadow: 0 15px 38px rgb(94 54 60 / 18%);
+  color: var(--burgundy);
 
-  box-shadow: 0 15px 38px rgb(26 47 31 / 15%);
-  color: #25402d;
   pointer-events: none;
 }
 
@@ -425,29 +405,27 @@
   letter-spacing: 0.08em;
 }
 
-/* SELECTOR INTERACTIVO */
+/* Selector de Pilates / Fuerza */
 
 .hero-v2__switcher {
   position: absolute;
   z-index: 8;
   bottom: 8px;
   left: 7%;
-
   display: inline-flex;
   align-items: center;
   max-width: 88%;
   padding: 6px;
 
-  background: #f4f0e9;
+  background: #f7f0eb;
   box-shadow:
-    0 8px 30px rgb(25 47 31 / 16%),
-    0 2px 8px rgb(25 47 31 / 8%);
+    0 8px 30px rgb(94 54 60 / 17%),
+    0 2px 8px rgb(94 54 60 / 9%);
 }
 
 .hero-v2__switch {
   position: relative;
   isolation: isolate;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -455,10 +433,9 @@
 
   min-height: 41px;
   padding: 11px clamp(10px, 1.35vw, 19px);
-
   border: 0;
   background: transparent;
-  color: #465e49;
+  color: var(--burgundy);
 
   font-size: 0.72rem;
   font-weight: 700;
@@ -474,7 +451,7 @@
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: #294632;
+  background: var(--burgundy);
 }
 
 .hero-v2__switch.is-active {
@@ -483,7 +460,7 @@
 
 .hero-v2__switch-number {
   font-size: 0.65rem;
-  opacity: 0.65;
+  opacity: 0.7;
 }
 
 .hero-v2__switch-label {
@@ -491,43 +468,41 @@
 }
 
 .hero-v2__switch:not(.is-active):hover {
-  color: #294632;
+  color: #82444a;
   transform: translateY(-2px);
 }
 
 .hero-v2__switch:focus-visible {
-  outline: 2px solid #789a76;
+  outline: 2px solid #ad666a;
   outline-offset: 3px;
 }
 
 .hero-v2__switch-decoration {
   flex: none;
   margin-inline: 10px;
-  color: #758c73;
+  color: #82444a;
 }
 
-/* CRÉDITO FOTOGRÁFICO */
+/* Crédito fotográfico */
 
 .hero-v2__credit {
   position: absolute;
   z-index: 2;
   right: 8%;
   bottom: 0;
-
-  color: #849587;
+  color: #82444a;
   font-size: 0.62rem;
   letter-spacing: 0.03em;
   text-align: right;
-
   transition: color 200ms ease;
 }
 
 .hero-v2__credit:hover {
-  color: #284b36;
+  color: var(--burgundy);
   text-decoration: underline;
 }
 
-/* INTERACCIONES CON MOUSE */
+/* Interacciones desktop */
 
 @media (hover: hover) and (pointer: fine) {
   .hero-v2__visual:hover .hero-v2__photo-frame::after {
@@ -535,14 +510,13 @@
   }
 }
 
-/* DESKTOP */
+/* Desktop */
 
 @media (min-width: 768px) {
   .hero.hero-v2 {
     grid-template-columns:
       minmax(0, 1.09fr)
       minmax(0, 0.91fr);
-
     gap: clamp(12px, 2.8vw, 54px);
     min-height: 700px;
     padding-block: 45px 67px;
@@ -566,7 +540,7 @@
   }
 }
 
-/* DESKTOP INTERMEDIO */
+/* Desktop intermedio */
 
 @media (min-width: 768px) and (max-width: 1199px) {
   .hero.hero-v2 h1 {
@@ -574,7 +548,7 @@
   }
 }
 
-/* PANTALLAS GRANDES */
+/* Pantallas grandes */
 
 @media (min-width: 1200px) {
   .hero.hero-v2 {
@@ -590,7 +564,7 @@
   }
 }
 
-/* MOBILE */
+/* Mobile */
 
 @media (max-width: 767px) {
   .hero.hero-v2 {
@@ -685,7 +659,7 @@
   }
 }
 
-/* CELULARES MUY ESTRECHOS */
+/* Pantallas muy estrechas */
 
 @media (max-width: 359px) {
   .hero.hero-v2 h1 {
@@ -713,7 +687,7 @@
   }
 }
 
-/* ACCESIBILIDAD */
+/* Accesibilidad */
 
 @media (prefers-reduced-motion: reduce) {
   .hero-v2__photo-frame::after {

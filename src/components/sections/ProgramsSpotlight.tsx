@@ -32,22 +32,22 @@ export function ProgramsSpotlight() {
   const reducedMotion = useReducedMotion();
 
   return (
-    <section className="spotlight section-spacing" id="programas">
+    <section className="spotlight section-spacing" id="programas" aria-labelledby="spotlight-title">
       <div className="container">
         <Reveal className="spotlight__head">
           <div>
-            <SectionLabel number="03 /">ELEGÍ TU CAMINO</SectionLabel>
+            <SectionLabel number="02 /">NUESTROS PROGRAMAS</SectionLabel>
 
-            <h2 className="display-title">
-              Dos disciplinas.
+            <h2 id="spotlight-title" className="display-title">
+              Un plan
               <br />
-              <em>Infinitas formas.</em>
+              para <em>tu momento.</em>
             </h2>
           </div>
 
           <p>
-            Fuerza y pilates, dos maneras de desarrollar tu movimiento. Explorá la propuesta que
-            mejor se adapte a tus objetivos.
+            Fuerza y pilates, dos caminos para acompañar tu movimiento. Encontrá una propuesta que
+            se adapte a tus objetivos y a tu ritmo.
           </p>
         </Reveal>
 

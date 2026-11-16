@@ -8,12 +8,14 @@ const links = [
   { label: 'Inicio', to: '/' },
   { label: 'Programas', to: '/programas' },
   { label: 'Asesoramiento', to: '/asesoramiento' },
-  { label: 'Espacio alumno', to: '/espacio' },
+  { label: 'Rutinas', to: '/espacio' },
 ];
 
 export function Header() {
   const [open, setOpen] = useState(false);
+
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+
   const mobileNavRef = useRef<HTMLElement>(null);
 
   const { pathname } = useLocation();
@@ -30,6 +32,7 @@ export function Header() {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setOpen(false);
+
         menuButtonRef.current?.focus({
           preventScroll: true,
         });
@@ -47,6 +50,7 @@ export function Header() {
         ...(menuButtonRef.current ? [menuButtonRef.current] : []),
         ...navigationLinks,
       ];
+
       const first = focusableElements[0];
       const last = focusableElements.at(-1);
 
@@ -62,11 +66,17 @@ export function Header() {
     };
 
     window.addEventListener('keydown', onKeyDown);
+
     return () => {
       document.body.style.overflow = previousOverflow;
+
       window.removeEventListener('keydown', onKeyDown);
     };
   }, [open]);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <header className="site-header">
@@ -78,7 +88,9 @@ export function Header() {
           aria-label={`${site.brand.name}, inicio`}
         >
           {site.brand.name.toLowerCase()}
+
           <i aria-hidden="true">.</i>
+
           <span>{site.brand.suffix}</span>
         </Link>
 
@@ -130,8 +142,10 @@ export function Header() {
             onClick={() => setOpen(false)}
             className={pathname === link.to ? 'is-active' : ''}
           >
-            <span>0{index + 1}</span>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+
             {link.label}
+
             <ArrowUpRight size={23} aria-hidden="true" />
           </Link>
         ))}
@@ -146,7 +160,7 @@ export function Header() {
           <ArrowUpRight size={18} aria-hidden="true" />
         </Link>
 
-        <small>CONCEPTO DEMOSTRATIVO · FORMA STUDIO</small>
+        <small>FORMA STUDIO · MOVIMIENTO A TU MANERA</small>
       </nav>
     </header>
   );

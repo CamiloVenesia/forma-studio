@@ -13,10 +13,10 @@ export function HomePage() {
   return (
     <>
       <Hero />
+      <ProgramsSpotlight />
       <Marquee />
       <Philosophy />
       <ImmersiveStory />
-      <ProgramsSpotlight />
       <Journey />
       <SignatureMoment />
       <AdvisoryTeaser />

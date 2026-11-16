@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+
 import { site } from '../../config/site';
 
 export function Footer() {
@@ -20,17 +21,24 @@ export function Footer() {
         <div className="footer-columns">
           <div>
             <span>EXPLORAR</span>
+
             <Link to="/programas">Programas</Link>
+
             <Link to="/asesoramiento">Asesoramiento</Link>
-            <Link to="/espacio">Espacio alumno</Link>
+
+            <Link to="/espacio">Rutinas y ejercicios</Link>
           </div>
 
           <div>
             <span>INFORMACIÓN</span>
-            <Link to="/empezar">Cómo empezar a entrenar</Link>
+
+            <Link to="/empezar">Preparar mi consulta</Link>
+
             <Link to="/privacidad">Privacidad</Link>
+
             <a href="#top">
-              Volver arriba <ArrowUpRight size={13} aria-hidden="true" />
+              Volver arriba
+              <ArrowUpRight size={13} aria-hidden="true" />
             </a>
           </div>
         </div>
@@ -40,8 +48,10 @@ export function Footer() {
         <span>
           © {new Date().getFullYear()} {site.brand.name} STUDIO
         </span>
-        <span>PROYECTO CONCEPTUAL PARA PORTFOLIO · SIN VÍNCULO CON PROFESIONALES REALES</span>
-        <span>DISEÑADO MOBILE-FIRST</span>
+
+        <span>FUERZA · PILATES · MOVIMIENTO</span>
+
+        <span>MOVIMIENTO A TU MANERA</span>
       </div>
     </footer>
   );

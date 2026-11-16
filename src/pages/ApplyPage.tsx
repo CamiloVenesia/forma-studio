@@ -8,6 +8,7 @@ export function ApplyPage() {
       <div className="container apply-page__layout">
         <Reveal className="apply-page__intro">
           <SectionLabel number="01 /">EMPEZAR CON INTENCIÓN</SectionLabel>
+
           <h1 className="display-title">
             Todo gran
             <br />
@@ -15,18 +16,22 @@ export function ApplyPage() {
             <br />
             <em>un comienzo.</em>
           </h1>
+
           <p>
-            Queremos conocer qué te mueve y cómo te gustaría entrenar. Este recorrido es una prueba
-            funcional de cómo trabajaría el formulario con una marca real.
+            Cada persona tiene objetivos, tiempos y experiencias diferentes. Descubrí qué modalidad
+            se adapta mejor a vos y organizá tus preferencias de entrenamiento.
           </p>
+
           <div className="apply-page__sidebar-note">
-            <span>NO SE ENVIARÁN TUS DATOS</span>
+            <span>TU PUNTO DE PARTIDA</span>
+
             <p>
-              Esta demostración está preparada para mostrar el proceso sin almacenar información
-              personal.
+              Elegí tus preferencias y revisá un resumen de tus objetivos para compartirlo cuando lo
+              desees.
             </p>
           </div>
         </Reveal>
+
         <Reveal delay={0.12} className="apply-page__form">
           <IntakeWizard />
         </Reveal>

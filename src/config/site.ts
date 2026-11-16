@@ -21,8 +21,8 @@ export const site = {
   },
 
   hero: {
-    eyebrow: 'FUERZA / PILATES / MOVIMIENTO',
-    intro: 'Gimnasio y pilates, online y presencial. Entrená con intención y avanzá a tu ritmo.',
+    eyebrow: 'MOVIMIENTO CON PROPÓSITO',
+    intro: 'Fuerza, pilates y acompañamiento para sentirte bien, fuerte y en equilibrio.',
   },
 
   images: {

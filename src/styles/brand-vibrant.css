@@ -1,0 +1,643 @@
+/*
+ * FORMA Studio — Identidad Vibrant Pink
+ * Adaptación visual inspirada en el gimnasio.
+ *
+ * Conserva layouts, fotografías y animaciones.
+ */
+
+:root {
+  --cream: #fff4f3;
+  --pink-light: #ffe1e8;
+  --pink-clay: #f9bec9;
+  --terracotta: #e75872;
+  --burgundy: #b72f55;
+  --burgundy-hover: #982043;
+  --dark-text: #3b2230;
+
+  --paper: var(--cream);
+  --paper-deep: #ffe5ea;
+  --sage: var(--pink-clay);
+  --sage-soft: var(--pink-light);
+  --forest: var(--burgundy);
+  --ink: var(--dark-text);
+
+  --ink-muted: #6d4452;
+  --accent-text: #a71c46;
+  --text-secondary: #68414e;
+  --line: rgb(156 31 71 / 18%);
+}
+
+html,
+body {
+  background: var(--cream);
+  color: var(--dark-text);
+}
+
+::selection {
+  background: #ffb9c9;
+  color: #3b2230;
+}
+
+:focus-visible {
+  outline-color: #c73556;
+}
+
+.scroll-progress {
+  background: #f35f88;
+}
+
+/* Encabezado */
+
+.site-header {
+  background: rgb(255 244 243 / 96%);
+  border-bottom-color: #f0ccd5;
+}
+
+.brand,
+.brand i,
+.footer-brand i {
+  color: #c73556;
+}
+
+.desktop-nav a {
+  color: #3b2230;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a.is-active {
+  color: #a71c46;
+}
+
+.header-cta,
+.arrow-link--dark {
+  background: #c73556;
+  color: white;
+}
+
+.header-cta:hover,
+.arrow-link--dark:hover {
+  background: #a71c46;
+}
+
+.mobile-nav {
+  background: #b72f55;
+  color: white;
+}
+
+.mobile-nav__eyebrow,
+.mobile-nav > a:not(.mobile-nav__cta) span {
+  color: #ffe1e8;
+}
+
+.mobile-nav__cta {
+  background: #fff4f3;
+  color: #9d2447;
+}
+
+/* Portada */
+
+.hero.hero-v2 {
+  color: #3b2230;
+}
+
+.hero.hero-v2::before {
+  background:
+    radial-gradient(ellipse at 78% 38%, rgb(255 112 155 / 29%), transparent 54%),
+    radial-gradient(ellipse at 12% 82%, rgb(255 205 220 / 55%), transparent 50%);
+}
+
+.hero.hero-v2 h1 {
+  color: #3b2230;
+}
+
+.hero-v2__title-line em,
+.hero-v2__period,
+.display-title em {
+  color: #bf3157;
+}
+
+.hero-v2__eyebrow,
+.hero-v2__foot,
+.hero-v2__credit {
+  color: #9d2447;
+}
+
+.hero-v2__intro {
+  color: #68414e;
+}
+
+.hero-v2__outline {
+  -webkit-text-stroke-color: rgb(231 88 114 / 28%);
+}
+
+.hero-v2__orbit {
+  border-color: rgb(231 88 114 / 33%);
+}
+
+.hero-v2__orbit::after,
+.hero-v2__orbit--secondary {
+  border-color: rgb(231 88 114 / 21%);
+}
+
+.hero-v2__photo-frame {
+  background: #f9bec9;
+  box-shadow:
+    0 30px 65px rgb(171 37 76 / 19%),
+    0 8px 22px rgb(171 37 76 / 8%);
+}
+
+.hero-v2__photo-parallax {
+  background: #f9bec9;
+}
+
+.hero-v2__seal {
+  background: #ffcfdb;
+  color: #932044;
+  border-color: rgb(167 28 70 / 22%);
+  box-shadow: 0 15px 38px rgb(167 28 70 / 17%);
+}
+
+.hero-v2__switcher {
+  background: #fff8f6;
+}
+
+.hero-v2__switch {
+  color: #8f2043;
+}
+
+.hero-v2__switch-indicator {
+  background: #c73556;
+}
+
+.hero-v2__switch.is-active {
+  color: white;
+}
+
+.hero-v2__switch-decoration {
+  color: #c73556;
+}
+
+/* Franja tipográfica animada */
+
+.marquee,
+.kinetic-type {
+  background: #c73556;
+  color: white;
+}
+
+.kinetic-type__row i,
+.marquee__asterisk {
+  color: #ffb7ca;
+}
+
+.kinetic-type__row--outline {
+  -webkit-text-stroke-color: rgb(255 255 255 / 82%);
+}
+
+/* Filosofía */
+
+.philosophy,
+.faq {
+  background: #fff4f3;
+  color: #3b2230;
+}
+
+.philosophy__symbol,
+.philosophy__title em {
+  color: #c73556;
+}
+
+/* Storytelling */
+
+.story,
+.story-desktop__sticky,
+.story-scene--wipe {
+  background: #b72f55;
+  color: white;
+}
+
+.story__intro {
+  color: white;
+}
+
+.story__intro h2 em,
+.story-scene__content h2 em,
+.story-mobile__content h2 em {
+  color: #ffd6e0;
+}
+
+.story__intro-hint,
+.story__intro .section-label span {
+  color: #ffe1e8;
+}
+
+.story-scene__shade {
+  background:
+    linear-gradient(90deg, rgb(65 17 36 / 66%), rgb(65 17 36 / 11%) 80%),
+    linear-gradient(0deg, rgb(65 17 36 / 44%), transparent 65%);
+}
+
+.story-mobile__scene {
+  background: #c73556;
+  color: white;
+}
+
+.story-mobile__shade {
+  background: linear-gradient(
+    180deg,
+    transparent 20%,
+    rgb(92 22 49 / 23%) 47%,
+    rgb(66 13 36 / 86%) 100%
+  );
+}
+
+.story-mobile__scene:nth-child(2) {
+  background: #ffe1e8;
+}
+
+.story-desktop__track > div {
+  background: #ffbfd0;
+}
+
+/* Programas destacados */
+
+.spotlight {
+  background: #ffe4e9;
+  color: #3b2230;
+}
+
+.spotlight .section-label > span,
+.spotlight-item__footer h3 {
+  color: #a71c46;
+}
+
+.spotlight-item__visual {
+  background: #f9bec9;
+}
+
+.spotlight-item__visual > span:not(.spotlight-item__arrow),
+.catalog-card__discipline {
+  background: #fff4f3;
+  color: #922044;
+}
+
+.spotlight-item__arrow,
+.catalog-card__arrow {
+  background: #fff4f3;
+  color: #a71c46;
+}
+
+/* Proceso */
+
+.journey {
+  background: #c73556;
+  color: white;
+}
+
+.journey .section-label,
+.journey .section-label > span,
+.journey__intro h2 em,
+.journey-step > span:first-child,
+.journey-step__star {
+  color: #ffe1e8;
+}
+
+.journey__intro > div > p,
+.journey-step p {
+  color: #fff1f4;
+}
+
+.journey__steps,
+.journey-step {
+  border-color: rgb(255 255 255 / 29%);
+}
+
+/* Asesoramiento de Inicio */
+
+.advisory,
+.coaching-features {
+  background: #ffcad6;
+  color: #3b2230;
+}
+
+.advisory__copy h2,
+.advisory__copy h2 em {
+  color: #9d2447;
+}
+
+.advisory__copy p {
+  color: #563340;
+}
+
+.advisory .section-label,
+.advisory .section-label > span {
+  color: #9d2447;
+}
+
+.preview-sheet {
+  background: #fff9f7;
+  color: #3b2230;
+}
+
+.preview-sheet__progress {
+  background: #ffe0e8;
+  color: #9d2447;
+}
+
+.preview-sheet__progress > div {
+  background: #f5b0c1;
+}
+
+.preview-sheet__progress > div > span {
+  background: #c73556;
+}
+
+.preview-sheet__row span,
+.preview-sheet__progress b small,
+.preview-sheet__bottom {
+  color: #78414f;
+}
+
+/* CTA final */
+
+.final-cta {
+  background: #b72f55;
+  color: white;
+}
+
+.final-cta h2 em {
+  color: #ffe1e8;
+}
+
+.final-cta p,
+.final-cta .section-label > span {
+  color: #fff0f3;
+}
+
+.final-cta .arrow-link--light {
+  background: white;
+  color: #a71c46;
+}
+
+/* Momento cinematográfico */
+
+.signature,
+.signature__sticky,
+.signature__mobile,
+.signature__outro {
+  background: #c73556;
+  color: white;
+}
+
+.signature__panel,
+.signature__panel--left {
+  background: #c73556;
+  color: white;
+}
+
+.signature__panel--right {
+  background: #ffcad6;
+  color: #8d1d42;
+}
+
+.signature__message h2 em,
+.signature__outro p em {
+  color: #ffe1e8;
+}
+
+.signature__progress > div {
+  background: #ffb7ca;
+}
+
+/* Página Programas */
+
+.page-hero--catalog {
+  background: radial-gradient(circle at 78% 35%, rgb(255 108 149 / 31%), transparent 48%), #fff4f3;
+}
+
+.page-hero--catalog h1,
+.catalog-card__info h2,
+.catalog-end h2 {
+  color: #3b2230;
+}
+
+.page-hero--catalog h1 em {
+  color: #c73556;
+}
+
+.catalog-hero__discover,
+.catalog-filter-button__highlight {
+  background: #c73556;
+  color: white;
+}
+
+.catalog-hero__discover:hover {
+  background: #a71c46;
+}
+
+.catalog-hero__orbit {
+  border-color: rgb(231 88 114 / 30%);
+}
+
+.catalog-hero__image-link,
+.catalog-card__visual,
+.catalog-card__image {
+  background: #f9bec9;
+}
+
+.catalog-hero__seal {
+  background: #ffcad6;
+  color: #992146;
+}
+
+.catalog-hero__photo-tag,
+.catalog-hero__photo-arrow {
+  background: #fff4f3;
+  color: #9d2447;
+}
+
+.catalog-hero__bottom-line,
+.catalog-end::before {
+  background: #e75872;
+}
+
+.catalog__categories button.is-active,
+.library-filters button.is-active {
+  background: #c73556;
+  border-color: #c73556;
+  color: white;
+}
+
+/* Páginas comerciales */
+
+.page-hero--soft,
+.commercial-approach {
+  background: #ffe0e8;
+  color: #3b2230;
+}
+
+.detail-hero h1,
+.coaching-hero h1,
+.apply-page__intro h1,
+.page-hero h1 {
+  color: #3b2230;
+}
+
+.detail-about,
+.commercial-coaching-process {
+  background: #c73556;
+  color: white;
+}
+
+.detail-about h2 em,
+.commercial-coaching-process h2 em {
+  color: #ffe1e8;
+}
+
+.detail-facts span,
+.commercial-coaching-process__step p {
+  color: #fff0f3;
+}
+
+.detail-week {
+  background: #ffe1e8;
+  color: #7d1c3c;
+}
+
+/* Formulario */
+
+.apply-page,
+.portal-page,
+.legal-page,
+.not-found {
+  background: #fff4f3;
+  color: #3b2230;
+}
+
+.wizard,
+.workout-detail,
+.portal-aside {
+  background: #fffaf9;
+  border-color: #f2cbd5;
+}
+
+.wizard__progress,
+.portal-progress__track {
+  background: #f9c6d2;
+}
+
+.wizard__progress > div,
+.portal-progress__track > div {
+  background: #c73556;
+}
+
+.choice--selected,
+.goal-chip--selected,
+.workout-tabs button.is-active {
+  background: #ffe0e8;
+  border-color: #c73556;
+}
+
+.text-field input:focus,
+.text-field select:focus {
+  outline-color: #c73556;
+}
+
+.complete-button,
+.catalog__categories button.is-active {
+  background: #c73556;
+  color: white;
+}
+
+.complete-button--done {
+  background: #a71c46;
+}
+
+/* Espacio de rutinas */
+
+.portal-progress {
+  background: #ffcad6;
+  color: #7b1a3a;
+}
+
+.portal-progress strong small,
+.workout-tabs small,
+.portal-disclaimer {
+  color: #734350;
+}
+
+.portal-demo-notice {
+  border-bottom-color: #f1c6d1;
+}
+
+.portal-demo-notice > span {
+  background: #ffe0e8;
+  color: #9d2447;
+}
+
+.portal-greeting h1 em {
+  color: #c73556;
+}
+
+/* Instagram */
+
+.instagram-fab {
+  background: #c73556;
+  color: white;
+  box-shadow: 0 14px 35px rgb(167 28 70 / 25%);
+}
+
+.instagram-fab:hover {
+  background: #a71c46;
+}
+
+.instagram-fab::before {
+  border-color: rgb(255 151 179 / 70%);
+}
+
+/* Footer */
+
+.site-footer {
+  background: #b72f55;
+  color: white;
+}
+
+.footer-brand,
+.footer-top p,
+.footer-columns a,
+.footer-bottom span {
+  color: #fff4f3;
+}
+
+.footer-brand i {
+  color: #ffc4d2;
+}
+
+.footer-columns span {
+  color: #ffe1e8;
+}
+
+.footer-columns a:hover {
+  color: #ffd2df;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+  .hero.hero-v2::before {
+    background:
+      radial-gradient(circle at 80% 60%, rgb(255 131 166 / 27%), transparent 55%), #fff4f3;
+  }
+
+  .story-mobile__scene:nth-child(2) {
+    background: #ffe1e8;
+    color: #7d1c3c;
+  }
+
+  .story-mobile__scene:nth-child(2) .story-mobile__content h2,
+  .story-mobile__scene:nth-child(2) .story-mobile__content h2 em,
+  .story-mobile__scene:nth-child(2) .story-mobile__content p,
+  .story-mobile__scene:nth-child(2) .story-mobile__content > span {
+    color: #7d1c3c;
+  }
+}

@@ -1,4 +1,10 @@
-/* Fuentes alojadas dentro del proyecto */
+
+/* =========================================================
+   FORMA STUDIO —
+   ========================================================= */
+
+/* Tipografías locales */
+
 @import '@fontsource/dm-sans/400.css';
 @import '@fontsource/dm-sans/500.css';
 @import '@fontsource/dm-sans/600.css';
@@ -6,7 +12,8 @@
 @import '@fontsource/dm-serif-display/400.css';
 @import '@fontsource/dm-serif-display/400-italic.css';
 
-/* Estilos originales */
+/* Estructura original */
+
 @import './tokens.css';
 @import './layout.css';
 @import './home.css';
@@ -16,44 +23,258 @@
 @import './commercial.css';
 @import './animations.css';
 @import './premium.css';
+
+/* Portadas e interacciones */
+
 @import './catalog-cinematic.css';
 @import './hero-premium.css';
 @import './instagram-fab.css';
 
-/* Corrección tipográfica del Hero */
+/* Identidad visual */
+
+@import './brand-home.css';
+@import './brand-experience.css';
+@import './brand-pages.css';
+@import './brand-vibrant.css';
+@import './brand-reference.css';
+
+/* =========================================================
+   CORRECCIONES TIPOGRÁFICAS
+   ========================================================= */
+
 .hero.hero-v2 .hero-v2__line-mask {
-  padding: 0.15em 0.26em 0.25em 0.12em;
-  margin: -0.12em -0.26em -0.19em -0.12em;
+  padding: 0.15em 0.27em 0.25em 0.12em;
+  margin: -0.12em -0.27em -0.2em -0.12em;
 }
 
-/* Accesibilidad — Programas destacados */
+/* Contrastes */
+
 .spotlight .section-label > span {
-  color: #304536;
+  color: #a93858;
 }
 
-/* Accesibilidad — Proceso de entrenamiento */
-.journey .section-label > span {
-  color: #dcebd4;
-}
-
-/* Accesibilidad — Asesoramiento */
 .advisory .section-label > span {
-  color: #27392e;
+  color: #9d3454;
 }
 
-.advisory .preview-sheet__row span {
-  color: #445a47;
-}
-
-.advisory .preview-sheet__progress b small {
-  color: #445a47;
-}
-
+.advisory .preview-sheet__row span,
+.advisory .preview-sheet__progress b small,
 .advisory .preview-sheet__bottom {
-  color: #39523f;
+  color: #684951;
 }
 
-/* Marca de agua decorativa */
+.journey .section-label > span {
+  color: #ffe6ed;
+}
+
+/* =========================================================
+   LÍNEA
+   ========================================================= */
+
+
+.hero.hero-v2
+  .hero-v2__visual
+  > .hero-v2__trace {
+  position: absolute;
+
+  top: -12%;
+  left: -32%;
+  right: auto;
+  bottom: auto;
+
+  width: 157%;
+  height: 124%;
+
+  z-index: 1;
+
+  display: block;
+  overflow: visible;
+
+  pointer-events: none;
+
+  transform-origin: 50% 45%;
+
+  /*
+   * Difuminado en el extremo izquierdo:
+   * la curva no aparece de golpe
+   * ni invade la columna editorial.
+   */
+
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(0 0 0 / 30%) 10%,
+    black 19%,
+    black 95%,
+    transparent 100%
+  );
+
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(0 0 0 / 30%) 10%,
+    black 19%,
+    black 95%,
+    transparent 100%
+  );
+
+
+
+  animation: forma-snake-drift 9.6s
+    ease-in-out infinite alternate;
+}
+
+
+
+@keyframes forma-snake-drift {
+  0% {
+    transform:
+      translate3d(-1.4%, 1.2%, 0)
+      rotate(-1.1deg);
+  }
+
+  24% {
+    transform:
+      translate3d(1.1%, -0.8%, 0)
+      rotate(0.8deg);
+  }
+
+  52% {
+    transform:
+      translate3d(-0.8%, -1.5%, 0)
+      rotate(-0.4deg);
+  }
+
+  77% {
+    transform:
+      translate3d(1.8%, 1%, 0)
+      rotate(1deg);
+  }
+
+  100% {
+    transform:
+      translate3d(-0.4%, 0.3%, 0)
+      rotate(-0.7deg);
+  }
+}
+
+/* Trazo principal */
+
+.hero.hero-v2 .hero-v2__trace-base {
+  fill: none;
+
+  stroke: #b63d61;
+  stroke-width: 3.3;
+
+  opacity: 0.9;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vector-effect: non-scaling-stroke;
+}
+
+/* Reflejo que recorre la misma curva */
+
+.hero.hero-v2 .hero-v2__trace-light {
+  fill: none;
+
+  stroke: #e9799c;
+  stroke-width: 4.5;
+
+  opacity: 0.95;
+
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  vector-effect: non-scaling-stroke;
+
+  filter: drop-shadow(
+    0 0 3px rgb(190 63 100 / 35%)
+  );
+}
+
+
+
+.hero-v2__visual {
+  isolation: isolate;
+}
+
+.hero-v2__photo-shell {
+  z-index: 2;
+}
+
+.hero-v2__photo-outline {
+  z-index: 8;
+}
+
+.hero-v2__seal {
+  z-index: 6;
+}
+
+.hero-v2__switcher {
+  z-index: 8;
+}
+
+/* =========================================================
+   MOBILE — LÍNEA ADAPTADA
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+
+  .hero.hero-v2
+    .hero-v2__visual
+    > .hero-v2__trace {
+    top: -5%;
+    left: -13%;
+
+    width: 134%;
+    height: 111%;
+
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      black 13%,
+      black 94%,
+      transparent 100%
+    );
+
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      black 13%,
+      black 94%,
+      transparent 100%
+    );
+
+    animation-duration: 11s;
+  }
+
+  .hero.hero-v2 .hero-v2__trace-base {
+    stroke-width: 2.6;
+    opacity: 0.85;
+  }
+
+  .hero.hero-v2 .hero-v2__trace-light {
+    stroke-width: 3.5;
+    opacity: 0.9;
+  }
+
+
+  .hero.hero-v2 {
+    overflow: clip;
+  }
+
+  .hero-v2__visual {
+    min-width: 0;
+  }
+}
+
+/* =========================================================
+   MARCA DE AGUA DECORATIVA
+   ========================================================= */
+
 .final-cta__watermark {
   display: none;
 }
@@ -62,6 +283,7 @@
   content: '';
   position: absolute;
   z-index: 0;
+
   right: -3vw;
   bottom: -3vw;
 
@@ -81,4 +303,17 @@
 .final-cta__inner {
   position: relative;
   z-index: 1;
+}
+
+/* =========================================================
+   ACCESIBILIDAD
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero.hero-v2
+    .hero-v2__visual
+    > .hero-v2__trace {
+    animation: none;
+    transform: none;
+  }
 }

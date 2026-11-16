@@ -1,33 +1,58 @@
 :root {
   font-family: 'DM Sans', Arial, sans-serif;
-  color: #26372d;
-  background: #f4f0e9;
+  color: #372629;
+  background: #f7f0eb;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 
-  /* Paleta */
-  --paper: #f4f0e9;
-  --paper-deep: #e8e2d8;
-  --sage: #b5c2aa;
-  --sage-soft: #dce3d4;
-  --forest: #27392e;
-  --ink: #26372d;
+  /*
+   * FORMA Studio — Identidad cromática
+   * Inspirada en los interiores del gimnasio:
+   * rosa empolvado, arcilla y bordó.
+   */
+
+  --cream: #f7f0eb;
+  --pink-light: #f2d7d2;
+  --pink-clay: #d8a19c;
+  --terracotta: #ad666a;
+  --burgundy: #5e363c;
+  --burgundy-hover: #79444c;
+  --dark-text: #372629;
+
+  /*
+   * Variables compatibles con los estilos
+   * existentes del proyecto.
+   *
+   * Conservamos sus nombres para evitar
+   * romper los componentes actuales.
+   */
+
+  --paper: var(--cream);
+  --paper-deep: #f0d8d2;
+  --sage: var(--pink-clay);
+  --sage-soft: var(--pink-light);
+  --forest: var(--burgundy);
+  --ink: var(--dark-text);
 
   /* Contraste y legibilidad */
-  --ink-muted: #55685a;
-  --accent-text: #526c50;
-  --text-secondary: #536659;
+
+  --ink-muted: #6a5052;
+  --accent-text: #82444a;
+  --text-secondary: #6a5052;
 
   /* Interacción */
+
   --touch-target: 44px;
-  --line: rgba(39, 57, 46, 0.19);
+  --line: rgb(94 54 60 / 19%);
 
   /* Tipografía */
+
   --serif: 'DM Serif Display', Georgia, serif;
 
   /* Estructura */
+
   --gutter: 22px;
   --max-width: 1480px;
 }
@@ -106,13 +131,17 @@ legend {
   padding: 0;
 }
 
+/* Selección de texto */
+
 ::selection {
-  background: #b5c2aa;
-  color: #26372d;
+  background: #e4b2aa;
+  color: var(--ink);
 }
 
+/* Foco accesible */
+
 :focus-visible {
-  outline: 3px solid #8c9e78;
+  outline: 3px solid var(--terracotta);
   outline-offset: 4px;
 }
 
@@ -149,7 +178,7 @@ legend {
 }
 
 .eyebrow--muted {
-  color: #d6dfd4;
+  color: #f0d8d2;
 }
 
 .eyebrow-line {
@@ -213,14 +242,18 @@ legend {
   transform: scale(0.98);
 }
 
+/* Botón bordó principal */
+
 .arrow-link--dark {
   background: var(--forest);
   color: var(--paper);
 }
 
 .arrow-link--dark:hover {
-  background: #4c6451;
+  background: var(--burgundy-hover);
 }
+
+/* Botón claro */
 
 .arrow-link--light {
   background: var(--paper);
@@ -228,8 +261,10 @@ legend {
 }
 
 .arrow-link--light:hover {
-  background: white;
+  background: #ffffff;
 }
+
+/* Botón de contorno */
 
 .arrow-link--outline {
   border-color: currentColor;
@@ -240,6 +275,8 @@ legend {
   background: var(--forest);
   color: white;
 }
+
+/* Botón de texto */
 
 .arrow-link--text {
   border: 0;
@@ -269,7 +306,7 @@ legend {
 
 .editorial-image {
   overflow: hidden;
-  background: #c3cbbd;
+  background: #e7bcb5;
 }
 
 .editorial-image img {
@@ -303,7 +340,7 @@ legend {
   right: 0;
 
   height: 3px;
-  background: #889c82;
+  background: var(--terracotta);
 
   transform-origin: left;
   z-index: 300;

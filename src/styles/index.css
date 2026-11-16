@@ -1,7 +1,4 @@
-
-/* =========================================================
-   FORMA STUDIO —
-   ========================================================= */
+/* FORMA Studio — Estilos principales */
 
 /* Tipografías locales */
 
@@ -12,7 +9,7 @@
 @import '@fontsource/dm-serif-display/400.css';
 @import '@fontsource/dm-serif-display/400-italic.css';
 
-/* Estructura original */
+/* Estructura */
 
 @import './tokens.css';
 @import './layout.css';
@@ -24,7 +21,7 @@
 @import './animations.css';
 @import './premium.css';
 
-/* Portadas e interacciones */
+/* Portadas y componentes */
 
 @import './catalog-cinematic.css';
 @import './hero-premium.css';
@@ -38,9 +35,7 @@
 @import './brand-vibrant.css';
 @import './brand-reference.css';
 
-/* =========================================================
-   CORRECCIONES TIPOGRÁFICAS
-   ========================================================= */
+/* Ajustes tipográficos */
 
 .hero.hero-v2 .hero-v2__line-mask {
   padding: 0.15em 0.27em 0.25em 0.12em;
@@ -67,213 +62,7 @@
   color: #ffe6ed;
 }
 
-/* =========================================================
-   LÍNEA
-   ========================================================= */
-
-
-.hero.hero-v2
-  .hero-v2__visual
-  > .hero-v2__trace {
-  position: absolute;
-
-  top: -12%;
-  left: -32%;
-  right: auto;
-  bottom: auto;
-
-  width: 157%;
-  height: 124%;
-
-  z-index: 1;
-
-  display: block;
-  overflow: visible;
-
-  pointer-events: none;
-
-  transform-origin: 50% 45%;
-
-  /*
-   * Difuminado en el extremo izquierdo:
-   * la curva no aparece de golpe
-   * ni invade la columna editorial.
-   */
-
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgb(0 0 0 / 30%) 10%,
-    black 19%,
-    black 95%,
-    transparent 100%
-  );
-
-  mask-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgb(0 0 0 / 30%) 10%,
-    black 19%,
-    black 95%,
-    transparent 100%
-  );
-
-
-
-  animation: forma-snake-drift 9.6s
-    ease-in-out infinite alternate;
-}
-
-
-
-@keyframes forma-snake-drift {
-  0% {
-    transform:
-      translate3d(-1.4%, 1.2%, 0)
-      rotate(-1.1deg);
-  }
-
-  24% {
-    transform:
-      translate3d(1.1%, -0.8%, 0)
-      rotate(0.8deg);
-  }
-
-  52% {
-    transform:
-      translate3d(-0.8%, -1.5%, 0)
-      rotate(-0.4deg);
-  }
-
-  77% {
-    transform:
-      translate3d(1.8%, 1%, 0)
-      rotate(1deg);
-  }
-
-  100% {
-    transform:
-      translate3d(-0.4%, 0.3%, 0)
-      rotate(-0.7deg);
-  }
-}
-
-/* Trazo principal */
-
-.hero.hero-v2 .hero-v2__trace-base {
-  fill: none;
-
-  stroke: #b63d61;
-  stroke-width: 3.3;
-
-  opacity: 0.9;
-
-  stroke-linecap: round;
-  stroke-linejoin: round;
-
-  vector-effect: non-scaling-stroke;
-}
-
-/* Reflejo que recorre la misma curva */
-
-.hero.hero-v2 .hero-v2__trace-light {
-  fill: none;
-
-  stroke: #e9799c;
-  stroke-width: 4.5;
-
-  opacity: 0.95;
-
-  stroke-linecap: round;
-  stroke-linejoin: round;
-
-  vector-effect: non-scaling-stroke;
-
-  filter: drop-shadow(
-    0 0 3px rgb(190 63 100 / 35%)
-  );
-}
-
-
-
-.hero-v2__visual {
-  isolation: isolate;
-}
-
-.hero-v2__photo-shell {
-  z-index: 2;
-}
-
-.hero-v2__photo-outline {
-  z-index: 8;
-}
-
-.hero-v2__seal {
-  z-index: 6;
-}
-
-.hero-v2__switcher {
-  z-index: 8;
-}
-
-/* =========================================================
-   MOBILE — LÍNEA ADAPTADA
-   ========================================================= */
-
-@media (max-width: 767px) {
-
-
-  .hero.hero-v2
-    .hero-v2__visual
-    > .hero-v2__trace {
-    top: -5%;
-    left: -13%;
-
-    width: 134%;
-    height: 111%;
-
-    -webkit-mask-image: linear-gradient(
-      90deg,
-      transparent 0%,
-      black 13%,
-      black 94%,
-      transparent 100%
-    );
-
-    mask-image: linear-gradient(
-      90deg,
-      transparent 0%,
-      black 13%,
-      black 94%,
-      transparent 100%
-    );
-
-    animation-duration: 11s;
-  }
-
-  .hero.hero-v2 .hero-v2__trace-base {
-    stroke-width: 2.6;
-    opacity: 0.85;
-  }
-
-  .hero.hero-v2 .hero-v2__trace-light {
-    stroke-width: 3.5;
-    opacity: 0.9;
-  }
-
-
-  .hero.hero-v2 {
-    overflow: clip;
-  }
-
-  .hero-v2__visual {
-    min-width: 0;
-  }
-}
-
-/* =========================================================
-   MARCA DE AGUA DECORATIVA
-   ========================================================= */
+/* Marca de agua */
 
 .final-cta__watermark {
   display: none;
@@ -283,7 +72,6 @@
   content: '';
   position: absolute;
   z-index: 0;
-
   right: -3vw;
   bottom: -3vw;
 
@@ -306,14 +94,449 @@
 }
 
 /* =========================================================
-   ACCESIBILIDAD
+   HERO — FOTOGRAFÍA
    ========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
-  .hero.hero-v2
-    .hero-v2__visual
-    > .hero-v2__trace {
-    animation: none;
+.hero.hero-v2 .hero-v2__photo-shade {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+
+  background: linear-gradient(
+    to top,
+    rgb(25 28 27 / 68%) 0%,
+    rgb(25 28 27 / 30%) 24%,
+    transparent 57%
+  );
+
+  pointer-events: none;
+}
+
+/* Texto sobre la fotografía */
+
+.hero.hero-v2 .hero-v2__photo-caption {
+  position: absolute;
+  z-index: 9;
+
+  left: clamp(24px, 7%, 54px);
+  bottom: clamp(84px, 16%, 120px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+
+  max-width: 78%;
+
+  color: #ffffff;
+  pointer-events: none;
+
+  text-shadow: 0 2px 13px rgb(0 0 0 / 24%);
+}
+
+.hero-v2__photo-caption > span {
+  color: #ffffff;
+
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1.45;
+}
+
+.hero-v2__photo-caption > strong {
+  color: #ffffff;
+
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(1.6rem, 2.8vw, 2.85rem);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+
+/* Numeración superior */
+
+.hero.hero-v2 .hero-v2__photo-counter {
+  position: absolute;
+  z-index: 9;
+
+  top: 24%;
+  right: 6%;
+
+  color: #ffffff;
+
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: clamp(1.8rem, 2.9vw, 3rem);
+  line-height: 1;
+
+  text-shadow: 0 2px 14px rgb(0 0 0 / 40%);
+
+  pointer-events: none;
+}
+
+.hero-v2__photo-counter small {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.77rem;
+  font-weight: 700;
+}
+
+/* =========================================================
+   HERO — BORDE CURVO COMPLETO
+   ========================================================= */
+
+/*
+ * PROBLEMA CORREGIDO:
+ *
+ * El borde rectangular anterior quedaba
+ * recortado por la máscara de la imagen.
+ *
+ * Ahora se dibuja fuera de la máscara,
+ * sobre el contenedor photo-shell.
+ *
+ * La geometría del SVG coincide con:
+ *
+ * M0 270
+ * C0 100 185 0 500 0
+ * C815 0 1000 100 1000 270
+ * L1000 1000
+ * L0 1000
+ * Z
+ *
+ * De esta manera, el contorno acompaña
+ * el arco superior, los laterales y
+ * la base recta.
+ */
+
+/* Eliminar el borde rectangular anterior */
+
+.hero.hero-v2 .hero-v2__photo-frame::before {
+  content: none;
+}
+
+/*
+ * Contenedor del borde.
+ *
+ * El SVG se encuentra fuera de la máscara
+ * y acompaña la fotografía en el movimiento
+ * de profundidad.
+ */
+
+.hero.hero-v2 .hero-v2__photo-shell {
+  position: absolute;
+  isolation: isolate;
+  overflow: visible;
+}
+
+/* Contorno exacto de la fotografía */
+
+.hero.hero-v2 .hero-v2__photo-shell::after {
+  content: '';
+
+  position: absolute;
+  z-index: 11;
+  inset: 0;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000' preserveAspectRatio='none'%3E%3Cpath d='M0 270 C0 100 185 0 500 0 C815 0 1000 100 1000 270 L1000 1000 L0 1000 Z' fill='none' stroke='%23c94f6d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+
+  opacity: 0.94;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+/* =========================================================
+   HERO — SELECTOR EDITORIAL PREMIUM
+   ========================================================= */
+
+.hero.hero-v2 .hero-v2__visual .hero-v2__switcher {
+  position: absolute;
+  z-index: 12;
+
+  top: auto;
+  right: auto;
+  bottom: 4px;
+  left: 7%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+
+  width: min(328px, 88%);
+  max-width: 88%;
+
+  height: auto;
+  min-height: 0;
+
+  margin: 0;
+  padding: 6px;
+  gap: 5px;
+
+  background: #fff9fb;
+
+  border: 1px solid rgb(199 133 153 / 29%);
+  border-radius: 2px;
+
+  box-shadow:
+    0 4px 8px rgb(81 43 58 / 4%),
+    0 12px 30px rgb(81 43 58 / 14%);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Botones */
+
+.hero.hero-v2 .hero-v2__visual .hero-v2__switch {
+  position: relative;
+  isolation: isolate;
+
+  display: inline-flex;
+  flex: 1 1 0;
+
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  width: 0;
+  min-width: 0;
+  max-width: none;
+
+  min-height: 49px;
+  height: 49px;
+
+  margin: 0;
+  padding: 11px 10px;
+
+  border: 1px solid transparent;
+  border-radius: 1px;
+
+  background: transparent;
+  color: #685760;
+
+  box-shadow: none;
+
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.81rem;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+  line-height: 1.2;
+
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+
+  transition:
+    background 280ms ease,
+    color 280ms ease,
+    border-color 280ms ease,
+    box-shadow 280ms ease;
+}
+
+/* Estado activo */
+
+.hero.hero-v2 .hero-v2__visual .hero-v2__switch.is-active {
+  background: linear-gradient(135deg, #c85170 0%, #b94060 100%);
+
+  color: #ffffff;
+  border-color: rgb(153 47 82 / 20%);
+
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 17%),
+    0 3px 8px rgb(164 63 96 / 13%);
+}
+
+/* Hover */
+
+@media (hover: hover) and (pointer: fine) {
+  .hero.hero-v2 .hero-v2__visual .hero-v2__switch:not(.is-active):hover {
+    background: #f9e8ee;
+    color: #a93a58;
+
+    border-color: #f1d1dc;
+
     transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Numeración */
+
+.hero.hero-v2 .hero-v2__visual .hero-v2__switch-number {
+  display: inline-block;
+  flex: 0 0 auto;
+
+  color: inherit;
+
+  font-size: 0.73rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+
+  opacity: 0.68;
+  white-space: nowrap;
+}
+
+.hero.hero-v2 .hero-v2__visual .hero-v2__switch-number::after {
+  content: '/';
+
+  display: inline-block;
+  margin-left: 8px;
+
+  opacity: 0.65;
+}
+
+/* Texto de disciplina */
+
+.hero.hero-v2 .hero-v2__visual .hero-v2__switch-label {
+  color: inherit;
+
+  font-size: inherit;
+  font-weight: 700;
+  letter-spacing: inherit;
+
+  white-space: nowrap;
+}
+
+.hero.hero-v2 .hero-v2__visual .hero-v2__switch.is-active .hero-v2__switch-number {
+  opacity: 0.88;
+}
+
+/* Accesibilidad */
+
+.hero.hero-v2 .hero-v2__visual .hero-v2__switch:focus-visible {
+  outline: 3px solid #a53658;
+  outline-offset: 3px;
+  z-index: 2;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+  /* Texto sobre la imagen */
+
+  .hero.hero-v2 .hero-v2__photo-caption {
+    left: 7%;
+    bottom: 80px;
+    max-width: 86%;
+    gap: 7px;
+  }
+
+  .hero-v2__photo-caption > span {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+  }
+
+  .hero-v2__photo-caption > strong {
+    font-size: clamp(1.55rem, 6vw, 2.1rem);
+    line-height: 1.15;
+  }
+
+  .hero.hero-v2 .hero-v2__photo-counter {
+    display: none;
+  }
+
+  /* El mismo borde se adapta automáticamente */
+
+  .hero.hero-v2 .hero-v2__photo-shell::after {
+    opacity: 0.9;
+  }
+
+  /* Selector horizontal compacto */
+
+  .hero.hero-v2 .hero-v2__visual .hero-v2__switcher {
+    top: auto;
+    right: auto;
+    bottom: 3px;
+    left: 7%;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    width: min(310px, 88%);
+    max-width: 88%;
+    height: auto;
+
+    padding: 5px;
+    gap: 3px;
+    border-radius: 2px;
+  }
+
+  .hero.hero-v2 .hero-v2__visual .hero-v2__switch {
+    flex: 1 1 0;
+
+    width: 0;
+    min-width: 0;
+
+    min-height: 46px;
+    height: 46px;
+
+    padding: 10px 7px;
+    gap: 6px;
+
+    font-size: 0.76rem;
+    letter-spacing: 0.01em;
+  }
+
+  .hero.hero-v2 .hero-v2__visual .hero-v2__switch-number {
+    font-size: 0.69rem;
+  }
+
+  .hero.hero-v2 .hero-v2__visual .hero-v2__switch-number::after {
+    margin-left: 6px;
+  }
+}
+
+/* Celulares estrechos */
+
+@media (max-width: 359px) {
+  .hero.hero-v2 .hero-v2__visual .hero-v2__switcher {
+    width: 90%;
+    max-width: 90%;
+    left: 5%;
+    padding: 4px;
+  }
+
+  .hero.hero-v2 .hero-v2__visual .hero-v2__switch {
+    min-height: 44px;
+    height: 44px;
+
+    padding: 8px 5px;
+    gap: 5px;
+
+    font-size: 0.7rem;
+  }
+
+  .hero.hero-v2 .hero-v2__visual .hero-v2__switch-number::after {
+    margin-left: 4px;
+  }
+
+  .hero.hero-v2 .hero-v2__photo-caption {
+    bottom: 73px;
+  }
+
+  .hero-v2__photo-caption > strong {
+    font-size: 1.45rem;
+  }
+}
+
+/* Movimiento reducido */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero.hero-v2 .hero-v2__visual .hero-v2__switch {
+    transition: none;
   }
 }

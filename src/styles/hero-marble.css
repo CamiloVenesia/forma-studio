@@ -1,0 +1,221 @@
+
+html,
+body {
+  overflow-x: clip;
+}
+
+.hero.hero-v2 .hero-marble {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 50vw);
+  right: calc(50% - 50vw);
+
+  z-index: 0;
+  display: block;
+
+  width: auto;
+  height: auto;
+  max-width: none;
+
+  overflow: hidden;
+
+  -webkit-mask-image: none;
+  mask-image: none;
+
+  isolation: isolate;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero.hero-v2 {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+
+@supports (width: 100dvw) {
+  .hero.hero-v2 .hero-marble {
+    left: calc(50% - 50dvw);
+    right: calc(50% - 50dvw);
+  }
+}
+
+.hero-marble__traveller {
+  position: absolute;
+  left: var(--cloud-x);
+  top: calc(100% + var(--cloud-start-below));
+
+  display: block;
+  width: var(--cloud-width);
+  aspect-ratio: 560 / 440;
+  flex: none;
+
+  opacity: 0.92;
+
+  animation-name: forma-marble-drift;
+  animation-duration: var(--cloud-duration);
+  animation-delay: var(--cloud-delay);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+
+  transform-origin: 50% 50%;
+  will-change: transform;
+
+  pointer-events: none;
+}
+
+@keyframes forma-marble-drift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-7deg);
+  }
+
+  22% {
+    transform:
+      translate3d(
+        calc(var(--cloud-drift-x) * 0.18),
+        calc(var(--cloud-rise) * 0.22),
+        0
+      )
+      rotate(-1deg);
+  }
+
+  47% {
+    transform:
+      translate3d(
+        calc(var(--cloud-drift-x) * 0.45),
+        calc(var(--cloud-rise) * 0.47),
+        0
+      )
+      rotate(5deg);
+  }
+
+  71% {
+    transform:
+      translate3d(
+        calc(var(--cloud-drift-x) * 0.73),
+        calc(var(--cloud-rise) * 0.71),
+        0
+      )
+      rotate(-2deg);
+  }
+
+  100% {
+    transform:
+      translate3d(
+        var(--cloud-drift-x),
+        var(--cloud-rise),
+        0
+      )
+      rotate(6deg);
+  }
+}
+
+.hero-marble__art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: none;
+  pointer-events: none;
+}
+
+.hero-marble__traveller--0 {
+  opacity: 0.94;
+}
+
+.hero-marble__traveller--1 {
+  opacity: 0.88;
+}
+
+.hero-marble__traveller--2 {
+  opacity: 0.92;
+}
+
+.hero.hero-v2 .hero-v2__text {
+  position: relative;
+  z-index: 3;
+}
+
+.hero.hero-v2 .hero-v2__visual {
+  position: relative;
+  z-index: 3;
+  isolation: isolate;
+}
+
+.hero.hero-v2 .hero-v2__perspective {
+  z-index: 3;
+}
+
+.hero.hero-v2 .hero-v2__seal {
+  z-index: 8;
+}
+
+.hero.hero-v2 .hero-v2__switcher {
+  z-index: 12;
+}
+
+@media (min-width: 1200px) {
+  .hero-marble__traveller {
+    opacity: 0.92;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .hero-marble__traveller {
+    opacity: 0.86;
+  }
+
+  .hero-marble__traveller--2 {
+    opacity: 0.75;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero.hero-v2 .hero-marble {
+    top: 44%;
+    bottom: 0;
+  }
+
+  .hero-marble__traveller--2 {
+    display: none;
+  }
+
+  .hero-marble__traveller--0 {
+    opacity: 0.83;
+  }
+
+  .hero-marble__traveller--1 {
+    opacity: 0.78;
+  }
+
+  .hero-marble__art {
+    filter: none;
+  }
+}
+
+@media (max-width: 359px) {
+  .hero.hero-v2 .hero-marble {
+    top: 48%;
+  }
+
+  .hero-marble__traveller--1,
+  .hero-marble__traveller--2 {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-marble__traveller {
+    animation: none !important;
+    top: var(--cloud-static-top);
+    transform: none;
+    will-change: auto;
+    opacity: 0.52;
+  }
+
+  .hero-marble__traveller--2 {
+    display: none;
+  }
+}

@@ -1,3 +1,4 @@
+
 import { useRef, useState, type PointerEvent } from 'react';
 import { Dumbbell, Flower2, Sparkles } from 'lucide-react';
 import {
@@ -11,6 +12,7 @@ import {
 } from 'motion/react';
 
 import { ArrowLink } from '../common/ArrowLink';
+import { MarbleClouds } from './MarbleClouds';
 import { site } from '../../config/site';
 
 type Discipline = 'pilates' | 'fuerza';
@@ -20,7 +22,9 @@ type Selection = {
   direction: number;
 };
 
-const ease: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const ease: [number, number, number, number] = [
+  0.22, 1, 0.36, 1,
+];
 
 const photographs = {
   pilates: {
@@ -59,6 +63,8 @@ function photoUrl(id: string, width: number) {
   return `/images/${id}-${width}.webp`;
 }
 
+/* Transición horizontal entre fotografías */
+
 const slideVariants = {
   enter: (direction: number) => ({
     x: direction > 0 ? '100%' : '-100%',
@@ -92,10 +98,12 @@ const slideVariants = {
 
 const reducedSlideVariants = {
   enter: { opacity: 0 },
+
   center: {
     opacity: 1,
     transition: { duration: 0.15 },
   },
+
   exit: {
     opacity: 0,
     transition: { duration: 0.15 },
@@ -122,6 +130,7 @@ const headline = [
   },
 ];
 
+
 function FormaSeal() {
   return (
     <svg
@@ -130,11 +139,28 @@ function FormaSeal() {
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
-      <circle cx="80" cy="80" r="75" className="hero-v2__seal-border" fill="none" />
+      <circle
+        cx="80"
+        cy="80"
+        r="75"
+        className="hero-v2__seal-border"
+        fill="none"
+      />
 
-      <circle cx="80" cy="80" r="62" className="hero-v2__seal-inner-ring" fill="none" />
+      <circle
+        cx="80"
+        cy="80"
+        r="62"
+        className="hero-v2__seal-inner-ring"
+        fill="none"
+      />
 
-      <text x="80" y="35" textAnchor="middle" className="hero-v2__seal-word">
+      <text
+        x="80"
+        y="35"
+        textAnchor="middle"
+        className="hero-v2__seal-word"
+      >
         FORMA
       </text>
 
@@ -158,46 +184,75 @@ function FormaSeal() {
           strokeLinecap="round"
         />
 
-        <circle cx="80" cy="80" r="2.7" fill="currentColor" />
+        <circle
+          cx="80"
+          cy="80"
+          r="2.7"
+          fill="currentColor"
+        />
       </g>
 
-      <text x="80" y="137" textAnchor="middle" className="hero-v2__seal-word">
+      <text
+        x="80"
+        y="137"
+        textAnchor="middle"
+        className="hero-v2__seal-word"
+      >
         STUDIO
       </text>
     </svg>
   );
 }
 
-function HeroHighlights({ reducedMotion }: { reducedMotion: boolean }) {
-  return (
-    <div className="hero-v2__highlights" aria-label="Áreas de FORMA Studio">
-      {highlights.map(({ title, description, Icon }, index) => (
-        <motion.div
-          key={title}
-          className="hero-v2__highlight"
-          initial={reducedMotion ? false : { opacity: 0, y: 20 }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.4,
-          }}
-          transition={{
-            duration: reducedMotion ? 0 : 0.7,
-            delay: reducedMotion ? 0 : index * 0.12,
-            ease,
-          }}
-        >
-          <Icon size={31} strokeWidth={1.3} aria-hidden="true" />
+/* Franja inferior de servicios */
 
-          <div className="hero-v2__highlight-copy">
-            <strong>{title}</strong>
-            <span>{description}</span>
-          </div>
-        </motion.div>
-      ))}
+function HeroHighlights({
+  reducedMotion,
+}: {
+  reducedMotion: boolean;
+}) {
+  return (
+    <div
+      className="hero-v2__highlights"
+      aria-label="Áreas de FORMA Studio"
+    >
+      {highlights.map(
+        ({ title, description, Icon }, index) => (
+          <motion.div
+            key={title}
+            className="hero-v2__highlight"
+            initial={
+              reducedMotion
+                ? false
+                : { opacity: 0, y: 20 }
+            }
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+              amount: 0.4,
+            }}
+            transition={{
+              duration: reducedMotion ? 0 : 0.7,
+              delay: reducedMotion ? 0 : index * 0.12,
+              ease,
+            }}
+          >
+            <Icon
+              size={31}
+              strokeWidth={1.3}
+              aria-hidden="true"
+            />
+
+            <div className="hero-v2__highlight-copy">
+              <strong>{title}</strong>
+              <span>{description}</span>
+            </div>
+          </motion.div>
+        ),
+      )}
     </div>
   );
 }
@@ -233,9 +288,17 @@ export function Hero() {
     offset: ['start start', 'end start'],
   });
 
-  const photoY = useTransform(scrollYProgress, [0, 1], [0, reducedMotion ? 0 : 34]);
+  const photoY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, reducedMotion ? 0 : 34],
+  );
 
-  const titleY = useTransform(scrollYProgress, [0, 1], [0, reducedMotion ? 0 : -24]);
+  const titleY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [0, reducedMotion ? 0 : -24],
+  );
 
   function changeDiscipline(value: Discipline) {
     setSelection((previous) => {
@@ -257,16 +320,28 @@ export function Hero() {
     image.src = photoUrl(photographs[value].id, 720);
   }
 
-  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
-    if (reducedMotion || event.pointerType !== 'mouse') {
+  function handlePointerMove(
+    event: PointerEvent<HTMLDivElement>,
+  ) {
+    if (
+      reducedMotion ||
+      event.pointerType !== 'mouse'
+    ) {
       return;
     }
 
-    const bounds = event.currentTarget.getBoundingClientRect();
+    const bounds =
+      event.currentTarget.getBoundingClientRect();
 
-    const horizontal = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const horizontal =
+      (event.clientX - bounds.left) /
+        bounds.width -
+      0.5;
 
-    const vertical = (event.clientY - bounds.top) / bounds.height - 0.5;
+    const vertical =
+      (event.clientY - bounds.top) /
+        bounds.height -
+      0.5;
 
     pointerX.set(horizontal * 8);
     pointerY.set(vertical * -8);
@@ -277,7 +352,10 @@ export function Hero() {
     pointerY.set(0);
   }
 
-  const imageNumber = selection.discipline === 'pilates' ? '01' : '02';
+  const imageNumber =
+    selection.discipline === 'pilates'
+      ? '01'
+      : '02';
 
   return (
     <>
@@ -286,30 +364,63 @@ export function Hero() {
         className="hero hero--cinematic hero-v2 container"
         aria-labelledby="hero-title"
       >
+
+        <MarbleClouds
+          hostRef={sectionRef}
+          reducedMotion={reducedMotion}
+        />
+
+        {/* Columna editorial */}
+
         <div className="hero-v2__text">
           <motion.span
             className="eyebrow hero-v2__eyebrow"
-            initial={reducedMotion ? false : { opacity: 0, y: 15 }}
+            initial={
+              reducedMotion
+                ? false
+                : { opacity: 0, y: 15 }
+            }
             animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: reducedMotion ? 0 : 0.75,
               ease,
             }}
           >
-            <span className="hero-v2__eyebrow-number">01 /</span>
+            <span className="hero-v2__eyebrow-number">
+              01 /
+            </span>
+
             {site.hero.eyebrow}
           </motion.span>
 
-          <motion.h1 id="hero-title" style={reducedMotion ? undefined : { y: titleY }}>
+          <motion.h1
+            id="hero-title"
+            style={
+              reducedMotion
+                ? undefined
+                : { y: titleY }
+            }
+          >
             {headline.map((line, index) => (
-              <span key={line.key} className="hero-v2__line-mask">
+              <span
+                key={line.key}
+                className="hero-v2__line-mask"
+              >
                 <motion.span
                   className="hero-v2__title-line"
-                  initial={reducedMotion ? false : { y: '115%' }}
+                  initial={
+                    reducedMotion
+                      ? false
+                      : { y: '115%' }
+                  }
                   animate={{ y: '0%' }}
                   transition={{
-                    duration: reducedMotion ? 0 : 1.08,
-                    delay: reducedMotion ? 0 : 0.12 + index * 0.16,
+                    duration:
+                      reducedMotion ? 0 : 1.08,
+                    delay:
+                      reducedMotion
+                        ? 0
+                        : 0.12 + index * 0.16,
                     ease,
                   }}
                 >
@@ -321,7 +432,11 @@ export function Hero() {
 
           <motion.div
             className="hero-v2__lower"
-            initial={reducedMotion ? false : { opacity: 0, y: 22 }}
+            initial={
+              reducedMotion
+                ? false
+                : { opacity: 0, y: 22 }
+            }
             animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: reducedMotion ? 0 : 0.9,
@@ -329,17 +444,26 @@ export function Hero() {
               ease,
             }}
           >
-            <p className="hero-v2__intro">{site.hero.intro}</p>
+            <p className="hero-v2__intro">
+              {site.hero.intro}
+            </p>
 
             <div className="hero-v2__buttons">
-              <ArrowLink to="/programas">Conocer programas</ArrowLink>
+              <ArrowLink to="/programas">
+                Conocer programas
+              </ArrowLink>
 
-              <ArrowLink to="/asesoramiento" variant="outline">
+              <ArrowLink
+                to="/asesoramiento"
+                variant="outline"
+              >
                 Asesoramiento
               </ArrowLink>
             </div>
           </motion.div>
         </div>
+
+        {/* Composición fotográfica */}
 
         <div
           className="hero-v2__visual"
@@ -349,7 +473,11 @@ export function Hero() {
           <div className="hero-v2__perspective">
             <motion.div
               className="hero-v2__photo-shell"
-              style={reducedMotion ? undefined : { rotateX, rotateY }}
+              style={
+                reducedMotion
+                  ? undefined
+                  : { rotateX, rotateY }
+              }
               initial={
                 reducedMotion
                   ? false
@@ -365,30 +493,47 @@ export function Hero() {
                 scale: 1,
               }}
               transition={{
-                duration: reducedMotion ? 0 : 1.05,
-                delay: reducedMotion ? 0 : 0.2,
+                duration:
+                  reducedMotion ? 0 : 1.05,
+                delay:
+                  reducedMotion ? 0 : 0.2,
                 ease,
               }}
             >
               <div className="hero-v2__photo-frame">
                 <motion.div
                   className="hero-v2__photo-parallax"
-                  style={reducedMotion ? undefined : { y: photoY }}
+                  style={
+                    reducedMotion
+                      ? undefined
+                      : { y: photoY }
+                  }
                 >
                   <div className="hero-v2__photo-zoom">
-                    <AnimatePresence initial={false} mode="sync" custom={selection.direction}>
+                    <AnimatePresence
+                      initial={false}
+                      mode="sync"
+                      custom={selection.direction}
+                    >
                       <motion.div
                         key={selection.discipline}
                         className="hero-v2__slide"
                         custom={selection.direction}
-                        variants={reducedMotion ? reducedSlideVariants : slideVariants}
+                        variants={
+                          reducedMotion
+                            ? reducedSlideVariants
+                            : slideVariants
+                        }
                         initial="enter"
                         animate="center"
                         exit="exit"
                       >
                         <img
                           className="hero-v2__photo"
-                          src={photoUrl(selected.id, 1600)}
+                          src={photoUrl(
+                            selected.id,
+                            1600,
+                          )}
                           srcSet={[
                             `${photoUrl(selected.id, 720)} 720w`,
                             `${photoUrl(selected.id, 1200)} 1200w`,
@@ -399,40 +544,74 @@ export function Hero() {
                           alt={selected.alt}
                           loading="eager"
                           decoding="async"
-                          fetchPriority={selection.discipline === 'pilates' ? 'high' : 'auto'}
+                          fetchPriority={
+                            selection.discipline ===
+                            'pilates'
+                              ? 'high'
+                              : 'auto'
+                          }
                         />
                       </motion.div>
                     </AnimatePresence>
                   </div>
                 </motion.div>
 
-                <div className="hero-v2__photo-shade" aria-hidden="true" />
+                <div
+                  className="hero-v2__photo-shade"
+                  aria-hidden="true"
+                />
               </div>
 
-              <AnimatePresence mode="wait" initial={false}>
+              {/* Texto interior de cada foto */}
+
+              <AnimatePresence
+                mode="wait"
+                initial={false}
+              >
                 <motion.div
                   key={selection.discipline}
                   className="hero-v2__photo-caption"
-                  initial={reducedMotion ? false : { opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={reducedMotion ? undefined : { opacity: 0, y: -8 }}
+                  initial={
+                    reducedMotion
+                      ? false
+                      : { opacity: 0, y: 12 }
+                  }
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  exit={
+                    reducedMotion
+                      ? undefined
+                      : { opacity: 0, y: -8 }
+                  }
                   transition={{
-                    duration: reducedMotion ? 0 : 0.3,
+                    duration:
+                      reducedMotion ? 0 : 0.3,
                     ease,
                   }}
                 >
-                  <span>FORMA / {selected.label}</span>
+                  <span>
+                    FORMA / {selected.label}
+                  </span>
 
-                  <strong>{selected.caption}</strong>
+                  <strong>
+                    {selected.caption}
+                  </strong>
                 </motion.div>
               </AnimatePresence>
 
-              <div className="hero-v2__photo-counter" aria-hidden="true">
+              <div
+                className="hero-v2__photo-counter"
+                aria-hidden="true"
+              >
                 {imageNumber}
                 <small> / 02</small>
               </div>
             </motion.div>
           </div>
+
+          {/* Sello circular original */}
 
           <motion.div
             className="hero-v2__seal"
@@ -460,10 +639,19 @@ export function Hero() {
             <FormaSeal />
           </motion.div>
 
+          {/* Selector de fotografías */}
+
           <motion.div
             className="hero-v2__switcher"
-            initial={reducedMotion ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={
+              reducedMotion
+                ? false
+                : { opacity: 0, y: 18 }
+            }
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
             transition={{
               duration: reducedMotion ? 0 : 0.7,
               delay: reducedMotion ? 0 : 0.82,
@@ -472,22 +660,37 @@ export function Hero() {
             role="group"
             aria-label="Elegir fotografía de Pilates o Fuerza"
           >
-            {(['pilates', 'fuerza'] as const).map((value, index) => {
-              const active = selection.discipline === value;
+            {(
+              ['pilates', 'fuerza'] as const
+            ).map((value, index) => {
+              const active =
+                selection.discipline === value;
 
               return (
                 <button
                   key={value}
                   type="button"
-                  className={`hero-v2__switch${active ? ' is-active' : ''}`}
+                  className={`hero-v2__switch${
+                    active ? ' is-active' : ''
+                  }`}
                   aria-pressed={active}
-                  onPointerEnter={() => preloadDiscipline(value)}
-                  onFocus={() => preloadDiscipline(value)}
-                  onClick={() => changeDiscipline(value)}
+                  onPointerEnter={() =>
+                    preloadDiscipline(value)
+                  }
+                  onFocus={() =>
+                    preloadDiscipline(value)
+                  }
+                  onClick={() =>
+                    changeDiscipline(value)
+                  }
                 >
-                  <span className="hero-v2__switch-number">0{index + 1}</span>
+                  <span className="hero-v2__switch-number">
+                    0{index + 1}
+                  </span>
 
-                  <span className="hero-v2__switch-label">{photographs[value].label}</span>
+                  <span className="hero-v2__switch-label">
+                    {photographs[value].label}
+                  </span>
                 </button>
               );
             })}
@@ -495,7 +698,9 @@ export function Hero() {
         </div>
       </section>
 
-      <HeroHighlights reducedMotion={reducedMotion} />
+      <HeroHighlights
+        reducedMotion={reducedMotion}
+      />
     </>
   );
 }

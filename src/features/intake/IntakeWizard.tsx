@@ -1,49 +1,68 @@
+
+import '../../styles/intake.css';
 import { useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, Check, ClipboardCopy, LockKeyhole } from 'lucide-react';
-import { useSearchParams } from 'react-router-dom';
-import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
-import { createSafeSummary, goals, initialIntake, validateStep } from './model';
+import { ArrowLeft, ArrowRight, Check, ClipboardCopy, LockKeyhole, Mail } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import {
+  activities,
+  createSubmissionSummary,
+  difficulties,
+  equipmentOptions,
+  experiences,
+  goals,
+  initialIntake,
+  trainingLocations,
+  validateStep,
+} from './model';
 import type { IntakeData } from './model';
 import { formatDiscipline, formatModality } from '../../utils/text';
-import { Link } from 'react-router-dom';
+import { site } from '../../config/site';
 
-const stepNames = ['Tu elección', 'Sobre vos', 'Tu entrenamiento', 'Revisar'];
-const experienceOptions = [
-  ['inicio', 'Nunca entrené'],
-  ['retomo', 'Entrené, pero hace tiempo'],
-  ['intermedio', 'Entreno hace menos de un año'],
-  ['avanzado', 'Entreno hace más de un año'],
-] as const;
+const stepNames = [
+  'Tu elección',
+  'Sobre vos',
+  'Tus objetivos',
+  'Tu entrenamiento',
+  'Bienestar y revisión',
+];
 
-interface ChoiceGroupProps {
+interface Option {
   label: string;
-  options: readonly { label: string; value: string; description?: string }[];
-  selected: string;
-  onSelect: (value: string) => void;
+  value: string;
+  description?: string;
 }
 
-function ChoiceGroup({ label, options, selected, onSelect }: ChoiceGroupProps) {
+interface RadioGroupProps {
+  name: string;
+  label: string;
+  options: readonly Option[];
+  selected: string;
+  onSelect: (value: string) => void;
+  columns?: 1 | 2;
+}
+
+function RadioGroup({ name, label, options, selected, onSelect, columns = 2 }: RadioGroupProps) {
   return (
-    <fieldset className="choice-fieldset">
+    <fieldset className="intake-question">
       <legend>{label}</legend>
-      <div className="choice-grid">
+      <div className={`intake-options intake-options--${columns}`}>
         {options.map((option) => (
           <label
             key={option.value}
-            className={`choice ${selected === option.value ? 'choice--selected' : ''}`}
+            className={`intake-option ${selected === option.value ? 'intake-option--selected' : ''}`}
           >
             <input
               type="radio"
-              name={label}
+              name={name}
+              value={option.value}
               checked={selected === option.value}
               onChange={() => onSelect(option.value)}
             />
-            <span>
-              <b>{option.label}</b>
+            <span className="intake-option__mark" aria-hidden="true" />
+            <span className="intake-option__copy">
+              <strong>{option.label}</strong>
               {option.description && <small>{option.description}</small>}
-            </span>
-            <span className="choice__indicator" aria-hidden="true">
-              {selected === option.value && <Check size={15} />}
             </span>
           </label>
         ))}
@@ -52,24 +71,142 @@ function ChoiceGroup({ label, options, selected, onSelect }: ChoiceGroupProps) {
   );
 }
 
+interface CheckboxGroupProps {
+  label: string;
+  options: readonly string[];
+  selected: string[];
+  onToggle: (value: string) => void;
+  helper?: string;
+  columns?: 1 | 2;
+  maxSelected?: number;
+}
+
+function CheckboxGroup({
+  label,
+  options,
+  selected,
+  onToggle,
+  helper,
+  columns = 1,
+  maxSelected,
+}: CheckboxGroupProps) {
+  return (
+    <fieldset className="intake-question">
+      <legend>{label}</legend>
+      {helper && <p className="intake-question__helper">{helper}</p>}
+      <div className={`intake-options intake-options--${columns}`}>
+        {options.map((option) => (
+          <label
+            key={option}
+            className={`intake-option intake-option--checkbox ${selected.includes(option) ? 'intake-option--selected' : ''}`}
+          >
+            <input
+              type="checkbox"
+              checked={selected.includes(option)}
+              disabled={Boolean(
+                maxSelected && selected.length >= maxSelected && !selected.includes(option),
+              )}
+              onChange={() => onToggle(option)}
+            />
+            <span className="intake-option__mark" aria-hidden="true">
+              {selected.includes(option) && <Check size={13} />}
+            </span>
+            <span className="intake-option__copy">
+              <strong>{option}</strong>
+            </span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+interface TextFieldProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  type?: string;
+  inputMode?: 'text' | 'numeric' | 'tel';
+  autoComplete?: string;
+  maxLength?: number;
+  full?: boolean;
+}
+
+function TextField({
+  label,
+  value,
+  onChange,
+  placeholder,
+  type = 'text',
+  inputMode,
+  autoComplete,
+  maxLength,
+  full = false,
+}: TextFieldProps) {
+  return (
+    <label className={`intake-field ${full ? 'intake-field--full' : ''}`}>
+      <span>
+        {label}
+        <i aria-hidden="true">*</i>
+      </span>
+      <input
+        type={type}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        inputMode={inputMode}
+        autoComplete={autoComplete}
+        maxLength={maxLength}
+        aria-required="true"
+      />
+    </label>
+  );
+}
+
+interface TextAreaProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  helper?: string;
+}
+
+function TextArea({ label, value, onChange, placeholder, helper }: TextAreaProps) {
+  return (
+    <label className="intake-field intake-field--full">
+      <span>
+        {label}
+        <i aria-hidden="true">*</i>
+      </span>
+      {helper && <small className="intake-field__helper">{helper}</small>}
+      <textarea
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        rows={3}
+        aria-required="true"
+      />
+    </label>
+  );
+}
+
+function getInitialData(discipline: string | null, modality: string | null): IntakeData {
+  return {
+    ...initialIntake,
+    discipline: discipline === 'fuerza' || discipline === 'pilates' ? discipline : '',
+    modality: modality === 'online' || modality === 'presencial' ? modality : '',
+  };
+}
+
 export function IntakeWizard() {
   const [params] = useSearchParams();
-  const preselectedDiscipline = params.get('disciplina');
-  const preselectedModality = params.get('modalidad');
-  const [data, setData] = useState<IntakeData>({
-    ...initialIntake,
-    discipline:
-      preselectedDiscipline === 'fuerza' || preselectedDiscipline === 'pilates'
-        ? preselectedDiscipline
-        : '',
-    modality:
-      preselectedModality === 'online' || preselectedModality === 'presencial'
-        ? preselectedModality
-        : '',
-  });
+  const [data, setData] = useState<IntakeData>(() =>
+    getInitialData(params.get('disciplina'), params.get('modalidad')),
+  );
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<string[]>([]);
-  const [complete, setComplete] = useState(false);
+  const [prepared, setPrepared] = useState(false);
   const [copyFeedback, setCopyFeedback] = useState('');
   const heading = useRef<HTMLHeadingElement>(null);
   const reduced = useReducedMotion();
@@ -79,62 +216,143 @@ export function IntakeWizard() {
     setErrors([]);
   }
 
-  function toggleGoal(goal: string) {
-    const exists = data.goals.includes(goal);
+  function toggleGoal(value: string) {
+    const exists = data.goals.includes(value);
     if (exists)
       update(
         'goals',
-        data.goals.filter((item) => item !== goal),
+        data.goals.filter((item) => item !== value),
       );
-    else if (data.goals.length < 2) update('goals', [...data.goals, goal]);
+    else if (data.goals.length < 2) update('goals', [...data.goals, value]);
   }
 
-  function next() {
-    const currentErrors = validateStep(step, data);
-    if (currentErrors.length) {
-      setErrors(currentErrors);
+  function toggleEquipment(value: string) {
+    const exclusiveOptions = [
+      'No tengo nada y prefiero arrancar así',
+      'No tengo nada pero me compraría algo',
+    ];
+    const isExclusive = exclusiveOptions.includes(value);
+    const selected = data.equipment.includes(value);
+
+    if (selected) {
+      update(
+        'equipment',
+        data.equipment.filter((item) => item !== value),
+      );
       return;
     }
-    setErrors([]);
-    if (step === 3) setComplete(true);
-    else setStep((previous) => previous + 1);
+
+    if (isExclusive) {
+      update('equipment', [value]);
+      return;
+    }
+
+    update('equipment', [
+      ...data.equipment.filter((item) => !exclusiveOptions.includes(item)),
+      value,
+    ]);
+  }
+
+  function toggleDifficulty(value: string) {
+    const selected = data.difficulties.includes(value);
+    update(
+      'difficulties',
+      selected ? data.difficulties.filter((item) => item !== value) : [...data.difficulties, value],
+    );
+  }
+
+  function focusHeading() {
     window.setTimeout(() => heading.current?.focus(), 0);
   }
 
   function back() {
     setStep((previous) => Math.max(0, previous - 1));
     setErrors([]);
-    window.setTimeout(() => heading.current?.focus(), 0);
+    focusHeading();
   }
 
-  async function copy() {
+  function prepareRequest() {
+    const subject = encodeURIComponent('Solicitud de entrenamiento — FORMA Studio');
+    const body = encodeURIComponent(createSubmissionSummary(data));
+    setPrepared(true);
+    window.location.href = `mailto:${site.brand.email}?subject=${subject}&body=${body}`;
+  }
+
+  function next() {
+    const currentErrors = validateStep(step, data);
+    if (currentErrors.length > 0) {
+      setErrors(currentErrors);
+      return;
+    }
+
+    setErrors([]);
+    if (step === 4) {
+      prepareRequest();
+      return;
+    }
+
+    setStep((previous) => previous + 1);
+    focusHeading();
+  }
+
+  async function copySummary() {
     try {
-      await navigator.clipboard.writeText(createSafeSummary(data));
-      setCopyFeedback('Resumen copiado. Podés compartirlo cuando lo desees.');
+      await navigator.clipboard.writeText(createSubmissionSummary(data));
+      setCopyFeedback('Respuestas copiadas. Ya podés pegarlas en un mensaje.');
     } catch {
-      setCopyFeedback('Tu navegador no permitió copiar. Seleccioná el texto que aparece debajo.');
+      setCopyFeedback('No se pudo copiar automáticamente. Seleccioná el resumen para copiarlo.');
     }
   }
 
-  if (complete)
+  const reviewRows: [string, string][] = [
+    ['Disciplina', data.discipline ? formatDiscipline(data.discipline) : '—'],
+    ['Modalidad', data.modality ? formatModality(data.modality) : '—'],
+    ['Nombre y apellido', data.name],
+    ['Edad', data.age],
+    ['Ciudad', data.city],
+    ['WhatsApp', data.phone],
+    ['Objetivos', data.goals.join(', ')],
+    ['Otro objetivo', data.goals.includes('Otros') ? data.otherGoal : '—'],
+    ['Actividad física', data.activity],
+    ['Otra actividad', data.activity === 'Otros' ? data.otherActivity : '—'],
+    ['Experiencia', data.experience],
+    ['Días por semana', data.days],
+    ['Tiempo por entrenamiento', data.duration],
+    ['Lugar', data.location],
+    [
+      'Equipamiento',
+      data.location === 'Gimnasio' ? 'No corresponde' : data.equipment.join(', ') || '—',
+    ],
+    [
+      'Otro equipamiento',
+      data.location !== 'Gimnasio' && data.equipment.includes('Otro') ? data.otherEquipment : '—',
+    ],
+    ['Lesiones o molestias', data.hasDiscomfort === 'si' ? 'Sí' : 'No'],
+    ['Detalle', data.discomfortDetails],
+    ['Dificultades', data.difficulties.join(', ')],
+    ['Otra dificultad', data.difficulties.includes('Otros') ? data.otherDifficulty : '—'],
+    ['Comentarios', data.comments],
+  ];
+
+  if (prepared) {
     return (
       <div className="wizard-done" role="status">
         <div className="wizard-done__icon">
-          <Check size={32} />
+          <Mail size={30} />
         </div>
-        <span className="eyebrow">RECORRIDO COMPLETADO</span>
+        <span className="eyebrow">SOLICITUD PREPARADA</span>
         <h2>
-          Tu primer paso,
+          Un paso más,
           <br />
-          <em>listo.</em>
+          <em>y empezamos.</em>
         </h2>
         <p>
-          Terminaste el recorrido de ejemplo.{' '}
-          <strong>No enviamos ni almacenamos tu información.</strong> En una implementación real,
-          aquí conectaríamos el formulario con el sistema del profesional.
+          El navegador intentó abrir tu aplicación de correo con las respuestas dirigidas a{' '}
+          <strong>{site.brand.email}</strong>. Revisá el mensaje y presioná Enviar para completar tu
+          solicitud.
         </p>
-        <button type="button" className="arrow-link arrow-link--dark" onClick={copy}>
-          <span>Copiar resumen</span>
+        <button type="button" className="wizard__continue" onClick={copySummary}>
+          <span>Copiar respuestas</span>
           <ClipboardCopy size={18} />
         </button>
         {copyFeedback && (
@@ -143,12 +361,12 @@ export function IntakeWizard() {
           </p>
         )}
         <details className="wizard-summary">
-          <summary>Ver resumen para copiar manualmente</summary>
+          <summary>Ver todas las respuestas</summary>
           <textarea
-            aria-label="Resumen de solicitud"
             readOnly
-            value={createSafeSummary(data)}
-            rows={12}
+            value={createSubmissionSummary(data)}
+            rows={18}
+            aria-label="Resumen de solicitud"
           />
         </details>
         <Link className="underlined-link" to="/">
@@ -156,34 +374,37 @@ export function IntakeWizard() {
         </Link>
       </div>
     );
+  }
 
   return (
     <div className="wizard">
       <div className="wizard__top">
-        <span>INSCRIPCIÓN / MODO DEMO</span>
-        <strong>0{step + 1} / 04</strong>
+        <span>SOLICITUD DE ENTRENAMIENTO</span>
+        <strong>0{step + 1} / 05</strong>
       </div>
-      <div className="wizard__progress" aria-label={`Paso ${step + 1} de 4`}>
-        <div style={{ width: `${((step + 1) / 4) * 100}%` }} />
+      <div className="wizard__progress" aria-label={`Paso ${step + 1} de 5`}>
+        <div style={{ width: `${((step + 1) / 5) * 100}%` }} />
       </div>
-      <div className="wizard__steps" aria-label="Progreso del formulario">
+      <nav className="wizard__steps" aria-label="Etapas del formulario">
         {stepNames.map((name, index) => (
           <span
             key={name}
             className={index === step ? 'is-current' : index < step ? 'is-done' : ''}
+            aria-current={index === step ? 'step' : undefined}
           >
-            {name}
+            <i>0{index + 1}</i> {name}
           </span>
         ))}
-      </div>
+      </nav>
+
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={step}
           className="wizard__body"
-          initial={reduced ? false : { opacity: 0, x: 18 }}
+          initial={reduced ? false : { opacity: 0, x: 16 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={reduced ? { opacity: 1 } : { opacity: 0, x: -18 }}
-          transition={{ duration: reduced ? 0 : 0.24 }}
+          exit={reduced ? { opacity: 1 } : { opacity: 0, x: -16 }}
+          transition={{ duration: reduced ? 0 : 0.22 }}
         >
           <h2 tabIndex={-1} ref={heading} className="wizard__heading">
             {step === 0 && (
@@ -193,17 +414,22 @@ export function IntakeWizard() {
             )}
             {step === 1 && (
               <>
-                Queremos saber <em>de vos.</em>
+                Primero, queremos saber <em>de vos.</em>
               </>
             )}
             {step === 2 && (
               <>
-                Diseñemos tu <em>punto de partida.</em>
+                ¿Qué te gustaría <em>conseguir?</em>
               </>
             )}
             {step === 3 && (
               <>
-                Un último <em>vistazo.</em>
+                Organicemos tu <em>entrenamiento.</em>
+              </>
+            )}
+            {step === 4 && (
+              <>
+                Conocé tus <em>necesidades.</em>
               </>
             )}
           </h2>
@@ -211,15 +437,18 @@ export function IntakeWizard() {
             {
               [
                 'Elegí la disciplina y la modalidad que mejor encajan con vos.',
-                'Estos datos se mantienen únicamente en esta pantalla de demostración.',
-                'Respondé de acuerdo a tu disponibilidad real; no existe la respuesta perfecta.',
-                'Confirmá tus elecciones. Esta demo no conecta con un servidor.',
+                'Estos datos nos ayudan a conocerte y a poder contactarte.',
+                'Contanos qué buscás, qué actividades realizás y qué experiencia tenés.',
+                'Elegí una disponibilidad realista y contanos con qué espacio y elementos contás.',
+                'Queremos conocer cualquier consideración importante antes de preparar tu propuesta.',
               ][step]
             }
           </p>
+
           {step === 0 && (
             <>
-              <ChoiceGroup
+              <RadioGroup
+                name="discipline"
                 label="¿Qué querés practicar?"
                 selected={data.discipline}
                 onSelect={(value) => update('discipline', value as IntakeData['discipline'])}
@@ -236,7 +465,8 @@ export function IntakeWizard() {
                   },
                 ]}
               />
-              <ChoiceGroup
+              <RadioGroup
+                name="modality"
                 label="¿Cómo preferís entrenar?"
                 selected={data.modality}
                 onSelect={(value) => update('modality', value as IntakeData['modality'])}
@@ -251,219 +481,206 @@ export function IntakeWizard() {
               />
             </>
           )}
+
           {step === 1 && (
-            <div className="form-grid">
-              <label className="text-field text-field--full">
-                Nombre y apellido{' '}
-                <input
-                  autoComplete="name"
-                  value={data.name}
-                  maxLength={100}
-                  onChange={(e) => update('name', e.target.value)}
-                  placeholder="¿Cómo te llamás?"
-                />
-              </label>
-              <label className="text-field">
-                Edad (18+){' '}
-                <input
-                  type="number"
-                  inputMode="numeric"
-                  min="18"
-                  max="100"
-                  value={data.age}
-                  onChange={(e) => update('age', e.target.value)}
-                  placeholder="Ej. 26"
-                />
-              </label>
-              <label className="text-field">
-                Ciudad{' '}
-                <input
-                  autoComplete="address-level2"
-                  maxLength={80}
-                  value={data.city}
-                  onChange={(e) => update('city', e.target.value)}
-                  placeholder="Ej. Rosario"
-                />
-              </label>
-              <label className="text-field text-field--full">
-                WhatsApp con código de área{' '}
-                <input
-                  autoComplete="tel"
-                  type="tel"
-                  inputMode="tel"
-                  maxLength={25}
-                  value={data.phone}
-                  onChange={(e) => update('phone', e.target.value)}
-                  placeholder="Ej. +54 9 ..."
-                />
-              </label>
+            <div className="intake-fields">
+              <TextField
+                label="1. Nombre y apellido"
+                value={data.name}
+                onChange={(value) => update('name', value)}
+                placeholder="¿Cómo te llamás?"
+                autoComplete="name"
+                maxLength={100}
+                full
+              />
+              <TextField
+                label="2. Edad"
+                value={data.age}
+                onChange={(value) => update('age', value)}
+                placeholder="Ej. 26"
+                inputMode="numeric"
+                maxLength={3}
+              />
+              <TextField
+                label="3. Ciudad"
+                value={data.city}
+                onChange={(value) => update('city', value)}
+                placeholder="Ej. Rosario"
+                autoComplete="address-level2"
+                maxLength={80}
+              />
+              <TextField
+                label="4. WhatsApp"
+                value={data.phone}
+                onChange={(value) => update('phone', value)}
+                placeholder="Con código de área"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
+                maxLength={25}
+                full
+              />
             </div>
           )}
+
           {step === 2 && (
             <>
-              <fieldset className="choice-fieldset">
-                <legend>
-                  ¿Cuáles son tus objetivos? <span>(Elegí hasta 2)</span>
-                </legend>
-                <div className="goal-grid">
-                  {goals.map((goal) => (
-                    <label
-                      className={`goal-chip ${data.goals.includes(goal) ? 'goal-chip--selected' : ''}`}
-                      key={goal}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={data.goals.includes(goal)}
-                        disabled={!data.goals.includes(goal) && data.goals.length >= 2}
-                        onChange={() => toggleGoal(goal)}
-                      />
-                      {goal}
-                      <span aria-hidden="true">{data.goals.includes(goal) ? '✓' : '+'}</span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-              <ChoiceGroup
-                label="¿Qué experiencia tenés?"
+              <CheckboxGroup
+                label="5. ¿Cuál es tu objetivo?"
+                helper="Elegí hasta dos opciones."
+                options={goals}
+                selected={data.goals}
+                onToggle={toggleGoal}
+                columns={2}
+                maxSelected={2}
+              />
+              {data.goals.includes('Otros') && (
+                <TextField
+                  label="¿Cuál es tu otro objetivo?"
+                  value={data.otherGoal}
+                  onChange={(value) => update('otherGoal', value)}
+                  placeholder="Contanos tu objetivo"
+                  full
+                />
+              )}
+              <RadioGroup
+                name="activity"
+                label="6. ¿Realizás algún deporte u otra actividad física?"
+                selected={data.activity}
+                onSelect={(value) => update('activity', value)}
+                options={activities.map((value) => ({ label: value, value }))}
+                columns={2}
+              />
+              {data.activity === 'Otros' && (
+                <TextField
+                  label="¿Qué otra actividad realizás?"
+                  value={data.otherActivity}
+                  onChange={(value) => update('otherActivity', value)}
+                  placeholder="Escribí la actividad"
+                  full
+                />
+              )}
+              <RadioGroup
+                name="experience"
+                label="7. ¿Cuánta experiencia tenés entrenando?"
                 selected={data.experience}
                 onSelect={(value) => update('experience', value as IntakeData['experience'])}
-                options={experienceOptions.map(([value, label]) => ({ value, label }))}
+                options={experiences.map((value) => ({ label: value, value }))}
+                columns={1}
               />
-              <div className="form-grid">
-                <label className="text-field">
-                  Días por semana{' '}
-                  <select value={data.days} onChange={(e) => update('days', e.target.value)}>
-                    <option value="">Elegí una opción</option>
-                    {['2', '3', '4', '5'].map((day) => (
-                      <option key={day} value={day}>
-                        {day} días
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label className="text-field">
-                  Tiempo por sesión{' '}
-                  <select
-                    value={data.duration}
-                    onChange={(e) => update('duration', e.target.value)}
-                  >
-                    <option value="">Elegí una opción</option>
-                    {['30', '45', '60', '90+'].map((time) => (
-                      <option key={time} value={time}>
-                        {time} minutos
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-              {data.modality === 'online' && (
+            </>
+          )}
+
+          {step === 3 && (
+            <>
+              <RadioGroup
+                name="days"
+                label="8. ¿Cuántos días por semana podrías entrenar?"
+                selected={data.days}
+                onSelect={(value) => update('days', value)}
+                options={['2', '3', '4', '5'].map((value) => ({
+                  label: `${value} días`,
+                  value,
+                }))}
+                columns={2}
+              />
+              <RadioGroup
+                name="duration"
+                label="9. ¿Cuánto tiempo podrías dedicarle a cada entrenamiento?"
+                selected={data.duration}
+                onSelect={(value) => update('duration', value)}
+                options={['30 minutos', '45 minutos', '60 minutos', 'Más de 60 minutos'].map(
+                  (value) => ({ label: value, value }),
+                )}
+                columns={2}
+              />
+              <RadioGroup
+                name="location"
+                label="10. ¿Dónde vas a entrenar?"
+                selected={data.location}
+                onSelect={(value) => update('location', value)}
+                options={trainingLocations.map((value) => ({ label: value, value }))}
+                columns={1}
+              />
+              {data.location !== '' && data.location !== 'Gimnasio' && (
                 <>
-                  <ChoiceGroup
-                    label="¿Dónde vas a entrenar?"
-                    selected={data.location}
-                    onSelect={(value) => update('location', value)}
-                    options={[
-                      { value: 'Gimnasio', label: 'Gimnasio' },
-                      { value: 'Casa con equipamiento', label: 'Casa con equipamiento' },
-                      { value: 'Casa sin equipamiento', label: 'Casa sin equipamiento' },
-                    ]}
+                  <CheckboxGroup
+                    label="11. Si entrenás en casa, ¿qué elementos tenés o pensás comprar?"
+                    options={equipmentOptions}
+                    selected={data.equipment}
+                    onToggle={toggleEquipment}
                   />
-                  {data.location === 'Casa con equipamiento' && (
-                    <fieldset className="choice-fieldset">
-                      <legend>
-                        ¿Qué elementos tenés? <span>(Opcional)</span>
-                      </legend>
-                      <div className="goal-grid">
-                        {['Mancuernas', 'Bandas', 'Colchoneta', 'Banco o step'].map((option) => (
-                          <label
-                            key={option}
-                            className={`goal-chip ${data.equipment.includes(option) ? 'goal-chip--selected' : ''}`}
-                          >
-                            <input
-                              type="checkbox"
-                              checked={data.equipment.includes(option)}
-                              onChange={(e) =>
-                                update(
-                                  'equipment',
-                                  e.target.checked
-                                    ? [...data.equipment, option]
-                                    : data.equipment.filter((item) => item !== option),
-                                )
-                              }
-                            />
-                            {option}
-                          </label>
-                        ))}
-                      </div>
-                    </fieldset>
+                  {data.equipment.includes('Otro') && (
+                    <TextField
+                      label="¿Qué otro elemento?"
+                      value={data.otherEquipment}
+                      onChange={(value) => update('otherEquipment', value)}
+                      placeholder="Escribí el elemento"
+                      full
+                    />
                   )}
                 </>
               )}
-              <ChoiceGroup
-                label="¿Tenés alguna lesión o molestia que debamos considerar?"
+            </>
+          )}
+
+          {step === 4 && (
+            <>
+              <RadioGroup
+                name="hasDiscomfort"
+                label="12. ¿Tenés alguna lesión o molestia?"
                 selected={data.hasDiscomfort}
                 onSelect={(value) => update('hasDiscomfort', value)}
                 options={[
-                  { value: 'si', label: 'Sí' },
-                  { value: 'no', label: 'No' },
+                  { label: 'Sí', value: 'si' },
+                  { label: 'No', value: 'no' },
                 ]}
+                columns={2}
               />
-              {data.hasDiscomfort === 'si' && (
-                <p className="wizard__notice">
-                  No ingreses información médica en esta demo. Si contratás un servicio real,
-                  comentá estos detalles en un canal privado con la persona responsable y buscá
-                  orientación profesional cuando corresponda.
-                </p>
-              )}
-            </>
-          )}
-          {step === 3 && (
-            <div className="review">
-              <div>
-                <span>ACTIVIDAD</span>
-                <strong>{data.discipline ? formatDiscipline(data.discipline) : '—'}</strong>
-              </div>
-              <div>
-                <span>MODALIDAD</span>
-                <strong>{data.modality ? formatModality(data.modality) : '—'}</strong>
-              </div>
-              <div>
-                <span>NOMBRE</span>
-                <strong>{data.name}</strong>
-              </div>
-              <div>
-                <span>CIUDAD</span>
-                <strong>{data.city}</strong>
-              </div>
-              <div>
-                <span>OBJETIVOS</span>
-                <strong>{data.goals.join(' · ')}</strong>
-              </div>
-              <div>
-                <span>DISPONIBILIDAD</span>
-                <strong>
-                  {data.days} días / {data.duration} min
-                </strong>
-              </div>
-              <label className="consent">
-                <input
-                  type="checkbox"
-                  checked={data.consent}
-                  onChange={(e) => update('consent', e.target.checked)}
+              <TextArea
+                label="13. Si respondiste sí, ¿dónde y qué te pasó?"
+                value={data.discomfortDetails}
+                onChange={(value) => update('discomfortDetails', value)}
+                placeholder="Contanos brevemente. Si no corresponde, escribí No aplica."
+                helper="Si respondiste No, escribí “No aplica”."
+              />
+              <CheckboxGroup
+                label="14. ¿Qué es lo que más te cuesta?"
+                options={difficulties}
+                selected={data.difficulties}
+                onToggle={toggleDifficulty}
+              />
+              {data.difficulties.includes('Otros') && (
+                <TextField
+                  label="¿Qué otra dificultad encontrás?"
+                  value={data.otherDifficulty}
+                  onChange={(value) => update('otherDifficulty', value)}
+                  placeholder="Contanos qué te cuesta"
+                  full
                 />
-                <span>
-                  Comprendo que esta página es una <strong>demostración interactiva</strong>. Los
-                  datos no se envían ni se guardan en un servidor, y no se realiza una inscripción
-                  real.{' '}
-                  <Link to="/privacidad" target="_blank" rel="noopener noreferrer">
-                    Leer privacidad.
-                  </Link>
-                </span>
-              </label>
-            </div>
+              )}
+              <TextArea
+                label="15. Algo que quieras contarme"
+                value={data.comments}
+                onChange={(value) => update('comments', value)}
+                placeholder="Este espacio es para cualquier otra información que quieras compartir."
+              />
+              <details className="wizard-review">
+                <summary>Revisar todas mis respuestas</summary>
+                <dl>
+                  {reviewRows.map(([label, value]) => (
+                    <div key={label}>
+                      <dt>{label}</dt>
+                      <dd>{value || '—'}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </details>
+            </>
           )}
         </motion.div>
       </AnimatePresence>
+
       {errors.length > 0 && (
         <div className="wizard__errors" role="alert">
           <strong>Revisá lo siguiente:</strong>
@@ -474,22 +691,24 @@ export function IntakeWizard() {
           </ul>
         </div>
       )}
+
       <div className="wizard__actions">
         {step > 0 ? (
           <button className="wizard__back" type="button" onClick={back}>
             <ArrowLeft size={18} /> Volver
           </button>
         ) : (
-          <span />
+          <span className="wizard__back-placeholder" />
         )}
-        <button className="arrow-link arrow-link--dark" type="button" onClick={next}>
-          <span>{step === 3 ? 'Finalizar demo' : 'Continuar'}</span>
-          {step === 3 ? <Check size={18} /> : <ArrowRight size={18} />}
+        <button className="wizard__continue" type="button" onClick={next}>
+          <span>{step === 4 ? 'Preparar solicitud' : 'Continuar'}</span>
+          {step === 4 ? <Mail size={18} /> : <ArrowRight size={18} />}
         </button>
       </div>
       <div className="wizard__privacy">
-        <LockKeyhole size={14} aria-hidden="true" /> Datos sólo en memoria durante esta sesión. No
-        hay envío ni almacenamiento.
+        <LockKeyhole size={14} aria-hidden="true" />
+        Al finalizar, el navegador intentará abrir tu correo con las respuestas para que puedas
+        revisarlas y enviarlas.
       </div>
     </div>
   );

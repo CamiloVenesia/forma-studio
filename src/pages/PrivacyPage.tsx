@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom';
 
 export function PrivacyPage() {
@@ -25,12 +26,20 @@ export function PrivacyPage() {
           sincroniza con un servidor.
         </p>
 
-        <h2>Preferencias de entrenamiento</h2>
+        <h2>Formulario de entrenamiento</h2>
 
         <p>
-          El formulario de preparación de consultas permite seleccionar objetivos y preferencias.
-          Actualmente no realiza un envío automático al servidor. El resumen puede copiarse
-          manualmente por decisión del visitante.
+          El formulario de FORMA Studio permite compartir datos de contacto, objetivos, experiencia
+          y preferencias de entrenamiento. Al finalizar, el sitio prepara un correo con las
+          respuestas y solicita abrir la aplicación de correo del dispositivo. La información solo
+          se envía si la persona revisa y confirma el envío desde esa aplicación. El sitio no guarda
+          las respuestas ni las transmite automáticamente a un servidor.
+        </p>
+
+        <p>
+          Si la aplicación de correo no se abre, se puede copiar el resumen y enviarlo por otro
+          canal. Una vez enviado, el tratamiento del mensaje depende del proveedor de correo y de la
+          persona destinataria.
         </p>
 
         <h2>Recursos y enlaces externos</h2>
@@ -48,8 +57,10 @@ export function PrivacyPage() {
         <h2>Información sensible</h2>
 
         <p>
-          No compartas diagnósticos, estudios médicos ni información clínica sensible mediante los
-          formularios o enlaces públicos.
+          El formulario consulta si tenés lesiones o molestias para orientar la propuesta de
+          entrenamiento. Compartí únicamente los detalles que consideres necesarios. No incluyas
+          diagnósticos, estudios médicos ni información clínica sensible que no quieras enviar por
+          correo electrónico.
         </p>
 
         <h2>Control de tus datos</h2>

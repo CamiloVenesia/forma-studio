@@ -1,3 +1,4 @@
+
 import { IntakeWizard } from '../features/intake/IntakeWizard';
 import { Reveal } from '../components/common/Reveal';
 import { SectionLabel } from '../components/common/SectionLabel';
@@ -7,7 +8,7 @@ export function ApplyPage() {
     <section className="apply-page">
       <div className="container apply-page__layout">
         <Reveal className="apply-page__intro">
-          <SectionLabel number="01 /">EMPEZAR CON INTENCIÓN</SectionLabel>
+          <SectionLabel number="01 /">QUIERO ENTRENAR</SectionLabel>
 
           <h1 className="display-title">
             Todo gran
@@ -18,16 +19,15 @@ export function ApplyPage() {
           </h1>
 
           <p>
-            Cada persona tiene objetivos, tiempos y experiencias diferentes. Descubrí qué modalidad
-            se adapta mejor a vos y organizá tus preferencias de entrenamiento.
+            Contanos sobre tus objetivos, tu experiencia y tus preferencias. Con esa información
+            podemos conocer mejor lo que necesitás y preparar una propuesta acorde a vos.
           </p>
 
           <div className="apply-page__sidebar-note">
-            <span>TU PUNTO DE PARTIDA</span>
-
+            <span>UN RECORRIDO EN 5 ETAPAS</span>
             <p>
-              Elegí tus preferencias y revisá un resumen de tus objetivos para compartirlo cuando lo
-              desees.
+              Son 15 preguntas para conocer tu punto de partida. Podés revisar todas tus respuestas
+              antes de preparar la solicitud.
             </p>
           </div>
         </Reveal>

@@ -1,3 +1,4 @@
+
 /* Portal de demostración.
    Datos ficticios, sin autenticación ni persistencia. */
 
@@ -113,6 +114,11 @@
   gap: 60px;
 }
 
+.portal-main,
+.portal-aside {
+  min-width: 0;
+}
+
 .portal-section-heading {
   margin-bottom: 25px;
 }
@@ -215,7 +221,7 @@
 .exercise-row summary {
   cursor: pointer;
   display: grid;
-  grid-template-columns: 28px 1fr 23px;
+  grid-template-columns: 28px minmax(0, 1fr) 23px;
   gap: 10px;
   padding: 20px 0;
   align-items: center;
@@ -278,8 +284,17 @@
 /* Biblioteca de ejercicios */
 
 .portal-aside {
-  border-top: 1px solid #bac8b8;
-  padding-top: 36px;
+  align-self: start;
+  border: 1px solid #c6d1c3;
+  padding: clamp(22px, 2vw, 32px);
+}
+
+.library-heading {
+  min-width: 0;
+}
+
+.library-heading h2 {
+  margin-top: 13px;
 }
 
 .library-heading p {
@@ -287,25 +302,37 @@
   line-height: 1.75;
   margin: 12px 0 24px;
   font-size: 0.975rem;
+  max-width: 38rem;
 }
 
 .library-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 7px;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.library-filters button {
+  flex: 0 0 auto;
+}
+
+.library-list {
+  min-width: 0;
+  border-top: 1px solid #c6d1c3;
 }
 
 .library-list details {
+  min-width: 0;
   border-bottom: 1px solid #c6d1c3;
 }
 
 .library-list summary {
-  display: flex;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) 18px;
   min-height: var(--touch-target);
   align-items: center;
   gap: 12px;
-  padding: 18px 0;
+  padding: 17px 2px;
   cursor: pointer;
   list-style: none;
   font-size: 0.94rem;
@@ -316,12 +343,35 @@
   display: none;
 }
 
+.library-list summary > svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--accent-text);
+}
+
 .library-list summary > span:nth-child(2) {
-  flex: 1;
+  min-width: 0;
+  line-height: 1.45;
+}
+
+.library-list summary > span:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--accent-text);
+}
+
+.library-list details[open] summary > span:last-child {
+  transform: rotate(45deg);
 }
 
 .library-list details p {
-  padding: 0 0 20px 27px;
+  padding: 0 30px 19px;
   font-size: 0.94rem;
   line-height: 1.75;
   color: var(--text-secondary);
@@ -329,15 +379,31 @@
 
 .reset-demo {
   display: flex;
+  width: 100%;
   min-height: var(--touch-target);
   align-items: center;
   gap: 9px;
   border: 0;
+  border-top: 1px solid #c6d1c3;
   background: transparent;
-  padding: 20px 0;
+  padding: 16px 0 0;
+  margin-top: 15px;
   color: var(--text-secondary);
   font-size: 0.875rem;
   font-weight: 700;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.reset-demo:hover {
+  color: var(--accent-text);
+}
+
+.reset-demo:focus-visible,
+.library-filters button:focus-visible,
+.library-list summary:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 4px;
 }
 
 .portal-disclaimer {
@@ -364,7 +430,7 @@
   }
 
   .workout-tabs {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .workout-detail {
@@ -376,11 +442,7 @@
       minmax(0, 1.75fr)
       minmax(250px, 1fr);
     gap: 45px;
-  }
-
-  .portal-aside {
-    border-top: 0;
-    padding-top: 0;
+    align-items: start;
   }
 }
 
@@ -393,5 +455,74 @@
 
   .portal-progress {
     min-width: 310px;
+  }
+
+  .portal-aside {
+    padding: 30px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 767px) {
+  .portal-aside {
+    padding: 22px;
+  }
+
+  .library-heading h2 {
+    font-size: clamp(2rem, 8vw, 2.3rem);
+  }
+
+  .library-filters {
+    gap: 7px;
+  }
+
+  .library-list summary {
+    padding: 16px 2px;
+  }
+
+  .library-list details p {
+    padding-left: 28px;
+    padding-right: 10px;
+  }
+
+  .portal-disclaimer {
+    margin-top: 45px;
+  }
+}
+
+/* Celulares estrechos */
+
+@media (max-width: 359px) {
+  .portal-aside {
+    padding: 17px;
+  }
+
+  .library-filters {
+    gap: 6px;
+  }
+
+  .library-filters button {
+    padding: 10px 12px;
+    font-size: 0.82rem;
+  }
+
+  .library-list summary {
+    gap: 9px;
+    grid-template-columns: 18px minmax(0, 1fr) 16px;
+    font-size: 0.875rem;
+  }
+
+  .library-list details p {
+    padding-left: 27px;
+  }
+}
+
+/* Movimiento reducido */
+
+@media (prefers-reduced-motion: reduce) {
+  .complete-button,
+  .reset-demo {
+    transition: none;
   }
 }

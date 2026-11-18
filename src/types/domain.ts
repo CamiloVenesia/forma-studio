@@ -1,6 +1,7 @@
+
 export type Discipline = 'fuerza' | 'pilates';
 export type Modality = 'online' | 'presencial';
-export type Experience = 'inicio' | 'retomo' | 'intermedio' | 'avanzado';
+export type Experience = 'nunca' | 'retomo' | 'menos-de-un-ano' | 'mas-de-un-ano';
 export type ProgramLevel = 'inicial' | 'intermedio' | 'multinivel';
 
 export interface Program {

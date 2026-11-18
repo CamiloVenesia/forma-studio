@@ -1,20 +1,31 @@
 
 import '../../styles/intake.css';
 import { useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, Check, ClipboardCopy, LockKeyhole, Mail } from 'lucide-react';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  ClipboardCopy,
+  LockKeyhole,
+  Mail,
+} from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+
 import {
   activities,
   createSubmissionSummary,
   difficulties,
   equipmentOptions,
   experiences,
+  formatExperience,
   goals,
+  intakeLimits,
   initialIntake,
   trainingLocations,
   validateStep,
 } from './model';
+
 import type { IntakeData } from './model';
 import { formatDiscipline, formatModality } from '../../utils/text';
 import { site } from '../../config/site';
@@ -42,15 +53,25 @@ interface RadioGroupProps {
   columns?: 1 | 2;
 }
 
-function RadioGroup({ name, label, options, selected, onSelect, columns = 2 }: RadioGroupProps) {
+function RadioGroup({
+  name,
+  label,
+  options,
+  selected,
+  onSelect,
+  columns = 2,
+}: RadioGroupProps) {
   return (
     <fieldset className="intake-question">
       <legend>{label}</legend>
+
       <div className={`intake-options intake-options--${columns}`}>
         {options.map((option) => (
           <label
             key={option.value}
-            className={`intake-option ${selected === option.value ? 'intake-option--selected' : ''}`}
+            className={`intake-option ${
+              selected === option.value ? 'intake-option--selected' : ''
+            }`}
           >
             <input
               type="radio"
@@ -59,7 +80,9 @@ function RadioGroup({ name, label, options, selected, onSelect, columns = 2 }: R
               checked={selected === option.value}
               onChange={() => onSelect(option.value)}
             />
+
             <span className="intake-option__mark" aria-hidden="true" />
+
             <span className="intake-option__copy">
               <strong>{option.label}</strong>
               {option.description && <small>{option.description}</small>}
@@ -93,24 +116,32 @@ function CheckboxGroup({
   return (
     <fieldset className="intake-question">
       <legend>{label}</legend>
+
       {helper && <p className="intake-question__helper">{helper}</p>}
+
       <div className={`intake-options intake-options--${columns}`}>
         {options.map((option) => (
           <label
             key={option}
-            className={`intake-option intake-option--checkbox ${selected.includes(option) ? 'intake-option--selected' : ''}`}
+            className={`intake-option intake-option--checkbox ${
+              selected.includes(option) ? 'intake-option--selected' : ''
+            }`}
           >
             <input
               type="checkbox"
               checked={selected.includes(option)}
               disabled={Boolean(
-                maxSelected && selected.length >= maxSelected && !selected.includes(option),
+                maxSelected &&
+                  selected.length >= maxSelected &&
+                  !selected.includes(option),
               )}
               onChange={() => onToggle(option)}
             />
+
             <span className="intake-option__mark" aria-hidden="true">
               {selected.includes(option) && <Check size={13} />}
             </span>
+
             <span className="intake-option__copy">
               <strong>{option}</strong>
             </span>
@@ -129,6 +160,7 @@ interface TextFieldProps {
   type?: string;
   inputMode?: 'text' | 'numeric' | 'tel';
   autoComplete?: string;
+  helper?: string;
   maxLength?: number;
   full?: boolean;
 }
@@ -141,6 +173,7 @@ function TextField({
   type = 'text',
   inputMode,
   autoComplete,
+  helper,
   maxLength,
   full = false,
 }: TextFieldProps) {
@@ -150,6 +183,7 @@ function TextField({
         {label}
         <i aria-hidden="true">*</i>
       </span>
+
       <input
         type={type}
         value={value}
@@ -160,6 +194,8 @@ function TextField({
         maxLength={maxLength}
         aria-required="true"
       />
+
+      {helper && <small className="intake-field__helper">{helper}</small>}
     </label>
   );
 }
@@ -170,60 +206,87 @@ interface TextAreaProps {
   onChange: (value: string) => void;
   placeholder?: string;
   helper?: string;
+  maxLength?: number;
+  required?: boolean;
 }
 
-function TextArea({ label, value, onChange, placeholder, helper }: TextAreaProps) {
+function TextArea({
+  label,
+  value,
+  onChange,
+  placeholder,
+  helper,
+  maxLength,
+  required = true,
+}: TextAreaProps) {
   return (
     <label className="intake-field intake-field--full">
       <span>
         {label}
-        <i aria-hidden="true">*</i>
+        {required && <i aria-hidden="true">*</i>}
       </span>
+
       {helper && <small className="intake-field__helper">{helper}</small>}
+
       <textarea
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
         rows={3}
-        aria-required="true"
+        maxLength={maxLength}
+        aria-required={required}
       />
     </label>
   );
 }
 
-function getInitialData(discipline: string | null, modality: string | null): IntakeData {
+function getInitialData(
+  discipline: string | null,
+  modality: string | null,
+): IntakeData {
   return {
     ...initialIntake,
-    discipline: discipline === 'fuerza' || discipline === 'pilates' ? discipline : '',
-    modality: modality === 'online' || modality === 'presencial' ? modality : '',
+    discipline:
+      discipline === 'fuerza' || discipline === 'pilates' ? discipline : '',
+    modality:
+      modality === 'online' || modality === 'presencial' ? modality : '',
   };
 }
 
 export function IntakeWizard() {
   const [params] = useSearchParams();
+
   const [data, setData] = useState<IntakeData>(() =>
     getInitialData(params.get('disciplina'), params.get('modalidad')),
   );
+
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<string[]>([]);
   const [prepared, setPrepared] = useState(false);
   const [copyFeedback, setCopyFeedback] = useState('');
+
   const heading = useRef<HTMLHeadingElement>(null);
   const reduced = useReducedMotion();
 
-  function update<K extends keyof IntakeData>(key: K, value: IntakeData[K]) {
+  function update<K extends keyof IntakeData>(
+    key: K,
+    value: IntakeData[K],
+  ) {
     setData((previous) => ({ ...previous, [key]: value }));
     setErrors([]);
   }
 
   function toggleGoal(value: string) {
     const exists = data.goals.includes(value);
-    if (exists)
+
+    if (exists) {
       update(
         'goals',
         data.goals.filter((item) => item !== value),
       );
-    else if (data.goals.length < 2) update('goals', [...data.goals, value]);
+    } else if (data.goals.length < 2) {
+      update('goals', [...data.goals, value]);
+    }
   }
 
   function toggleEquipment(value: string) {
@@ -231,6 +294,7 @@ export function IntakeWizard() {
       'No tengo nada y prefiero arrancar así',
       'No tengo nada pero me compraría algo',
     ];
+
     const isExclusive = exclusiveOptions.includes(value);
     const selected = data.equipment.includes(value);
 
@@ -248,16 +312,21 @@ export function IntakeWizard() {
     }
 
     update('equipment', [
-      ...data.equipment.filter((item) => !exclusiveOptions.includes(item)),
+      ...data.equipment.filter(
+        (item) => !exclusiveOptions.includes(item),
+      ),
       value,
     ]);
   }
 
   function toggleDifficulty(value: string) {
     const selected = data.difficulties.includes(value);
+
     update(
       'difficulties',
-      selected ? data.difficulties.filter((item) => item !== value) : [...data.difficulties, value],
+      selected
+        ? data.difficulties.filter((item) => item !== value)
+        : [...data.difficulties, value],
     );
   }
 
@@ -272,20 +341,27 @@ export function IntakeWizard() {
   }
 
   function prepareRequest() {
-    const subject = encodeURIComponent('Solicitud de entrenamiento — FORMA Studio');
+    const subject = encodeURIComponent(
+      'Solicitud de entrenamiento — FORMA Studio',
+    );
+
     const body = encodeURIComponent(createSubmissionSummary(data));
+
     setPrepared(true);
+
     window.location.href = `mailto:${site.brand.email}?subject=${subject}&body=${body}`;
   }
 
   function next() {
     const currentErrors = validateStep(step, data);
+
     if (currentErrors.length > 0) {
       setErrors(currentErrors);
       return;
     }
 
     setErrors([]);
+
     if (step === 4) {
       prepareRequest();
       return;
@@ -298,40 +374,70 @@ export function IntakeWizard() {
   async function copySummary() {
     try {
       await navigator.clipboard.writeText(createSubmissionSummary(data));
-      setCopyFeedback('Respuestas copiadas. Ya podés pegarlas en un mensaje.');
+
+      setCopyFeedback(
+        'Respuestas copiadas. Ya podés pegarlas en un mensaje.',
+      );
     } catch {
-      setCopyFeedback('No se pudo copiar automáticamente. Seleccioná el resumen para copiarlo.');
+      setCopyFeedback(
+        'No se pudo copiar automáticamente. Seleccioná el resumen para copiarlo.',
+      );
     }
   }
 
   const reviewRows: [string, string][] = [
-    ['Disciplina', data.discipline ? formatDiscipline(data.discipline) : '—'],
-    ['Modalidad', data.modality ? formatModality(data.modality) : '—'],
+    [
+      'Disciplina',
+      data.discipline ? formatDiscipline(data.discipline) : '—',
+    ],
+    [
+      'Modalidad',
+      data.modality ? formatModality(data.modality) : '—',
+    ],
     ['Nombre y apellido', data.name],
     ['Edad', data.age],
     ['Ciudad', data.city],
     ['WhatsApp', data.phone],
     ['Objetivos', data.goals.join(', ')],
-    ['Otro objetivo', data.goals.includes('Otros') ? data.otherGoal : '—'],
+    [
+      'Otro objetivo',
+      data.goals.includes('Otros') ? data.otherGoal : '—',
+    ],
     ['Actividad física', data.activity],
-    ['Otra actividad', data.activity === 'Otros' ? data.otherActivity : '—'],
-    ['Experiencia', data.experience],
+    [
+      'Otra actividad',
+      data.activity === 'Otros' ? data.otherActivity : '—',
+    ],
+    ['Experiencia', formatExperience(data.experience)],
     ['Días por semana', data.days],
     ['Tiempo por entrenamiento', data.duration],
     ['Lugar', data.location],
     [
       'Equipamiento',
-      data.location === 'Gimnasio' ? 'No corresponde' : data.equipment.join(', ') || '—',
+      data.location === 'Gimnasio'
+        ? 'No corresponde'
+        : data.equipment.join(', ') || '—',
     ],
     [
       'Otro equipamiento',
-      data.location !== 'Gimnasio' && data.equipment.includes('Otro') ? data.otherEquipment : '—',
+      data.location !== 'Gimnasio' &&
+      data.equipment.includes('Otro')
+        ? data.otherEquipment
+        : '—',
     ],
-    ['Lesiones o molestias', data.hasDiscomfort === 'si' ? 'Sí' : 'No'],
+    [
+      'Lesiones o molestias',
+      data.hasDiscomfort === 'si' ? 'Sí' : 'No',
+    ],
     ['Detalle', data.discomfortDetails],
     ['Dificultades', data.difficulties.join(', ')],
-    ['Otra dificultad', data.difficulties.includes('Otros') ? data.otherDifficulty : '—'],
-    ['Comentarios', data.comments],
+    [
+      'Otra dificultad',
+      data.difficulties.includes('Otros')
+        ? data.otherDifficulty
+        : '—',
+    ],
+    ['Comentarios', data.comments.trim() || 'Sin comentarios'],
   ];
 
   if (prepared) {
@@ -340,28 +446,40 @@ export function IntakeWizard() {
         <div className="wizard-done__icon">
           <Mail size={30} />
         </div>
+
         <span className="eyebrow">SOLICITUD PREPARADA</span>
+
         <h2>
           Un paso más,
           <br />
           <em>y empezamos.</em>
         </h2>
+
         <p>
-          El navegador intentó abrir tu aplicación de correo con las respuestas dirigidas a{' '}
-          <strong>{site.brand.email}</strong>. Revisá el mensaje y presioná Enviar para completar tu
-          solicitud.
+          El navegador intentó abrir tu aplicación de correo con las
+          respuestas dirigidas a{' '}
+          <strong>{site.brand.email}</strong>. Revisá el mensaje y
+          presioná Enviar para completar tu solicitud.
         </p>
-        <button type="button" className="wizard__continue" onClick={copySummary}>
+
+        <button
+          type="button"
+          className="wizard__continue"
+          onClick={copySummary}
+        >
           <span>Copiar respuestas</span>
           <ClipboardCopy size={18} />
         </button>
+
         {copyFeedback && (
           <p className="copy-feedback" role="status">
             {copyFeedback}
           </p>
         )}
+
         <details className="wizard-summary">
           <summary>Ver todas las respuestas</summary>
+
           <textarea
             readOnly
             value={createSubmissionSummary(data)}
@@ -369,6 +487,7 @@ export function IntakeWizard() {
             aria-label="Resumen de solicitud"
           />
         </details>
+
         <Link className="underlined-link" to="/">
           Volver al inicio <ArrowRight size={17} />
         </Link>
@@ -382,14 +501,28 @@ export function IntakeWizard() {
         <span>SOLICITUD DE ENTRENAMIENTO</span>
         <strong>0{step + 1} / 05</strong>
       </div>
-      <div className="wizard__progress" aria-label={`Paso ${step + 1} de 5`}>
+
+      <div
+        className="wizard__progress"
+        aria-label={`Paso ${step + 1} de 5`}
+      >
         <div style={{ width: `${((step + 1) / 5) * 100}%` }} />
       </div>
-      <nav className="wizard__steps" aria-label="Etapas del formulario">
+
+      <nav
+        className="wizard__steps"
+        aria-label="Etapas del formulario"
+      >
         {stepNames.map((name, index) => (
           <span
             key={name}
-            className={index === step ? 'is-current' : index < step ? 'is-done' : ''}
+            className={
+              index === step
+                ? 'is-current'
+                : index < step
+                  ? 'is-done'
+                  : ''
+            }
             aria-current={index === step ? 'step' : undefined}
           >
             <i>0{index + 1}</i> {name}
@@ -403,36 +536,49 @@ export function IntakeWizard() {
           className="wizard__body"
           initial={reduced ? false : { opacity: 0, x: 16 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={reduced ? { opacity: 1 } : { opacity: 0, x: -16 }}
+          exit={
+            reduced
+              ? { opacity: 1 }
+              : { opacity: 0, x: -16 }
+          }
           transition={{ duration: reduced ? 0 : 0.22 }}
         >
-          <h2 tabIndex={-1} ref={heading} className="wizard__heading">
+          <h2
+            tabIndex={-1}
+            ref={heading}
+            className="wizard__heading"
+          >
             {step === 0 && (
               <>
                 ¿Cómo te gustaría <em>moverte?</em>
               </>
             )}
+
             {step === 1 && (
               <>
                 Primero, queremos saber <em>de vos.</em>
               </>
             )}
+
             {step === 2 && (
               <>
                 ¿Qué te gustaría <em>conseguir?</em>
               </>
             )}
+
             {step === 3 && (
               <>
                 Organicemos tu <em>entrenamiento.</em>
               </>
             )}
+
             {step === 4 && (
               <>
                 Conocé tus <em>necesidades.</em>
               </>
             )}
           </h2>
+
           <p className="wizard__description">
             {
               [
@@ -451,7 +597,12 @@ export function IntakeWizard() {
                 name="discipline"
                 label="¿Qué querés practicar?"
                 selected={data.discipline}
-                onSelect={(value) => update('discipline', value as IntakeData['discipline'])}
+                onSelect={(value) =>
+                  update(
+                    'discipline',
+                    value as IntakeData['discipline'],
+                  )
+                }
                 options={[
                   {
                     label: 'Entrenamiento de fuerza',
@@ -465,13 +616,23 @@ export function IntakeWizard() {
                   },
                 ]}
               />
+
               <RadioGroup
                 name="modality"
                 label="¿Cómo preferís entrenar?"
                 selected={data.modality}
-                onSelect={(value) => update('modality', value as IntakeData['modality'])}
+                onSelect={(value) =>
+                  update(
+                    'modality',
+                    value as IntakeData['modality'],
+                  )
+                }
                 options={[
-                  { label: 'Online', value: 'online', description: 'Desde donde estés' },
+                  {
+                    label: 'Online',
+                    value: 'online',
+                    description: 'Desde donde estés',
+                  },
                   {
                     label: 'Presencial',
                     value: 'presencial',
@@ -490,25 +651,33 @@ export function IntakeWizard() {
                 onChange={(value) => update('name', value)}
                 placeholder="¿Cómo te llamás?"
                 autoComplete="name"
-                maxLength={100}
+                maxLength={intakeLimits.name}
                 full
               />
+
               <TextField
                 label="2. Edad"
                 value={data.age}
                 onChange={(value) => update('age', value)}
                 placeholder="Ej. 26"
                 inputMode="numeric"
-                maxLength={3}
+                maxLength={intakeLimits.age}
+                helper={
+                  Number(data.age) >= 1 && Number(data.age) < 18
+                    ? 'Si sos menor de 18 años, completá esta solicitud con conocimiento y autorización de tu madre, padre o persona adulta responsable.'
+                    : undefined
+                }
               />
+
               <TextField
                 label="3. Ciudad"
                 value={data.city}
                 onChange={(value) => update('city', value)}
                 placeholder="Ej. Rosario"
                 autoComplete="address-level2"
-                maxLength={80}
+                maxLength={intakeLimits.city}
               />
+
               <TextField
                 label="4. WhatsApp"
                 value={data.phone}
@@ -517,7 +686,7 @@ export function IntakeWizard() {
                 type="tel"
                 inputMode="tel"
                 autoComplete="tel"
-                maxLength={25}
+                maxLength={intakeLimits.phone}
                 full
               />
             </div>
@@ -534,38 +703,52 @@ export function IntakeWizard() {
                 columns={2}
                 maxSelected={2}
               />
+
               {data.goals.includes('Otros') && (
                 <TextField
                   label="¿Cuál es tu otro objetivo?"
                   value={data.otherGoal}
                   onChange={(value) => update('otherGoal', value)}
                   placeholder="Contanos tu objetivo"
+                  maxLength={intakeLimits.other}
                   full
                 />
               )}
+
               <RadioGroup
                 name="activity"
                 label="6. ¿Realizás algún deporte u otra actividad física?"
                 selected={data.activity}
                 onSelect={(value) => update('activity', value)}
-                options={activities.map((value) => ({ label: value, value }))}
+                options={activities.map((value) => ({
+                  label: value,
+                  value,
+                }))}
                 columns={2}
               />
+
               {data.activity === 'Otros' && (
                 <TextField
                   label="¿Qué otra actividad realizás?"
                   value={data.otherActivity}
                   onChange={(value) => update('otherActivity', value)}
                   placeholder="Escribí la actividad"
+                  maxLength={intakeLimits.other}
                   full
                 />
               )}
+
               <RadioGroup
                 name="experience"
                 label="7. ¿Cuánta experiencia tenés entrenando?"
                 selected={data.experience}
-                onSelect={(value) => update('experience', value as IntakeData['experience'])}
-                options={experiences.map((value) => ({ label: value, value }))}
+                onSelect={(value) =>
+                  update(
+                    'experience',
+                    value as IntakeData['experience'],
+                  )
+                }
+                options={experiences}
                 columns={1}
               />
             </>
@@ -584,43 +767,60 @@ export function IntakeWizard() {
                 }))}
                 columns={2}
               />
+
               <RadioGroup
                 name="duration"
                 label="9. ¿Cuánto tiempo podrías dedicarle a cada entrenamiento?"
                 selected={data.duration}
                 onSelect={(value) => update('duration', value)}
-                options={['30 minutos', '45 minutos', '60 minutos', 'Más de 60 minutos'].map(
-                  (value) => ({ label: value, value }),
-                )}
+                options={[
+                  '30 minutos',
+                  '45 minutos',
+                  '60 minutos',
+                  'Más de 60 minutos',
+                ].map((value) => ({
+                  label: value,
+                  value,
+                }))}
                 columns={2}
               />
+
               <RadioGroup
                 name="location"
                 label="10. ¿Dónde vas a entrenar?"
                 selected={data.location}
                 onSelect={(value) => update('location', value)}
-                options={trainingLocations.map((value) => ({ label: value, value }))}
+                options={trainingLocations.map((value) => ({
+                  label: value,
+                  value,
+                }))}
                 columns={1}
               />
-              {data.location !== '' && data.location !== 'Gimnasio' && (
-                <>
-                  <CheckboxGroup
-                    label="11. Si entrenás en casa, ¿qué elementos tenés o pensás comprar?"
-                    options={equipmentOptions}
-                    selected={data.equipment}
-                    onToggle={toggleEquipment}
-                  />
-                  {data.equipment.includes('Otro') && (
-                    <TextField
-                      label="¿Qué otro elemento?"
-                      value={data.otherEquipment}
-                      onChange={(value) => update('otherEquipment', value)}
-                      placeholder="Escribí el elemento"
-                      full
+
+              {data.location !== '' &&
+                data.location !== 'Gimnasio' && (
+                  <>
+                    <CheckboxGroup
+                      label="11. Si entrenás en casa, ¿qué elementos tenés o pensás comprar?"
+                      options={equipmentOptions}
+                      selected={data.equipment}
+                      onToggle={toggleEquipment}
                     />
-                  )}
-                </>
-              )}
+
+                    {data.equipment.includes('Otro') && (
+                      <TextField
+                        label="¿Qué otro elemento?"
+                        value={data.otherEquipment}
+                        onChange={(value) =>
+                          update('otherEquipment', value)
+                        }
+                        placeholder="Escribí el elemento"
+                        maxLength={intakeLimits.other}
+                        full
+                      />
+                    )}
+                  </>
+                )}
             </>
           )}
 
@@ -630,43 +830,60 @@ export function IntakeWizard() {
                 name="hasDiscomfort"
                 label="12. ¿Tenés alguna lesión o molestia?"
                 selected={data.hasDiscomfort}
-                onSelect={(value) => update('hasDiscomfort', value)}
+                onSelect={(value) =>
+                  update('hasDiscomfort', value)
+                }
                 options={[
                   { label: 'Sí', value: 'si' },
                   { label: 'No', value: 'no' },
                 ]}
                 columns={2}
               />
+
               <TextArea
                 label="13. Si respondiste sí, ¿dónde y qué te pasó?"
                 value={data.discomfortDetails}
-                onChange={(value) => update('discomfortDetails', value)}
+                onChange={(value) =>
+                  update('discomfortDetails', value)
+                }
                 placeholder="Contanos brevemente. Si no corresponde, escribí No aplica."
                 helper="Si respondiste No, escribí “No aplica”."
+                maxLength={intakeLimits.discomfortDetails}
               />
+
               <CheckboxGroup
                 label="14. ¿Qué es lo que más te cuesta?"
                 options={difficulties}
                 selected={data.difficulties}
                 onToggle={toggleDifficulty}
               />
+
               {data.difficulties.includes('Otros') && (
                 <TextField
                   label="¿Qué otra dificultad encontrás?"
                   value={data.otherDifficulty}
-                  onChange={(value) => update('otherDifficulty', value)}
+                  onChange={(value) =>
+                    update('otherDifficulty', value)
+                  }
                   placeholder="Contanos qué te cuesta"
+                  maxLength={intakeLimits.other}
                   full
                 />
               )}
+
               <TextArea
                 label="15. Algo que quieras contarme"
                 value={data.comments}
                 onChange={(value) => update('comments', value)}
                 placeholder="Este espacio es para cualquier otra información que quieras compartir."
+                helper="Opcional. Podés dejar este espacio en blanco."
+                maxLength={intakeLimits.comments}
+                required={false}
               />
+
               <details className="wizard-review">
                 <summary>Revisar todas mis respuestas</summary>
+
                 <dl>
                   {reviewRows.map(([label, value]) => (
                     <div key={label}>
@@ -684,6 +901,7 @@ export function IntakeWizard() {
       {errors.length > 0 && (
         <div className="wizard__errors" role="alert">
           <strong>Revisá lo siguiente:</strong>
+
           <ul>
             {errors.map((error) => (
               <li key={error}>{error}</li>
@@ -694,21 +912,39 @@ export function IntakeWizard() {
 
       <div className="wizard__actions">
         {step > 0 ? (
-          <button className="wizard__back" type="button" onClick={back}>
+          <button
+            className="wizard__back"
+            type="button"
+            onClick={back}
+          >
             <ArrowLeft size={18} /> Volver
           </button>
         ) : (
           <span className="wizard__back-placeholder" />
         )}
-        <button className="wizard__continue" type="button" onClick={next}>
-          <span>{step === 4 ? 'Preparar solicitud' : 'Continuar'}</span>
-          {step === 4 ? <Mail size={18} /> : <ArrowRight size={18} />}
+
+        <button
+          className="wizard__continue"
+          type="button"
+          onClick={next}
+        >
+          <span>
+            {step === 4 ? 'Preparar solicitud' : 'Continuar'}
+          </span>
+
+          {step === 4 ? (
+            <Mail size={18} />
+          ) : (
+            <ArrowRight size={18} />
+          )}
         </button>
       </div>
+
       <div className="wizard__privacy">
         <LockKeyhole size={14} aria-hidden="true" />
-        Al finalizar, el navegador intentará abrir tu correo con las respuestas para que puedas
-        revisarlas y enviarlas.
+
+        Al finalizar, el navegador intentará abrir tu correo con las
+        respuestas para que puedas revisarlas y enviarlas.
       </div>
     </div>
   );

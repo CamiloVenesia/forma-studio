@@ -1,3 +1,4 @@
+
 import { media } from '../data/media';
 
 export const site = {
@@ -5,7 +6,7 @@ export const site = {
     name: 'FORMA',
     suffix: 'STUDIO',
     slogan: 'Movimiento a tu manera.',
-    email: 'formastudio@gmail.com',
+    email: 'formastudiofit2000@gmail.com',
     whatsappNumber: '549341XXXXXXX',
     instagramUrl: 'https://www.instagram.com/enforma_formacion/',
     locale: 'es-AR',

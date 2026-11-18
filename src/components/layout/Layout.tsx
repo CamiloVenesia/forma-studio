@@ -1,3 +1,4 @@
+
 import { Suspense } from 'react';
 import { motion, useReducedMotion, useScroll } from 'motion/react';
 import { useLocation, useOutlet } from 'react-router-dom';
@@ -12,6 +13,8 @@ export function Layout() {
   const reducedMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll();
+
+  const showInstagramFab = pathname.replace(/\/+$/, '') !== '/empezar';
 
   return (
     <>
@@ -61,7 +64,9 @@ export function Layout() {
               >
                 <span className="route-loading__brand">forma.</span>
 
-                <span className="route-loading__caption">Preparando tu experiencia</span>
+                <span className="route-loading__caption">
+                  Preparando tu experiencia
+                </span>
               </div>
             }
           >
@@ -72,7 +77,7 @@ export function Layout() {
 
       <Footer />
 
-      <InstagramFab />
+      {showInstagramFab && <InstagramFab />}
     </>
   );
 }

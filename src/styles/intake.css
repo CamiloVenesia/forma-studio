@@ -610,17 +610,27 @@
     font-size: 0.64rem;
   }
 
+  /* Las cinco etapas deben entrar juntas en móviles. */
   .wizard__steps {
-    grid-template-columns: repeat(5, max-content);
-    gap: 18px;
-    overflow-x: auto;
-    padding-bottom: 5px;
-    scrollbar-width: thin;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 5px;
+    overflow: visible;
+    padding-bottom: 0;
   }
 
-  .wizard__steps span {
-    min-width: 74px;
-    font-size: 0.65rem;
+  .wizard__steps > span {
+    min-width: 0;
+    align-items: center;
+    text-align: center;
+    font-size: 0.58rem;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  .wizard__steps > span i {
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
   }
 
   .wizard__body {

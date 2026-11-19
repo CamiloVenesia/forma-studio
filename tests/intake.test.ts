@@ -17,13 +17,19 @@ const valid = {
   age: '27',
   city: 'Rosario',
   phone: '+54 9 341 555 1234',
-  goals: ['Ganar masa muscular', 'Aumentar mi fuerza'],
+  goals: [
+    'Ganar masa muscular',
+    'Aumentar mi fuerza',
+  ],
   activity: 'Running',
   experience: 'nunca' as const,
   days: '3',
   duration: '45 minutos',
   location: 'Mi casa con equipamiento',
-  equipment: ['Mancuernas', 'Bandas elásticas'],
+  equipment: [
+    'Mancuernas',
+    'Bandas elásticas',
+  ],
   hasDiscomfort: 'si',
   discomfortDetails: 'Molestia de rodilla al correr.',
   difficulties: ['Ser constante'],
@@ -31,12 +37,12 @@ const valid = {
 };
 
 describe('formulario FORMA Studio: validación por etapas', () => {
-  it('requiere disciplina y modalidad en la primera etapa', () => {
+  it('requiere disciplina y modalidad', () => {
     expect(validateStep(0, initialIntake)).toHaveLength(2);
     expect(validateStep(0, valid)).toEqual([]);
   });
 
-  it('valida nombre y apellido, edad, ciudad y WhatsApp', () => {
+  it('valida nombre, edad, ciudad y WhatsApp', () => {
     expect(validateStep(1, valid)).toEqual([]);
 
     expect(
@@ -50,66 +56,103 @@ describe('formulario FORMA Studio: validación por etapas', () => {
   });
 
   it('acepta personas menores de 18 años', () => {
-    expect(validateStep(1, { ...valid, age: '16' })).toEqual([]);
-    expect(validateStep(1, { ...valid, age: '17' })).toEqual([]);
-  });
-
-  it('acepta los límites de edad definidos y rechaza edades fuera del rango', () => {
-    expect(validateStep(1, { ...valid, age: '1' })).toEqual([]);
-    expect(validateStep(1, { ...valid, age: '120' })).toEqual([]);
-
-    expect(validateStep(1, { ...valid, age: '121' })).toContain(
-      'Ingresá una edad válida entre 1 y 120 años.',
-    );
-
-    expect(validateStep(1, { ...valid, age: '17.5' })).toContain(
-      'Ingresá una edad válida entre 1 y 120 años.',
-    );
-  });
-
-  it('requiere que el nombre incluya nombre y apellido', () => {
-    expect(validateStep(1, { ...valid, name: 'Alex' })).toContain(
-      'Ingresá tu nombre y apellido.',
-    );
-
-    expect(validateStep(1, { ...valid, name: 'Alex Ejemplo' })).toEqual([]);
+    expect(
+      validateStep(1, { ...valid, age: '16' }),
+    ).toEqual([]);
 
     expect(
-      validateStep(1, { ...valid, name: 'María José Da Silva' }),
+      validateStep(1, { ...valid, age: '17' }),
     ).toEqual([]);
   });
 
-  it('no permite seleccionar más de dos objetivos', () => {
+  it('valida los límites de edad', () => {
+    expect(
+      validateStep(1, { ...valid, age: '1' }),
+    ).toEqual([]);
+
+    expect(
+      validateStep(1, { ...valid, age: '120' }),
+    ).toEqual([]);
+
+    expect(
+      validateStep(1, { ...valid, age: '121' }),
+    ).toContain(
+      'Ingresá una edad válida entre 1 y 120 años.',
+    );
+
+    expect(
+      validateStep(1, { ...valid, age: '17.5' }),
+    ).toContain(
+      'Ingresá una edad válida entre 1 y 120 años.',
+    );
+  });
+
+  it('requiere nombre y apellido', () => {
+    expect(
+      validateStep(1, {
+        ...valid,
+        name: 'Alex',
+      }),
+    ).toContain(
+      'Ingresá tu nombre y apellido.',
+    );
+
+    expect(
+      validateStep(1, {
+        ...valid,
+        name: 'Alex Ejemplo',
+      }),
+    ).toEqual([]);
+
+    expect(
+      validateStep(1, {
+        ...valid,
+        name: 'María José Da Silva',
+      }),
+    ).toEqual([]);
+  });
+
+  it('no permite más de dos objetivos', () => {
     expect(
       validateStep(2, {
         ...valid,
         goals: ['A', 'B', 'C'],
       }),
-    ).toContain('Elegí uno o dos objetivos.');
+    ).toContain(
+      'Elegí uno o dos objetivos.',
+    );
   });
 
-  it('requiere desarrollar la opción Otros en objetivos', () => {
+  it('requiere desarrollar Otros en objetivos', () => {
     expect(
       validateStep(2, {
         ...valid,
         goals: ['Otros'],
         otherGoal: '',
       }),
-    ).toContain('Contanos cuál es tu otro objetivo.');
+    ).toContain(
+      'Contanos cuál es tu otro objetivo.',
+    );
   });
 
-  it('requiere detallar la actividad cuando se elige Otros', () => {
+  it('requiere detallar otra actividad', () => {
     expect(
       validateStep(2, {
         ...valid,
         activity: 'Otros',
         otherActivity: '',
       }),
-    ).toContain('Contanos qué otra actividad realizás.');
+    ).toContain(
+      'Contanos qué otra actividad realizás.',
+    );
   });
 
-  it('utiliza valores internos válidos para las cuatro opciones de experiencia', () => {
-    expect(experiences.map((experience) => experience.value)).toEqual([
+  it('valida las opciones de experiencia', () => {
+    expect(
+      experiences.map(
+        (experience) => experience.value,
+      ),
+    ).toEqual([
       'nunca',
       'retomo',
       'menos-de-un-ano',
@@ -123,10 +166,12 @@ describe('formulario FORMA Studio: validación por etapas', () => {
         ...valid,
         experience: '',
       }),
-    ).toContain('Seleccioná tu experiencia entrenando.');
+    ).toContain(
+      'Seleccioná tu experiencia entrenando.',
+    );
   });
 
-  it('requiere disponibilidad, duración y lugar de entrenamiento', () => {
+  it('requiere disponibilidad, duración y lugar', () => {
     expect(
       validateStep(3, {
         ...valid,
@@ -137,16 +182,18 @@ describe('formulario FORMA Studio: validación por etapas', () => {
     ).toHaveLength(3);
   });
 
-  it('requiere equipamiento si el entrenamiento será en casa', () => {
+  it('requiere equipamiento cuando entrena en casa', () => {
     expect(
       validateStep(3, {
         ...valid,
         equipment: [],
       }),
-    ).toContain('Seleccioná qué elementos tenés o pensás comprar.');
+    ).toContain(
+      'Seleccioná qué elementos tenés o pensás comprar.',
+    );
   });
 
-  it('no requiere equipamiento si la persona entrena en gimnasio', () => {
+  it('no requiere equipamiento en gimnasio', () => {
     expect(
       validateStep(3, {
         ...valid,
@@ -156,7 +203,7 @@ describe('formulario FORMA Studio: validación por etapas', () => {
     ).toEqual([]);
   });
 
-  it('impide combinar una opción de equipamiento exclusivo con otras', () => {
+  it('impide combinar equipamiento exclusivo', () => {
     expect(
       validateStep(3, {
         ...valid,
@@ -170,7 +217,7 @@ describe('formulario FORMA Studio: validación por etapas', () => {
     );
   });
 
-  it('requiere completar lesiones, detalle y dificultades', () => {
+  it('requiere indicar lesiones y dificultades', () => {
     expect(
       validateStep(4, {
         ...valid,
@@ -179,43 +226,65 @@ describe('formulario FORMA Studio: validación por etapas', () => {
         difficulties: [],
         comments: '',
       }),
-    ).toHaveLength(3);
+    ).toHaveLength(2);
   });
 
-  it('permite continuar sin completar comentarios adicionales', () => {
+  it('exige el detalle de la pregunta 13 cuando responde Sí', () => {
     expect(
       validateStep(4, {
         ...valid,
-        comments: '',
+        hasDiscomfort: 'si',
+        discomfortDetails: '',
       }),
-    ).toEqual([]);
+    ).toContain(
+      'Contanos dónde tenés la lesión o molestia y qué ocurrió.',
+    );
   });
 
-  it('permite comentarios opcionales sin espacios ni contenido', () => {
+  it('no permite No aplica como detalle cuando responde Sí', () => {
     expect(
       validateStep(4, {
         ...valid,
-        comments: '   ',
+        hasDiscomfort: 'si',
+        discomfortDetails: 'No aplica',
       }),
-    ).toEqual([]);
+    ).toContain(
+      'Contanos dónde tenés la lesión o molestia y qué ocurrió.',
+    );
   });
 
-  it('mantiene obligatoria la pregunta 13 aunque la respuesta sobre lesiones sea No', () => {
+  it('permite omitir la pregunta 13 cuando responde No', () => {
     expect(
       validateStep(4, {
         ...valid,
         hasDiscomfort: 'no',
         discomfortDetails: '',
       }),
-    ).toContain(
-      'Completá dónde y qué te pasó. Si no corresponde, escribí “No aplica”.',
-    );
+    ).toEqual([]);
+  });
 
+  it('permite completar opcionalmente la pregunta 13 cuando responde No', () => {
     expect(
       validateStep(4, {
         ...valid,
         hasDiscomfort: 'no',
-        discomfortDetails: 'No aplica',
+        discomfortDetails: 'Sin molestias actualmente',
+      }),
+    ).toEqual([]);
+  });
+
+  it('mantiene opcional la pregunta 15', () => {
+    expect(
+      validateStep(4, {
+        ...valid,
+        comments: '',
+      }),
+    ).toEqual([]);
+
+    expect(
+      validateStep(4, {
+        ...valid,
+        comments: '   ',
       }),
     ).toEqual([]);
   });
@@ -227,7 +296,9 @@ describe('formulario FORMA Studio: validación por etapas', () => {
         difficulties: ['Otros'],
         otherDifficulty: '',
       }),
-    ).toContain('Contanos qué otra dificultad tenés.');
+    ).toContain(
+      'Contanos qué otra dificultad tenés.',
+    );
 
     expect(
       validateStep(3, {
@@ -240,31 +311,64 @@ describe('formulario FORMA Studio: validación por etapas', () => {
     );
   });
 
-  it('convierte el valor interno de experiencia en una etiqueta legible', () => {
-    expect(formatExperience('nunca')).toBe('Nunca entrené');
+  it('muestra las etiquetas de experiencia', () => {
+    expect(
+      formatExperience('nunca'),
+    ).toBe('Nunca entrené');
 
-    expect(formatExperience('mas-de-un-ano')).toBe(
-      'Entreno hace más de 1 año',
-    );
+    expect(
+      formatExperience('mas-de-un-ano'),
+    ).toBe('Entreno hace más de 1 año');
 
-    expect(formatExperience('')).toBe('Sin indicar');
+    expect(
+      formatExperience(''),
+    ).toBe('Sin indicar');
   });
 
-  it('prepara un resumen con las 15 respuestas y las preferencias iniciales', () => {
+  it('prepara las quince respuestas numeradas', () => {
     const summary = createSubmissionSummary({
       ...valid,
       age: '16',
     });
 
     expect(summary).toContain('FORMA STUDIO');
-    expect(summary).toContain('Disciplina: Entrenamiento de fuerza');
-    expect(summary).toContain('2. EDAD\n16 años');
-    expect(summary).toContain('5. OBJETIVOS');
-    expect(summary).toContain('7. EXPERIENCIA ENTRENANDO\nNunca entrené');
-    expect(summary).not.toContain('7. EXPERIENCIA ENTRENANDO\nnunca');
-    expect(summary).toContain('13. DÓNDE Y QUÉ PASÓ');
-    expect(summary).toContain('Molestia de rodilla al correr.');
-    expect(summary).toContain('15. COMENTARIOS ADICIONALES');
+    expect(summary).toContain(
+      'Disciplina: Entrenamiento de fuerza',
+    );
+    expect(summary).toContain(
+      '2. EDAD\n16 años',
+    );
+    expect(summary).toContain(
+      '5. OBJETIVOS',
+    );
+    expect(summary).toContain(
+      '7. EXPERIENCIA ENTRENANDO\nNunca entrené',
+    );
+    expect(summary).toContain(
+      '13. DÓNDE Y QUÉ PASÓ',
+    );
+    expect(summary).toContain(
+      'Molestia de rodilla al correr.',
+    );
+    expect(summary).toContain(
+      '15. COMENTARIOS ADICIONALES',
+    );
+  });
+
+  it('muestra No aplica cuando no hay lesiones ni detalle', () => {
+    const summary = createSubmissionSummary({
+      ...valid,
+      hasDiscomfort: 'no',
+      discomfortDetails: '',
+    });
+
+    expect(summary).toContain(
+      '12. LESIONES O MOLESTIAS\nNo',
+    );
+
+    expect(summary).toContain(
+      '13. DÓNDE Y QUÉ PASÓ\nNo aplica',
+    );
   });
 
   it('muestra Sin comentarios cuando la pregunta 15 queda vacía', () => {
@@ -278,10 +382,11 @@ describe('formulario FORMA Studio: validación por etapas', () => {
     );
   });
 
-  it('conserva los comentarios cuando la persona decide completarlos', () => {
+  it('conserva los comentarios que se completan', () => {
     const summary = createSubmissionSummary({
       ...valid,
-      comments: 'Tengo una consulta sobre la modalidad online.',
+      comments:
+        'Tengo una consulta sobre la modalidad online.',
     });
 
     expect(summary).toContain(

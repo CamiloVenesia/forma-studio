@@ -42,18 +42,38 @@ export const experiences = [
 
 export const trainingLocations = [
   'Gimnasio',
-  'Mi casa con equipamiento',
-  'Mi casa sin equipamiento',
+  'Mi casa',
 ] as const;
 
-export const equipmentOptions = [
+export const noEquipmentOptions = [
+  'No tengo nada y prefiero arrancar así',
+  'No tengo nada pero me compraría algo',
+] as const;
+
+export const strengthEquipmentOptions = [
   'Mancuernas',
   'Bandas elásticas',
   'Colchoneta',
   'Banco o step',
-  'No tengo nada y prefiero arrancar así',
-  'No tengo nada pero me compraría algo',
+  ...noEquipmentOptions,
   'Otro',
+] as const;
+
+export const pilatesEquipmentOptions = [
+  'Colchoneta',
+  'Bandas elásticas',
+  'Pelota de pilates',
+  'Aro de pilates',
+  'Bloques de yoga',
+  ...noEquipmentOptions,
+  'Otro',
+] as const;
+
+export const equipmentOptions = [
+  ...new Set([
+    ...strengthEquipmentOptions,
+    ...pilatesEquipmentOptions,
+  ]),
 ] as const;
 
 export const difficulties = [
@@ -111,11 +131,67 @@ export const initialIntake: IntakeData = {
   comments: '',
 };
 
-export function formatExperience(value: Experience | ''): string {
-  return experiences.find((experience) => experience.value === value)?.label ?? 'Sin indicar';
+export function getEquipmentOptions(
+  discipline: Discipline | '',
+): readonly string[] {
+  if (discipline === 'fuerza') {
+    return strengthEquipmentOptions;
+  }
+
+  if (discipline === 'pilates') {
+    return pilatesEquipmentOptions;
+  }
+
+  return [];
 }
 
-function hasTextLength(value: string, minimum: number, maximum: number): boolean {
+export function formatExperience(value: Experience | ''): string {
+  return (
+    experiences.find((experience) => experience.value === value)?.label ??
+    'Sin indicar'
+  );
+}
+
+export function formatTrainingLocation(data: IntakeData): string {
+  if (data.modality === 'presencial') {
+    return 'Se coordina con FORMA Studio (modalidad presencial)';
+  }
+
+  if (data.location === 'Mi casa') {
+    return 'En mi casa';
+  }
+
+  if (data.location === 'Gimnasio') {
+    return 'En un gimnasio';
+  }
+
+  return 'Sin indicar';
+}
+
+export function formatTrainingEquipment(data: IntakeData): string {
+  if (data.modality === 'presencial') {
+    return 'No corresponde: modalidad presencial';
+  }
+
+  if (data.location === 'Gimnasio') {
+    return 'No corresponde: entrenamiento en gimnasio';
+  }
+
+  if (data.location !== 'Mi casa') {
+    return 'Sin indicar';
+  }
+
+  return (
+    withOther(data.equipment, data.otherEquipment) ||
+    'Sin indicar'
+  );
+}
+
+function hasTextLength(
+  value: string,
+  minimum: number,
+  maximum: number,
+): boolean {
   const length = value.trim().length;
   return length >= minimum && length <= maximum;
 }
@@ -126,6 +202,12 @@ function isValidFullName(value: string): boolean {
     /^[\p{L}\p{M}][\p{L}\p{M}.'’-]*(?:\s+[\p{L}\p{M}][\p{L}\p{M}.'’-]*)+$/u;
 
   return normalized.length <= intakeLimits.name && namePattern.test(normalized);
+}
+
+function hasExclusiveEquipment(equipment: string[]): boolean {
+  return equipment.some((item) =>
+    noEquipmentOptions.some((option) => option === item),
+  );
 }
 
 export function validateStep(step: number, data: IntakeData): string[] {
@@ -174,7 +256,10 @@ export function validateStep(step: number, data: IntakeData): string[] {
       errors.push('Elegí uno o dos objetivos.');
     }
 
-    if (data.goals.includes('Otros') && !hasTextLength(data.otherGoal, 2, intakeLimits.other)) {
+    if (
+      data.goals.includes('Otros') &&
+      !hasTextLength(data.otherGoal, 2, intakeLimits.other)
+    ) {
       errors.push('Contanos cuál es tu otro objetivo.');
     }
 
@@ -200,39 +285,71 @@ export function validateStep(step: number, data: IntakeData): string[] {
     }
 
     if (
-      !['30 minutos', '45 minutos', '60 minutos', 'Más de 60 minutos'].includes(data.duration)
+      ![
+        '30 minutos',
+        '45 minutos',
+        '60 minutos',
+        'Más de 60 minutos',
+      ].includes(data.duration)
     ) {
       errors.push('Seleccioná cuánto tiempo podrías dedicarle a cada entrenamiento.');
     }
 
-    if (!trainingLocations.includes(data.location as (typeof trainingLocations)[number])) {
-      errors.push('Indicá dónde vas a entrenar.');
+    if (data.modality === 'presencial') {
+      if (
+        data.location !== '' ||
+        data.equipment.length !== 0 ||
+        data.otherEquipment.trim() !== ''
+      ) {
+        errors.push(
+          'La modalidad presencial no requiere seleccionar lugar ni equipamiento.',
+        );
+      }
     }
 
-    if (data.location && data.location !== 'Gimnasio' && data.equipment.length === 0) {
-      errors.push('Seleccioná qué elementos tenés o pensás comprar.');
-    }
+    if (data.modality === 'online') {
+      if (
+        !trainingLocations.includes(
+          data.location as (typeof trainingLocations)[number],
+        )
+      ) {
+        errors.push('Seleccioná dónde vas a realizar tus entrenamientos.');
+      }
 
-    const exclusiveEquipment = [
-      'No tengo nada y prefiero arrancar así',
-      'No tengo nada pero me compraría algo',
-    ];
+      if (data.location === 'Mi casa') {
+        if (data.equipment.length === 0) {
+          errors.push('Indicá qué equipamiento tenés o pensás conseguir.');
+        }
 
-    const hasExclusiveEquipment = data.equipment.some((item) =>
-      exclusiveEquipment.includes(item),
-    );
+        const allowedEquipment = getEquipmentOptions(data.discipline);
 
-    if (hasExclusiveEquipment && data.equipment.length > 1) {
-      errors.push('La opción de no tener equipamiento debe seleccionarse por separado.');
-    }
+        if (
+          !data.equipment.every((item) => allowedEquipment.includes(item)) ||
+          new Set(data.equipment).size !== data.equipment.length
+        ) {
+          errors.push('La selección de equipamiento no es válida.');
+        }
 
-    if (
-      data.location &&
-      data.location !== 'Gimnasio' &&
-      data.equipment.includes('Otro') &&
-      !hasTextLength(data.otherEquipment, 2, intakeLimits.other)
-    ) {
-      errors.push('Contanos qué otro elemento tenés o pensás comprar.');
+        if (hasExclusiveEquipment(data.equipment) && data.equipment.length > 1) {
+          errors.push(
+            'Las opciones de no tener equipamiento deben seleccionarse por separado.',
+          );
+        }
+
+        if (
+          data.equipment.includes('Otro') &&
+          !hasTextLength(data.otherEquipment, 2, intakeLimits.other)
+        ) {
+          errors.push('Contanos qué otro elemento tenés o pensás comprar.');
+        }
+      }
+
+      if (
+        data.location === 'Gimnasio' &&
+        (data.equipment.length !== 0 || data.otherEquipment.trim() !== '')
+      ) {
+        errors.push('No es necesario indicar equipamiento si entrenás en gimnasio.');
+      }
     }
   }
 
@@ -262,6 +379,8 @@ export function validateStep(step: number, data: IntakeData): string[] {
     ) {
       errors.push('Contanos qué otra dificultad tenés.');
     }
+
+    // La pregunta 15 continúa siendo opcional.
   }
 
   return errors;
@@ -270,7 +389,9 @@ export function validateStep(step: number, data: IntakeData): string[] {
 function withOther(values: string[], other: string): string {
   return values
     .map((value) =>
-      value === 'Otros' || value === 'Otro' ? `${value}: ${other.trim()}` : value,
+      value === 'Otros' || value === 'Otro'
+        ? `${value}: ${other.trim()}`
+        : value,
     )
     .join(', ');
 }
@@ -279,9 +400,10 @@ export function createSubmissionSummary(data: IntakeData): string {
   const goalsText = withOther(data.goals, data.otherGoal);
 
   const activityText =
-    data.activity === 'Otros' ? `Otros: ${data.otherActivity.trim()}` : data.activity;
+    data.activity === 'Otros'
+      ? `Otros: ${data.otherActivity.trim()}`
+      : data.activity;
 
-  const equipmentText = withOther(data.equipment, data.otherEquipment);
   const difficultiesText = withOther(data.difficulties, data.otherDifficulty);
 
   const discomfortText =
@@ -314,11 +436,9 @@ export function createSubmissionSummary(data: IntakeData): string {
     '9. TIEMPO POR ENTRENAMIENTO',
     data.duration,
     '10. LUGAR DE ENTRENAMIENTO',
-    data.location,
-    '11. ELEMENTOS DISPONIBLES O A COMPRAR',
-    data.location === 'Gimnasio'
-      ? 'No corresponde: entrenará en gimnasio.'
-      : equipmentText,
+    formatTrainingLocation(data),
+    '11. EQUIPAMIENTO',
+    formatTrainingEquipment(data),
     '12. LESIONES O MOLESTIAS',
     data.hasDiscomfort === 'si' ? 'Sí' : 'No',
     '13. DÓNDE Y QUÉ PASÓ',

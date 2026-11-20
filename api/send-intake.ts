@@ -6,12 +6,13 @@ import {
   activities,
   createSubmissionSummary,
   difficulties,
-  equipmentOptions,
   experiences,
   formatExperience,
+  formatTrainingEquipment,
+  formatTrainingLocation,
+  getEquipmentOptions,
   goals,
   intakeLimits,
-  trainingLocations,
   validateStep,
 } from '../src/features/intake/model.js';
 
@@ -28,10 +29,7 @@ const RATE_LIMIT_MAX = 5;
 
 const rateLimitStore = new Map<
   string,
-  {
-    count: number;
-    expiresAt: number;
-  }
+  { count: number; expiresAt: number }
 >();
 
 const stringFields = [
@@ -74,9 +72,7 @@ function jsonResponse(
   });
 }
 
-function isRecord(
-  value: unknown,
-): value is Record<string, unknown> {
+function isRecord(value: unknown): value is Record<string, unknown> {
   return (
     typeof value === 'object' &&
     value !== null &&
@@ -85,9 +81,7 @@ function isRecord(
 }
 
 function isIntakeData(value: unknown): value is IntakeData {
-  if (!isRecord(value)) {
-    return false;
-  }
+  if (!isRecord(value)) return false;
 
   const validStrings = stringFields.every(
     (field) => typeof value[field] === 'string',
@@ -96,9 +90,7 @@ function isIntakeData(value: unknown): value is IntakeData {
   const validArrays = arrayFields.every(
     (field) =>
       Array.isArray(value[field]) &&
-      value[field].every(
-        (item: unknown) => typeof item === 'string',
-      ),
+      value[field].every((item: unknown) => typeof item === 'string'),
   );
 
   return validStrings && validArrays;
@@ -119,10 +111,7 @@ function isOriginAllowed(origin: string | null): boolean {
 
 function getClientIp(request: Request): string {
   return (
-    request.headers
-      .get('x-forwarded-for')
-      ?.split(',')[0]
-      ?.trim() ||
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
     request.headers.get('x-real-ip') ||
     'unknown'
   );
@@ -164,10 +153,7 @@ function escapeHtml(value: string): string {
   );
 }
 
-function formatOtherValues(
-  values: string[],
-  other: string,
-): string {
+function formatOtherValues(values: string[], other: string): string {
   return (
     values
       .map((value) =>
@@ -198,21 +184,17 @@ function validateIntakeData(data: IntakeData): string[] {
   for (const [field, maximum] of Object.entries(maxLengths)) {
     const value = data[field as keyof IntakeData];
 
-    if (
-      typeof value === 'string' &&
-      value.length > maximum
-    ) {
-      errors.push(
-        `El campo ${field} supera el límite permitido.`,
-      );
+    if (typeof value === 'string' && value.length > maximum) {
+      errors.push(`El campo ${field} supera el límite permitido.`);
     }
   }
 
   const validGoals = new Set<string>(goals);
   const validActivities = new Set<string>(activities);
-  const validEquipment = new Set<string>(equipmentOptions);
   const validDifficulties = new Set<string>(difficulties);
-  const validLocations = new Set<string>(trainingLocations);
+  const validEquipment = new Set<string>(
+    getEquipmentOptions(data.discipline),
+  );
 
   if (!data.goals.every((value) => validGoals.has(value))) {
     errors.push('Hay objetivos no válidos.');
@@ -222,31 +204,19 @@ function validateIntakeData(data: IntakeData): string[] {
     errors.push('La actividad seleccionada no es válida.');
   }
 
-  if (
-    !data.equipment.every(
-      (value) => validEquipment.has(value),
-    )
-  ) {
+  if (!data.equipment.every((value) => validEquipment.has(value))) {
     errors.push('Hay elementos de equipamiento no válidos.');
   }
 
-  if (
-    !data.difficulties.every(
-      (value) => validDifficulties.has(value),
-    )
-  ) {
+  if (!data.difficulties.every((value) => validDifficulties.has(value))) {
     errors.push('Hay dificultades no válidas.');
-  }
-
-  if (!validLocations.has(data.location)) {
-    errors.push('El lugar de entrenamiento no es válido.');
   }
 
   if (data.goals.length > 2) {
     errors.push('No se permiten más de dos objetivos.');
   }
 
-  if (data.equipment.length > equipmentOptions.length) {
+  if (data.equipment.length > validEquipment.size) {
     errors.push('La selección de equipamiento no es válida.');
   }
 
@@ -262,6 +232,16 @@ function validateIntakeData(data: IntakeData): string[] {
     errors.push('La experiencia seleccionada no es válida.');
   }
 
+  for (const selections of [
+    data.goals,
+    data.equipment,
+    data.difficulties,
+  ]) {
+    if (new Set(selections).size !== selections.length) {
+      errors.push('Hay opciones seleccionadas más de una vez.');
+    }
+  }
+
   for (let step = 0; step < 5; step += 1) {
     errors.push(...validateStep(step, data));
   }
@@ -269,26 +249,13 @@ function validateIntakeData(data: IntakeData): string[] {
   return [...new Set(errors)];
 }
 
-function buildEmailRows(
-  data: IntakeData,
-): Array<[string, string]> {
-  const goalsText = formatOtherValues(
-    data.goals,
-    data.otherGoal,
-  );
+function buildEmailRows(data: IntakeData): Array<[string, string]> {
+  const goalsText = formatOtherValues(data.goals, data.otherGoal);
 
   const activityText =
     data.activity === 'Otros'
       ? `Otros: ${data.otherActivity.trim()}`
       : data.activity;
-
-  const equipmentText =
-    data.location === 'Gimnasio'
-      ? 'No corresponde: entrena en gimnasio.'
-      : formatOtherValues(
-          data.equipment,
-          data.otherEquipment,
-        );
 
   const difficultiesText = formatOtherValues(
     data.difficulties,
@@ -297,22 +264,16 @@ function buildEmailRows(
 
   const discomfortText =
     data.discomfortDetails.trim() ||
-    (data.hasDiscomfort === 'no'
-      ? 'No aplica'
-      : 'Sin indicar');
+    (data.hasDiscomfort === 'no' ? 'No aplica' : 'Sin indicar');
 
   return [
     [
       'Disciplina',
-      data.discipline
-        ? formatDiscipline(data.discipline)
-        : 'Sin definir',
+      data.discipline ? formatDiscipline(data.discipline) : 'Sin definir',
     ],
     [
       'Modalidad',
-      data.modality
-        ? formatModality(data.modality)
-        : 'Sin definir',
+      data.modality ? formatModality(data.modality) : 'Sin definir',
     ],
     ['1. Nombre y apellido', data.name.trim()],
     ['2. Edad', `${data.age} años`],
@@ -323,8 +284,8 @@ function buildEmailRows(
     ['7. Experiencia entrenando', formatExperience(data.experience)],
     ['8. Días por semana', `${data.days} días`],
     ['9. Tiempo por entrenamiento', data.duration],
-    ['10. Lugar de entrenamiento', data.location],
-    ['11. Elementos disponibles o a comprar', equipmentText],
+    ['10. Lugar de entrenamiento', formatTrainingLocation(data)],
+    ['11. Equipamiento', formatTrainingEquipment(data)],
     [
       '12. Lesiones o molestias',
       data.hasDiscomfort === 'si' ? 'Sí' : 'No',
@@ -338,13 +299,8 @@ function buildEmailRows(
   ];
 }
 
-function buildEmailHtml(
-  data: IntakeData,
-  receivedAt: string,
-): string {
-  const rows = buildEmailRows(data);
-
-  const tableRows = rows
+function buildEmailHtml(data: IntakeData, receivedAt: string): string {
+  const tableRows = buildEmailRows(data)
     .map(
       ([label, value]) => `
         <tr>
@@ -469,10 +425,7 @@ export default {
   async fetch(request: Request): Promise<Response> {
     if (request.method !== 'POST') {
       return jsonResponse(
-        {
-          ok: false,
-          message: 'Método no permitido.',
-        },
+        { ok: false, message: 'Método no permitido.' },
         405,
       );
     }
@@ -496,23 +449,16 @@ export default {
 
     if (!origin || !isOriginAllowed(origin)) {
       return jsonResponse(
-        {
-          ok: false,
-          message: 'Origen de solicitud no autorizado.',
-        },
+        { ok: false, message: 'Origen de solicitud no autorizado.' },
         403,
       );
     }
 
-    const contentType =
-      request.headers.get('content-type') ?? '';
+    const contentType = request.headers.get('content-type') ?? '';
 
     if (!contentType.toLowerCase().includes('application/json')) {
       return jsonResponse(
-        {
-          ok: false,
-          message: 'El formato de solicitud no es válido.',
-        },
+        { ok: false, message: 'El formato de solicitud no es válido.' },
         415,
       );
     }
@@ -523,17 +469,12 @@ export default {
 
     if (declaredLength > MAX_BODY_LENGTH) {
       return jsonResponse(
-        {
-          ok: false,
-          message: 'La solicitud supera el tamaño permitido.',
-        },
+        { ok: false, message: 'La solicitud supera el tamaño permitido.' },
         413,
       );
     }
 
-    const clientIp = getClientIp(request);
-
-    if (isRateLimited(clientIp)) {
+    if (isRateLimited(getClientIp(request))) {
       return jsonResponse(
         {
           ok: false,
@@ -550,20 +491,14 @@ export default {
       rawBody = await request.text();
     } catch {
       return jsonResponse(
-        {
-          ok: false,
-          message: 'No se pudo leer la solicitud.',
-        },
+        { ok: false, message: 'No se pudo leer la solicitud.' },
         400,
       );
     }
 
     if (rawBody.length > MAX_BODY_LENGTH) {
       return jsonResponse(
-        {
-          ok: false,
-          message: 'La solicitud supera el tamaño permitido.',
-        },
+        { ok: false, message: 'La solicitud supera el tamaño permitido.' },
         413,
       );
     }
@@ -574,26 +509,18 @@ export default {
       payload = JSON.parse(rawBody) as unknown;
     } catch {
       return jsonResponse(
-        {
-          ok: false,
-          message: 'El contenido enviado no es válido.',
-        },
+        { ok: false, message: 'El contenido enviado no es válido.' },
         400,
       );
     }
 
     if (!isRecord(payload)) {
       return jsonResponse(
-        {
-          ok: false,
-          message: 'La solicitud no tiene un formato válido.',
-        },
+        { ok: false, message: 'La solicitud no tiene un formato válido.' },
         400,
       );
     }
 
-    // Una solicitud bloqueada por el antispam
-    // nunca debe devolver ok: true.
     if (
       typeof payload.website === 'string' &&
       payload.website.trim().length > 0
@@ -610,10 +537,7 @@ export default {
 
     if (!isIntakeData(payload.data)) {
       return jsonResponse(
-        {
-          ok: false,
-          message: 'Las respuestas del formulario no son válidas.',
-        },
+        { ok: false, message: 'Las respuestas del formulario no son válidas.' },
         400,
       );
     }
@@ -633,19 +557,14 @@ export default {
     }
 
     const smtpUser = env.SMTP_USER?.trim();
-
-    const smtpPassword =
-      env.SMTP_APP_PASSWORD?.replace(/\s+/g, '');
-
-    const recipient =
-      env.FORM_RECIPIENT?.trim() || smtpUser;
+    const smtpPassword = env.SMTP_APP_PASSWORD?.replace(/\s+/g, '');
+    const recipient = env.FORM_RECIPIENT?.trim() || smtpUser;
 
     if (!smtpUser || !smtpPassword || !recipient) {
       return jsonResponse(
         {
           ok: false,
-          message:
-            'El servicio de correo todavía no está configurado.',
+          message: 'El servicio de correo todavía no está configurado.',
         },
         503,
       );
@@ -688,8 +607,7 @@ export default {
       });
 
       const recipientAccepted = info.accepted.some(
-        (address) =>
-          address.toLowerCase() === recipient.toLowerCase(),
+        (address) => address.toLowerCase() === recipient.toLowerCase(),
       );
 
       if (!recipientAccepted) {
@@ -707,18 +625,14 @@ export default {
         );
       }
 
-      console.info(
-        '[FORMA Studio] SMTP aceptó la solicitud.',
-        {
-          messageId: info.messageId,
-          acceptedCount: info.accepted.length,
-        },
-      );
+      console.info('[FORMA Studio] SMTP aceptó la solicitud.', {
+        messageId: info.messageId,
+        acceptedCount: info.accepted.length,
+      });
 
       return jsonResponse({
         ok: true,
-        message:
-          'Tu solicitud fue aceptada por nuestro servicio de correo.',
+        message: 'Tu solicitud fue aceptada por nuestro servicio de correo.',
       });
     } catch (error) {
       console.error(

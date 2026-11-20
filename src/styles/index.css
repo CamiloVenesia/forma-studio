@@ -1,3 +1,4 @@
+
 /* Tipografías locales */
 
 @import '@fontsource/dm-sans/400.css';
@@ -400,7 +401,6 @@
   user-select: none;
 }
 
-
 .hero.hero-v2 .hero-v2__visual > .hero-v2__perspective {
   position: absolute;
   z-index: 3;
@@ -643,5 +643,49 @@
 
   .hero-v2__snake-glow {
     opacity: 0;
+  }
+}
+
+/* =========================================================
+   JOURNEY — CTA DE ALTO CONTRASTE
+   ========================================================= */
+
+.journey .arrow-link--outline {
+  background: #fff4f3;
+  border: 1px solid #fff4f3;
+  color: #9d2447;
+
+  box-shadow: 0 10px 24px rgb(76 17 37 / 16%);
+
+  transition:
+    background 250ms ease,
+    border-color 250ms ease,
+    color 250ms ease,
+    box-shadow 250ms ease,
+    transform 250ms ease;
+}
+
+.journey .arrow-link--outline:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #821d3d;
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 15px 32px rgb(76 17 37 / 22%);
+}
+
+.journey .arrow-link--outline:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey .arrow-link--outline {
+    transition: none;
+  }
+
+  .journey .arrow-link--outline:hover {
+    transform: none;
   }
 }

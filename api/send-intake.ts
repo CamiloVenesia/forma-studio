@@ -13,14 +13,14 @@ import {
   intakeLimits,
   trainingLocations,
   validateStep,
-} from '../src/features/intake/model';
+} from '../src/features/intake/model.js';
 
-import type { IntakeData } from '../src/features/intake/model';
+import type { IntakeData } from '../src/features/intake/model.js';
 
 import {
   formatDiscipline,
   formatModality,
-} from '../src/utils/text';
+} from '../src/utils/text.js';
 
 const MAX_BODY_LENGTH = 20_000;
 const RATE_LIMIT_WINDOW = 15 * 60 * 1000;
@@ -84,9 +84,7 @@ function isRecord(
   );
 }
 
-function isIntakeData(
-  value: unknown,
-): value is IntakeData {
+function isIntakeData(value: unknown): value is IntakeData {
   if (!isRecord(value)) {
     return false;
   }
@@ -132,7 +130,6 @@ function getClientIp(request: Request): string {
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
-
   const current = rateLimitStore.get(ip);
 
   if (!current || now > current.expiresAt) {
@@ -149,7 +146,6 @@ function isRateLimited(ip: string): boolean {
   }
 
   current.count += 1;
-
   return false;
 }
 
@@ -164,8 +160,7 @@ function escapeHtml(value: string): string {
 
   return value.replace(
     /[&<>"']/g,
-    (character) =>
-      replacements[character] ?? character,
+    (character) => replacements[character] ?? character,
   );
 }
 
@@ -184,9 +179,7 @@ function formatOtherValues(
   );
 }
 
-function validateIntakeData(
-  data: IntakeData,
-): string[] {
+function validateIntakeData(data: IntakeData): string[] {
   const errors: string[] = [];
 
   const maxLengths = {
@@ -221,9 +214,7 @@ function validateIntakeData(
   const validDifficulties = new Set<string>(difficulties);
   const validLocations = new Set<string>(trainingLocations);
 
-  if (
-    !data.goals.every((value) => validGoals.has(value))
-  ) {
+  if (!data.goals.every((value) => validGoals.has(value))) {
     errors.push('Hay objetivos no válidos.');
   }
 
@@ -265,8 +256,7 @@ function validateIntakeData(
 
   if (
     !experiences.some(
-      (experience) =>
-        experience.value === data.experience,
+      (experience) => experience.value === data.experience,
     )
   ) {
     errors.push('La experiencia seleccionada no es válida.');
@@ -328,46 +318,19 @@ function buildEmailRows(
     ['2. Edad', `${data.age} años`],
     ['3. Ciudad', data.city.trim()],
     ['4. WhatsApp', data.phone.trim()],
-    [
-      '5. Objetivos',
-      goalsText,
-    ],
-    [
-      '6. Deporte u otra actividad física',
-      activityText,
-    ],
-    [
-      '7. Experiencia entrenando',
-      formatExperience(data.experience),
-    ],
-    [
-      '8. Días por semana',
-      `${data.days} días`,
-    ],
-    [
-      '9. Tiempo por entrenamiento',
-      data.duration,
-    ],
-    [
-      '10. Lugar de entrenamiento',
-      data.location,
-    ],
-    [
-      '11. Elementos disponibles o a comprar',
-      equipmentText,
-    ],
+    ['5. Objetivos', goalsText],
+    ['6. Deporte u otra actividad física', activityText],
+    ['7. Experiencia entrenando', formatExperience(data.experience)],
+    ['8. Días por semana', `${data.days} días`],
+    ['9. Tiempo por entrenamiento', data.duration],
+    ['10. Lugar de entrenamiento', data.location],
+    ['11. Elementos disponibles o a comprar', equipmentText],
     [
       '12. Lesiones o molestias',
       data.hasDiscomfort === 'si' ? 'Sí' : 'No',
     ],
-    [
-      '13. Dónde y qué pasó',
-      discomfortText,
-    ],
-    [
-      '14. Qué es lo que más le cuesta',
-      difficultiesText,
-    ],
+    ['13. Dónde y qué pasó', discomfortText],
+    ['14. Qué es lo que más le cuesta', difficultiesText],
     [
       '15. Comentarios adicionales',
       data.comments.trim() || 'Sin comentarios',
@@ -544,11 +507,7 @@ export default {
     const contentType =
       request.headers.get('content-type') ?? '';
 
-    if (
-      !contentType
-        .toLowerCase()
-        .includes('application/json')
-    ) {
+    if (!contentType.toLowerCase().includes('application/json')) {
       return jsonResponse(
         {
           ok: false,
@@ -634,7 +593,7 @@ export default {
     }
 
     // Una solicitud bloqueada por el antispam
-    // NUNCA debe devolver ok: true.
+    // nunca debe devolver ok: true.
     if (
       typeof payload.website === 'string' &&
       payload.website.trim().length > 0
@@ -653,8 +612,7 @@ export default {
       return jsonResponse(
         {
           ok: false,
-          message:
-            'Las respuestas del formulario no son válidas.',
+          message: 'Las respuestas del formulario no son válidas.',
         },
         400,
       );
@@ -667,8 +625,7 @@ export default {
       return jsonResponse(
         {
           ok: false,
-          message:
-            'Revisá las respuestas antes de enviar.',
+          message: 'Revisá las respuestas antes de enviar.',
           errors: validationErrors,
         },
         422,
@@ -707,14 +664,11 @@ export default {
       socketTimeout: 15000,
     });
 
-    const receivedAt = new Date().toLocaleString(
-      'es-AR',
-      {
-        dateStyle: 'long',
-        timeStyle: 'short',
-        timeZone: 'America/Argentina/Buenos_Aires',
-      },
-    );
+    const receivedAt = new Date().toLocaleString('es-AR', {
+      dateStyle: 'long',
+      timeStyle: 'short',
+      timeZone: 'America/Argentina/Buenos_Aires',
+    });
 
     const safeName = data.name
       .trim()
@@ -728,11 +682,8 @@ export default {
           address: smtpUser,
         },
         to: recipient,
-        subject:
-          `Nueva solicitud de entrenamiento — ${safeName}`,
-        text:
-          `${createSubmissionSummary(data)}\n\n` +
-          `Recibida el ${receivedAt}.`,
+        subject: `Nueva solicitud de entrenamiento — ${safeName}`,
+        text: `${createSubmissionSummary(data)}\n\nRecibida el ${receivedAt}.`,
         html: buildEmailHtml(data, receivedAt),
       });
 

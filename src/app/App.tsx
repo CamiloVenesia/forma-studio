@@ -1,8 +1,10 @@
+
 import { lazy, useLayoutEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import { Layout } from '../components/layout/Layout';
 import { site } from '../config/site';
+import { getProgram } from '../data/programs';
 import { HomePage } from '../pages/HomePage';
 
 // Carga por rutas para evitar enviar
@@ -69,40 +71,43 @@ function getPageSeo(pathname: string): PageSeo {
   const pages: Record<string, PageSeo> = {
     '/': {
       title: site.meta.title,
-      description: site.meta.description,
+      description:
+        'Entrenamiento de fuerza y pilates, online y presencial. Conocé las propuestas de FORMA Studio y encontrá tu manera de empezar.',
       robots: INDEXABLE,
     },
 
     '/programas': {
       title: 'Programas de fuerza y pilates | FORMA Studio',
       description:
-        'Explorá el catálogo conceptual de FORMA Studio: ejemplos de propuestas de fuerza y pilates organizadas por disciplina y nivel.',
+        'Conocé nuestras propuestas de entrenamiento de fuerza y pilates y encontrá opciones según tus objetivos y experiencia.',
       robots: INDEXABLE,
     },
 
     '/asesoramiento': {
       title: 'Asesoramiento y planificación | FORMA Studio',
       description:
-        'Conocé una propuesta conceptual de asesoramiento y planificación del entrenamiento, con un recorrido centrado en cada persona.',
+        'Conocé cómo empezar con FORMA Studio: opciones de fuerza y pilates, modalidades online y presencial, y orientación según tus objetivos.',
       robots: INDEXABLE,
     },
 
     '/empezar': {
       title: 'Empezar | FORMA Studio',
-      description: 'Explorá el recorrido inicial de FORMA Studio y sus opciones de entrenamiento.',
+      description:
+        'Completá el formulario para contarnos tus objetivos y recibir información sobre cómo empezar a entrenar con FORMA Studio.',
       robots: NOINDEX,
     },
 
     '/espacio': {
-      title: 'Espacio de alumnos | FORMA Studio',
-      description: 'Vista interactiva de ejemplo del espacio de alumnos de FORMA Studio.',
+      title: 'Rutinas y biblioteca de ejercicios | FORMA Studio',
+      description:
+        'Explorá sesiones de fuerza y pilates, consultá ejercicios y registrá tu progreso en este navegador.',
       robots: NOINDEX,
     },
 
     '/privacidad': {
       title: 'Privacidad | FORMA Studio',
       description:
-        'Información sobre privacidad y recursos utilizados en el sitio de FORMA Studio.',
+        'Conocé cómo FORMA Studio utiliza los datos que compartís al completar el formulario de entrenamiento.',
       robots: NOINDEX,
     },
   };
@@ -112,11 +117,15 @@ function getPageSeo(pathname: string): PageSeo {
   }
 
   if (path.startsWith('/programas/')) {
-    return {
-      title: 'Detalle de programa | FORMA Studio',
-      description: 'Ficha de ejemplo del catálogo de programas de FORMA Studio.',
-      robots: NOINDEX,
-    };
+    const program = getProgram(path.slice('/programas/'.length));
+
+    if (program) {
+      return {
+        title: `${program.name} | FORMA Studio`,
+        description: `${program.shortDescription} Conocé sus objetivos y consultá las modalidades disponibles en FORMA Studio.`,
+        robots: NOINDEX,
+      };
+    }
   }
 
   return {

@@ -1,4 +1,11 @@
-import { ArrowUpRight, BookOpenText, CalendarDays, ChartNoAxesCombined } from 'lucide-react';
+
+import {
+  ArrowUpRight,
+  BookOpenText,
+  CalendarDays,
+  ChartNoAxesCombined,
+} from 'lucide-react';
+
 import { Link } from 'react-router-dom';
 
 import { ArrowLink } from '../components/common/ArrowLink';
@@ -11,34 +18,39 @@ const coachingSteps = [
     number: '01',
     title: 'Conocer tu punto de partida',
     description:
-      'Objetivos, experiencia, horarios y recursos para explorar una propuesta coherente.',
+      'Conversamos sobre tus objetivos, experiencia, disponibilidad y preferencias de entrenamiento.',
   },
   {
     number: '02',
     title: 'Organizar el entrenamiento',
-    description: 'Elegir una modalidad y pensar cómo podrían distribuirse las sesiones.',
+    description:
+      'Exploramos las opciones de fuerza y pilates, junto con la modalidad que mejor se adapte a vos.',
   },
   {
     number: '03',
-    title: 'Acompañar el proceso',
-    description: 'Revisar constancia y avances con la frecuencia que acuerde cada profesional.',
+    title: 'Acompañar tu proceso',
+    description:
+      'La propuesta de entrenamiento y las condiciones de seguimiento se conversan según tus necesidades.',
   },
 ];
 
-const futureTools = [
+const trainingTools = [
   {
-    title: 'Rutinas organizadas',
-    text: 'Un espacio privado para consultar sesiones y ejercicios asignados.',
+    title: 'Sesiones organizadas',
+    text:
+      'Explorá ejemplos de sesiones de fuerza y pilates para conocer diferentes formas de entrenar.',
     icon: CalendarDays,
   },
   {
     title: 'Biblioteca de ejercicios',
-    text: 'Indicaciones y recursos de consulta cuando se incorpore contenido propio.',
+    text:
+      'Consultá movimientos, indicaciones generales y ejercicios organizados por disciplina.',
     icon: BookOpenText,
   },
   {
-    title: 'Seguimiento visual',
-    text: 'Un registro de actividad para comprender la evolución del alumno.',
+    title: 'Registro de actividad',
+    text:
+      'Marcá sesiones completadas y consultá tu progreso en el dispositivo que estés utilizando.',
     icon: ChartNoAxesCombined,
   },
 ];
@@ -48,22 +60,38 @@ export function CoachingPage() {
     <>
       <section className="coaching-hero container">
         <Reveal>
-          <SectionLabel number="01 /">ASESORAMIENTO PERSONALIZADO</SectionLabel>
+          <SectionLabel number="01 /">
+            ASESORAMIENTO PERSONALIZADO
+          </SectionLabel>
+
           <h1 className="display-title">
-            Tu objetivo. <br />
+            Tu objetivo.
+            <br />
             <em>Un camino propio.</em>
           </h1>
+
           <p>
-            La mejor propuesta de entrenamiento empieza por entender a la persona. FORMA muestra
-            cómo un profesional podría presentar su servicio de asesoramiento con claridad y
-            cercanía.
+            Cada persona tiene sus propios objetivos,
+            tiempos y experiencias. Por eso,
+            antes de comenzar, queremos conocer
+            qué necesitás y cómo te gustaría entrenar.
           </p>
+
           <div className="coaching-hero__actions">
-            <ArrowLink to="/empezar">Explorar la consulta</ArrowLink>
-            <span>RECORRIDO DEMOSTRATIVO · SIN ENVÍO DE DATOS</span>
+            <ArrowLink to="/empezar">
+              Quiero empezar
+            </ArrowLink>
+
+            <span>
+              FUERZA · PILATES · ONLINE Y PRESENCIAL
+            </span>
           </div>
         </Reveal>
-        <Reveal delay={0.12} className="coaching-hero__image">
+
+        <Reveal
+          delay={0.12}
+          className="coaching-hero__image"
+        >
           <img
             src={site.images.detail}
             alt="Entrenamiento físico en un entorno interior"
@@ -75,21 +103,33 @@ export function CoachingPage() {
       <section className="commercial-coaching-process section-spacing">
         <div className="container commercial-coaching-process__grid">
           <Reveal>
-            <SectionLabel number="02 /">CÓMO PODRÍA FUNCIONAR</SectionLabel>
+            <SectionLabel number="02 /">
+              CÓMO EMPEZAMOS
+            </SectionLabel>
+
             <h2 className="display-title">
-              Primero <br />
+              Primero
+              <br />
               <em>escucharte.</em>
             </h2>
+
             <p>
-              Un ejemplo del recorrido comercial que podrá adaptarse al método real de cada
-              preparador físico o estudio de pilates.
+              Para encontrar una propuesta adecuada,
+              empezamos por conocerte. Tu experiencia,
+              disponibilidad y preferencias nos ayudan
+              a comprender qué buscás.
             </p>
           </Reveal>
+
           <div className="commercial-coaching-process__steps">
             {coachingSteps.map((step, index) => (
-              <Reveal key={step.number} delay={index * 0.07}>
+              <Reveal
+                key={step.number}
+                delay={index * 0.07}
+              >
                 <div className="commercial-coaching-process__step">
                   <span>{step.number}</span>
+
                   <div>
                     <h3>{step.title}</h3>
                     <p>{step.description}</p>
@@ -101,30 +141,55 @@ export function CoachingPage() {
         </div>
       </section>
 
-      <section className="coaching-features section-spacing" id="herramientas">
+      <section
+        className="coaching-features section-spacing"
+        id="herramientas"
+      >
         <div className="container">
           <Reveal>
-            <SectionLabel number="03 /">UNA PLATAFORMA EN PROYECTO</SectionLabel>
+            <SectionLabel number="03 /">
+              RECURSOS PARA MOVERTE
+            </SectionLabel>
+
             <h2 className="display-title">
-              El seguimiento, <br />
-              <em>en un solo lugar.</em>
+              El movimiento,
+              <br />
+              <em>a tu alcance.</em>
             </h2>
+
             <p className="commercial-section-intro">
-              Además de la web comercial, FORMA prepara una futura experiencia privada para alumnos.
-              Estas herramientas no están disponibles como servicio real en esta versión.
+              En nuestra sección de rutinas podés
+              explorar sesiones de fuerza y pilates,
+              descubrir ejercicios y llevar un
+              registro sencillo de las sesiones
+              que completaste.
             </p>
           </Reveal>
+
           <div className="coaching-features__list">
-            {futureTools.map(({ title, text, icon: Icon }, index) => (
-              <Reveal key={title} delay={index * 0.07}>
-                <article>
-                  <span>0{index + 1} / CONCEPTO</span>
-                  <Icon size={29} strokeWidth={1.3} aria-hidden="true" />
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </article>
-              </Reveal>
-            ))}
+            {trainingTools.map(
+              ({ title, text, icon: Icon }, index) => (
+                <Reveal
+                  key={title}
+                  delay={index * 0.07}
+                >
+                  <article>
+                    <span>
+                      0{index + 1} / RECURSOS
+                    </span>
+
+                    <Icon
+                      size={29}
+                      strokeWidth={1.3}
+                      aria-hidden="true"
+                    />
+
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </article>
+                </Reveal>
+              ),
+            )}
           </div>
         </div>
       </section>
@@ -132,25 +197,43 @@ export function CoachingPage() {
       <section className="coaching-stage section-spacing">
         <div className="container coaching-stage__grid">
           <Reveal>
-            <SectionLabel number="04 /">EXPERIENCIA INTERACTIVA</SectionLabel>
+            <SectionLabel number="04 /">
+              RUTINAS Y EJERCICIOS
+            </SectionLabel>
+
             <h2 className="display-title">
-              Probá el <br />
-              <em>espacio alumno.</em>
+              Descubrí
+              <br />
+              <em>nuevos movimientos.</em>
             </h2>
           </Reveal>
+
           <Reveal delay={0.08}>
             <p>
-              Podés recorrer rutinas de ejemplo, consultar indicaciones y marcar sesiones
-              completadas. Todo funciona únicamente en memoria, con información ficticia y sin crear
-              una cuenta.
+              Explorá sesiones de fuerza y pilates,
+              consultá las indicaciones de los
+              ejercicios y registrá las sesiones
+              completadas desde tu navegador.
             </p>
-            <Link className="underlined-link" to="/espacio">
-              Abrir demostración del alumno
-              <ArrowUpRight size={19} aria-hidden="true" />
+
+            <Link
+              className="underlined-link"
+              to="/espacio"
+            >
+              Explorar rutinas
+              <ArrowUpRight
+                size={19}
+                aria-hidden="true"
+              />
             </Link>
+
             <p className="coaching-stage__disclaimer">
-              Sin usuarios reales, almacenamiento de progreso, videos propios ni seguimiento
-              profesional integrado.
+              Las rutinas disponibles son ejemplos
+              generales de entrenamiento. No reemplazan
+              una evaluación profesional ni constituyen
+              un plan personalizado. El progreso
+              permanece en tu navegador y no se
+              sincroniza con un entrenador.
             </p>
           </Reveal>
         </div>

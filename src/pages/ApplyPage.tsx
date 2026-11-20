@@ -8,7 +8,9 @@ export function ApplyPage() {
     <section className="apply-page">
       <div className="container apply-page__layout">
         <Reveal className="apply-page__intro">
-          <SectionLabel number="01 /">QUIERO ENTRENAR</SectionLabel>
+          <SectionLabel number="01 /">
+            QUIERO ENTRENAR
+          </SectionLabel>
 
           <h1 className="display-title">
             Todo gran
@@ -19,20 +21,29 @@ export function ApplyPage() {
           </h1>
 
           <p>
-            Contanos sobre tus objetivos, tu experiencia y tus preferencias. Con esa información
-            podemos conocer mejor lo que necesitás y preparar una propuesta acorde a vos.
+            Contanos sobre tus objetivos, tu experiencia
+            y tus preferencias. Queremos conocer tu
+            punto de partida para ayudarte a encontrar
+            una propuesta de entrenamiento acorde
+            a vos.
           </p>
 
           <div className="apply-page__sidebar-note">
             <span>UN RECORRIDO EN 5 ETAPAS</span>
+
             <p>
-              Son 15 preguntas para conocer tu punto de partida. Podés revisar todas tus respuestas
-              antes de preparar la solicitud.
+              Completá las preguntas según tus necesidades.
+              Al finalizar, recibiremos tu solicitud y
+              podremos ponernos en contacto con vos
+              por WhatsApp o teléfono.
             </p>
           </div>
         </Reveal>
 
-        <Reveal delay={0.12} className="apply-page__form">
+        <Reveal
+          delay={0.12}
+          className="apply-page__form"
+        >
           <IntakeWizard />
         </Reveal>
       </div>

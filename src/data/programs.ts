@@ -1,9 +1,11 @@
+
 import type { Program } from '../types/domain';
 import { media } from './media';
 
 /**
- * Programas ficticios para una demostración comercial reutilizable.
- * Los contenidos no son prescripciones ni promesas de servicios disponibles.
+ * Propuestas generales de fuerza y pilates del catálogo de FORMA Studio.
+ * Las semanas ilustrativas no son prescripciones ni planes personalizados.
+ * Las condiciones y disponibilidad se confirman al realizar una consulta.
  */
 export const programs: Program[] = [
   {
@@ -48,7 +50,7 @@ export const programs: Program[] = [
     name: 'Fuerza evolución',
     shortDescription: 'Dale estructura a tu progreso y a tus objetivos.',
     description:
-      'Un concepto para personas con experiencia que buscan entrenar con más planificación, registrar avances y revisar la selección de ejercicios con criterio.',
+      'Una propuesta para personas con experiencia que buscan entrenar con más planificación, registrar avances y revisar la selección de ejercicios con criterio.',
     image: media.catalogStrengthProgress,
     imageAlt: 'Persona realizando entrenamiento de fuerza',
     detailImage: media.detailStrengthProgress,

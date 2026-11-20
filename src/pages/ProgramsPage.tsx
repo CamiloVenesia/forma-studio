@@ -1,3 +1,4 @@
+
 import { useMemo, useRef, useState } from 'react';
 import { ArrowDown, ArrowUpRight, RotateCcw, SlidersHorizontal } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
@@ -28,7 +29,6 @@ const levels: ReadonlyArray<{
 ];
 
 const strengthProgram = programs.find((program) => program.discipline === 'fuerza');
-
 const pilatesProgram = programs.find((program) => program.discipline === 'pilates');
 
 function CatalogHero() {
@@ -41,7 +41,6 @@ function CatalogHero() {
   });
 
   const strengthY = useTransform(scrollYProgress, [0, 1], [0, reducedMotion ? 0 : 65]);
-
   const pilatesY = useTransform(scrollYProgress, [0, 1], [0, reducedMotion ? 0 : -45]);
 
   return (
@@ -82,8 +81,8 @@ function CatalogHero() {
           </div>
 
           <p className="commercial-disclaimer">
-            Catálogo de demostración: los programas son ejemplos adaptables para futuros
-            profesionales y estudios.
+            Conocé nuestras propuestas de entrenamiento. La modalidad, los horarios y la
+            disponibilidad se confirman al ponerte en contacto con FORMA Studio.
           </p>
         </motion.div>
 
@@ -234,9 +233,7 @@ function CatalogHero() {
 
 export function ProgramsPage() {
   const [discipline, setDiscipline] = useState<Discipline | 'todos'>('todos');
-
   const [level, setLevel] = useState<ProgramLevel | 'todos'>('todos');
-
   const reducedMotion = useReducedMotion();
 
   const filtered = useMemo(
@@ -299,7 +296,6 @@ export function ProgramsPage() {
 
           <label className="catalog__mode">
             <SlidersHorizontal size={18} aria-hidden="true" />
-
             <span>Nivel</span>
 
             <select
@@ -384,9 +380,7 @@ export function ProgramsPage() {
 
                   <div className="catalog-card__info">
                     <span>{program.intensity} · Online y presencial</span>
-
                     <h2>{program.name}</h2>
-
                     <p>{program.shortDescription}</p>
 
                     <span className="commercial-card-link">
@@ -404,7 +398,7 @@ export function ProgramsPage() {
           <div className="catalog__empty" role="status">
             <h2>Probá con otra combinación.</h2>
 
-            <p>En esta demostración no hay programas para los filtros elegidos.</p>
+            <p>No encontramos programas para esta combinación de disciplina y nivel.</p>
 
             <button type="button" onClick={resetFilters}>
               Mostrar todos
@@ -422,8 +416,8 @@ export function ProgramsPage() {
           </h2>
 
           <p>
-            El formulario te ayuda a ordenar tus objetivos, experiencia y disponibilidad antes de
-            elegir una propuesta.
+            Contanos tus objetivos, experiencia y disponibilidad para conversar sobre la
+            propuesta que mejor se adapte a vos.
           </p>
         </div>
 

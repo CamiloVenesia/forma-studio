@@ -1,3 +1,4 @@
+
 import { ArrowLeft, ArrowUpRight, Check } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 
@@ -33,10 +34,11 @@ export function ProgramPage() {
           </h1>
 
           <p>{program.shortDescription}</p>
-
           <p className="commercial-program-target">{program.forYou}</p>
 
-          <ArrowLink to={`/empezar?${disciplineQuery}`}>Quiero conocer esta propuesta</ArrowLink>
+          <ArrowLink to={`/empezar?${disciplineQuery}`}>
+            Quiero conocer esta propuesta
+          </ArrowLink>
         </Reveal>
 
         <Reveal delay={0.1} className="detail-hero__photo">
@@ -120,8 +122,8 @@ export function ProgramPage() {
             </h2>
 
             <p>
-              Este es un ejemplo de cómo podría estructurarse la propuesta. El contenido real se
-              define con cada profesional.
+              Cada propuesta parte de conocer tus objetivos, experiencia y disponibilidad.
+              Los ejercicios y progresiones se organizan según tus necesidades.
             </p>
           </Reveal>
 
@@ -151,8 +153,8 @@ export function ProgramPage() {
             </h2>
 
             <p>
-              Las sesiones siguientes son ilustrativas. No constituyen una rutina personalizada ni
-              una indicación de actividad física.
+              Estas sesiones muestran una posible organización semanal. Son orientativas y
+              no reemplazan una planificación adaptada a cada persona.
             </p>
           </Reveal>
 
@@ -167,7 +169,9 @@ export function ProgramPage() {
               ))}
             </div>
 
-            <p className="week-example__note">PROGRAMA FICTICIO · FINES DEMOSTRATIVOS</p>
+            <p className="week-example__note">
+              EJEMPLO ORIENTATIVO · NO ES UNA RUTINA PERSONALIZADA
+            </p>
           </Reveal>
         </div>
       </section>
@@ -185,8 +189,8 @@ export function ProgramPage() {
             </h2>
 
             <p className="commercial-modality__intro">
-              El concepto contempla ambas opciones. La disponibilidad y las condiciones concretas se
-              definen cuando se adapte a un cliente.
+              Podés consultarnos por entrenamiento online o presencial. Los horarios, lugares
+              y condiciones se confirman al conversar con FORMA Studio.
             </p>
           </Reveal>
 
@@ -198,10 +202,14 @@ export function ProgramPage() {
                 <h3>Online</h3>
 
                 <p>
-                  Para explorar un plan pensado según tu espacio, equipamiento y disponibilidad.
+                  Consultá por propuestas para entrenar desde casa o desde un gimnasio,
+                  de acuerdo con tu espacio, equipamiento y disponibilidad.
                 </p>
 
-                <ArrowLink to={`/empezar?${disciplineQuery}&modalidad=online`} variant="text">
+                <ArrowLink
+                  to={`/empezar?${disciplineQuery}&modalidad=online`}
+                  variant="text"
+                >
                   Elegir online
                 </ArrowLink>
               </div>
@@ -214,11 +222,14 @@ export function ProgramPage() {
                 <h3>Presencial</h3>
 
                 <p>
-                  Para explorar una experiencia cara a cara, sujeta a sede, horarios y
-                  disponibilidad del profesional.
+                  Consultá por las opciones presenciales, su ubicación, horarios
+                  y disponibilidad.
                 </p>
 
-                <ArrowLink to={`/empezar?${disciplineQuery}&modalidad=presencial`} variant="text">
+                <ArrowLink
+                  to={`/empezar?${disciplineQuery}&modalidad=presencial`}
+                  variant="text"
+                >
                   Elegir presencial
                 </ArrowLink>
               </div>
@@ -230,7 +241,7 @@ export function ProgramPage() {
       <section className="program-cta">
         <div className="container">
           <Reveal>
-            <span className="eyebrow">PRIMER PASO · DEMOSTRACIÓN</span>
+            <span className="eyebrow">PRIMER PASO · CONOCERNOS</span>
 
             <h2 className="display-title">
               ¿Lo vemos <br />
@@ -238,11 +249,13 @@ export function ProgramPage() {
             </h2>
 
             <p>
-              Explorá el recorrido de inscripción. No se envían datos ni se realiza una contratación
-              real en esta versión.
+              Completá la solicitud con tus objetivos y preferencias. Recibiremos tus respuestas
+              y podremos ponernos en contacto por WhatsApp o teléfono para orientarte.
             </p>
 
-            <ArrowLink to={`/empezar?${disciplineQuery}`}>Empezar el formulario</ArrowLink>
+            <ArrowLink to={`/empezar?${disciplineQuery}`}>
+              Quiero entrenar
+            </ArrowLink>
           </Reveal>
         </div>
       </section>

@@ -1,33 +1,73 @@
-/** Respuestas comerciales ilustrativas para adaptar a cada cliente. */
+/**
+ * Preguntas frecuentes de FORMA Studio.
+ *
+ * Información comercial orientada a personas interesadas
+ * en entrenamiento de fuerza y pilates.
+ *
+ * Los precios, horarios y ubicaciones se confirman
+ * mediante contacto directo.
+ */
+
 export const faqs = [
   {
     question: '¿Puedo comenzar si nunca entrené?',
     answer:
-      'Sí. El catálogo de ejemplo incluye propuestas iniciales. En un servicio real, el profesional define el punto de partida según objetivos, experiencia y evaluación correspondiente.',
+      '¡Por supuesto! No necesitás experiencia previa para empezar. ' +
+      'Contamos con propuestas para diferentes niveles, desde personas ' +
+      'que recién comienzan hasta quienes ya tienen experiencia. ' +
+      'La idea es conocer tu punto de partida, tus objetivos y tus ' +
+      'posibilidades para encontrar una forma de entrenamiento ' +
+      'adecuada para vos.',
   },
   {
-    question: '¿Los programas son online o presenciales?',
+    question: '¿Qué tipos de entrenamiento ofrecen?',
     answer:
-      'La demostración contempla ambas modalidades para fuerza y pilates. La disponibilidad, sedes, horarios y condiciones se configuran para cada profesional o estudio.',
+      'En FORMA Studio trabajamos con entrenamiento de fuerza y pilates. ' +
+      'El entrenamiento de fuerza está orientado a desarrollar fuerza, ' +
+      'mejorar la condición física y trabajar sobre tus objetivos. ' +
+      'Pilates se enfoca en el control corporal, la movilidad, ' +
+      'la estabilidad y la coordinación. Podés explorar nuestros ' +
+      'programas para conocer las distintas propuestas.',
+  },
+  {
+    question: '¿Puedo entrenar online o presencialmente?',
+    answer:
+      'Sí. Contamos con propuestas de entrenamiento online y presencial. ' +
+      'La modalidad online permite organizar tus entrenamientos ' +
+      'desde casa o desde un gimnasio, según tus posibilidades. ' +
+      'Si preferís entrenar presencialmente, podemos conversar ' +
+      'sobre las opciones disponibles, los horarios y el lugar ' +
+      'de entrenamiento.',
   },
   {
     question: '¿Necesito equipamiento para entrenar desde casa?',
     answer:
-      'Depende de la propuesta. El formulario permite indicar los elementos disponibles, pero el equipamiento necesario se confirma con el profesional antes de comenzar.',
+      'No necesariamente. Todo depende del tipo de entrenamiento ' +
+      'y de tus objetivos. Podemos considerar alternativas con ' +
+      'el equipamiento que ya tenés disponible. Al completar ' +
+      'el formulario, vas a poder indicarnos si contás con ' +
+      'mancuernas, bandas elásticas, colchoneta u otros elementos, ' +
+      'o si preferís comenzar sin equipamiento.',
   },
   {
-    question: '¿Qué diferencia hay entre asesoramiento y espacio alumno?',
+    question: '¿Cómo hago para comenzar a entrenar?',
     answer:
-      'El asesoramiento es el servicio de orientación y planificación que ofrecería un profesional. El espacio alumno es una futura herramienta digital para consultar rutinas y progreso; hoy existe únicamente como demostración con datos ficticios.',
+      'Es muy sencillo. Ingresá a la sección "Quiero entrenar" ' +
+      'y completá el formulario con tus datos, objetivos, ' +
+      'experiencia y preferencias. Una vez que recibamos ' +
+      'tu solicitud, revisaremos tus respuestas y nos pondremos ' +
+      'en contacto mediante WhatsApp o teléfono, al número ' +
+      'que nos compartiste, en un plazo estimado de ' +
+      '24 horas hábiles para conversar sobre los próximos pasos.',
   },
   {
-    question: '¿Esta web permite inscribirme de verdad?',
+    question: '¿Pueden entrenar menores de edad?',
     answer:
-      'Todavía no. FORMA es una demostración de portfolio. Podés probar el formulario, pero sus respuestas no se envían ni se almacenan y no se contrata ningún servicio.',
-  },
-  {
-    question: '¿Qué pasa si tengo alguna lesión o molestia?',
-    answer:
-      'Ante una lesión, dolor persistente o limitación de salud, consultá con un profesional sanitario y avisá al responsable del entrenamiento mediante un canal privado adecuado. Esta demostración no ofrece evaluación médica.',
+      'Sí, también recibimos consultas de personas menores de edad. ' +
+      'En estos casos, es necesario contar con la autorización ' +
+      'de su madre, padre o persona responsable. ' +
+      'Antes de comenzar, se revisarán la edad, las necesidades ' +
+      'y las condiciones particulares para determinar ' +
+      'la propuesta de entrenamiento adecuada.',
   },
 ];

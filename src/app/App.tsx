@@ -1,10 +1,8 @@
-
 import { lazy, useLayoutEffect } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import { Layout } from '../components/layout/Layout';
 import { site } from '../config/site';
-import { getProgram } from '../data/programs';
 import { HomePage } from '../pages/HomePage';
 
 // Carga por rutas para evitar enviar
@@ -34,9 +32,9 @@ const ApplyPage = lazy(() =>
   })),
 );
 
-const PortalPreviewPage = lazy(() =>
-  import('../pages/PortalPreviewPage').then((mod) => ({
-    default: mod.PortalPreviewPage,
+const GymPage = lazy(() =>
+  import('../pages/GymPage').then((mod) => ({
+    default: mod.GymPage,
   })),
 );
 
@@ -71,43 +69,48 @@ function getPageSeo(pathname: string): PageSeo {
   const pages: Record<string, PageSeo> = {
     '/': {
       title: site.meta.title,
-      description:
-        'Entrenamiento de fuerza y pilates, online y presencial. Conocé las propuestas de FORMA Studio y encontrá tu manera de empezar.',
+      description: site.meta.description,
       robots: INDEXABLE,
     },
 
     '/programas': {
       title: 'Programas de fuerza y pilates | FORMA Studio',
       description:
-        'Conocé nuestras propuestas de entrenamiento de fuerza y pilates y encontrá opciones según tus objetivos y experiencia.',
+        'Explorá las propuestas de entrenamiento de fuerza y pilates, y conocé sus características y modalidades.',
       robots: INDEXABLE,
     },
 
     '/asesoramiento': {
       title: 'Asesoramiento y planificación | FORMA Studio',
       description:
-        'Conocé cómo empezar con FORMA Studio: opciones de fuerza y pilates, modalidades online y presencial, y orientación según tus objetivos.',
+        'Conocé cómo realizar una consulta de asesoramiento y encontrar una modalidad de entrenamiento acorde a tus objetivos.',
       robots: INDEXABLE,
     },
 
     '/empezar': {
       title: 'Empezar | FORMA Studio',
       description:
-        'Completá el formulario para contarnos tus objetivos y recibir información sobre cómo empezar a entrenar con FORMA Studio.',
+        'Completá el formulario de entrenamiento para compartir tus objetivos y preferencias con FORMA Studio.',
       robots: NOINDEX,
     },
 
-    '/espacio': {
-      title: 'Rutinas y biblioteca de ejercicios | FORMA Studio',
+    '/nuestro-gimnasio': {
+      title: 'Nuestro gimnasio | Pilar Prado ENTRENAMIENTO · FORMA Studio',
       description:
-        'Explorá sesiones de fuerza y pilates, consultá ejercicios y registrá tu progreso en este navegador.',
+        'Conocé Pilar Prado ENTRENAMIENTO en Cruz Alta, Córdoba: entrenamiento funcional, Pilates Reformer, horarios, contacto y ubicación.',
+      robots: INDEXABLE,
+    },
+
+    '/espacio': {
+      title: 'Nuestro gimnasio | FORMA Studio',
+      description: 'Esta sección ahora se encuentra en Nuestro gimnasio.',
       robots: NOINDEX,
     },
 
     '/privacidad': {
       title: 'Privacidad | FORMA Studio',
       description:
-        'Conocé cómo FORMA Studio utiliza los datos que compartís al completar el formulario de entrenamiento.',
+        'Información sobre privacidad y recursos utilizados en el sitio de FORMA Studio.',
       robots: NOINDEX,
     },
   };
@@ -117,15 +120,11 @@ function getPageSeo(pathname: string): PageSeo {
   }
 
   if (path.startsWith('/programas/')) {
-    const program = getProgram(path.slice('/programas/'.length));
-
-    if (program) {
-      return {
-        title: `${program.name} | FORMA Studio`,
-        description: `${program.shortDescription} Conocé sus objetivos y consultá las modalidades disponibles en FORMA Studio.`,
-        robots: NOINDEX,
-      };
-    }
+    return {
+      title: 'Detalle de programa | FORMA Studio',
+      description: 'Ficha de ejemplo del catálogo de programas de FORMA Studio.',
+      robots: NOINDEX,
+    };
   }
 
   return {
@@ -136,7 +135,9 @@ function getPageSeo(pathname: string): PageSeo {
 }
 
 function setMetaName(name: string, content: string) {
-  let meta = document.head.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
+  let meta = document.head.querySelector<HTMLMetaElement>(
+    `meta[name="${name}"]`,
+  );
 
   if (!meta) {
     meta = document.createElement('meta');
@@ -148,7 +149,9 @@ function setMetaName(name: string, content: string) {
 }
 
 function setMetaProperty(property: string, content: string) {
-  let meta = document.head.querySelector<HTMLMetaElement>(`meta[property="${property}"]`);
+  let meta = document.head.querySelector<HTMLMetaElement>(
+    `meta[property="${property}"]`,
+  );
 
   if (!meta) {
     meta = document.createElement('meta');
@@ -160,7 +163,9 @@ function setMetaProperty(property: string, content: string) {
 }
 
 function setCanonical(url: string) {
-  let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  let canonical = document.head.querySelector<HTMLLinkElement>(
+    'link[rel="canonical"]',
+  );
 
   if (!canonical) {
     canonical = document.createElement('link');
@@ -180,13 +185,11 @@ function RouteEffects() {
 
     const canonicalUrl = `${site.meta.url}${path === '/' ? '/' : path}`;
 
-    // Título y descripción.
     document.title = seo.title;
 
     setMetaName('description', seo.description);
     setMetaName('robots', seo.robots);
 
-    // URL canónica.
     setCanonical(canonicalUrl);
 
     // Open Graph.
@@ -235,15 +238,38 @@ export function App() {
 
           <Route path="programas" element={<ProgramsPage />} />
 
-          <Route path="programas/:slug" element={<ProgramPage />} />
+          <Route
+            path="programas/:slug"
+            element={<ProgramPage />}
+          />
 
-          <Route path="asesoramiento" element={<CoachingPage />} />
+          <Route
+            path="asesoramiento"
+            element={<CoachingPage />}
+          />
 
           <Route path="empezar" element={<ApplyPage />} />
 
-          <Route path="espacio" element={<PortalPreviewPage />} />
+          <Route
+            path="nuestro-gimnasio"
+            element={<GymPage />}
+          />
 
-          <Route path="privacidad" element={<PrivacyPage />} />
+          {/* Compatibilidad con enlaces antiguos */}
+          <Route
+            path="espacio"
+            element={
+              <Navigate
+                to="/nuestro-gimnasio"
+                replace
+              />
+            }
+          />
+
+          <Route
+            path="privacidad"
+            element={<PrivacyPage />}
+          />
 
           <Route path="*" element={<NotFoundPage />} />
         </Route>

@@ -1,0 +1,1533 @@
+
+/* =========================================================
+   FORMA STUDIO — NUESTRO GIMNASIO
+   Diseño editorial, accesible y responsive
+   ========================================================= */
+
+.gym-page {
+  --gym-background: #fff8f6;
+  --gym-surface: #fffdfb;
+  --gym-blush: #f3dce4;
+  --gym-blush-deep: #edcbd5;
+  --gym-ink: #382e34;
+  --gym-burgundy: #8f2d4d;
+  --gym-deep: #87324f;
+  --gym-rose: #b93f65;
+  --gym-muted: #64515a;
+  --gym-line: rgb(113 62 78 / 20%);
+  --gym-serif: 'DM Serif Display', Georgia, serif;
+  --gym-sans: 'DM Sans', Arial, sans-serif;
+
+  width: 100%;
+  min-width: 0;
+  overflow: clip;
+
+  background: var(--gym-background);
+  color: var(--gym-ink);
+}
+
+/* =========================================================
+   BASE Y TIPOGRAFÍA
+   ========================================================= */
+
+.gym-page,
+.gym-page * {
+  box-sizing: border-box;
+}
+
+.gym-page img {
+  display: block;
+  max-width: 100%;
+}
+
+.gym-page .section-spacing {
+  padding-block: clamp(68px, 7.5vw, 112px);
+}
+
+.gym-page .display-title {
+  color: var(--gym-ink);
+  overflow-wrap: normal;
+  word-break: normal;
+  text-wrap: balance;
+}
+
+.gym-page .display-title em {
+  color: var(--gym-rose);
+  font-weight: 400;
+}
+
+.gym-page p {
+  overflow-wrap: break-word;
+}
+
+.gym-page a {
+  text-underline-offset: 4px;
+}
+
+.gym-page a:focus-visible {
+  outline: 3px solid var(--gym-rose);
+  outline-offset: 5px;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.gym-hero {
+  position: relative;
+  padding-block:
+    clamp(74px, 7vw, 110px)
+    clamp(72px, 8vw, 115px);
+
+  background:
+    radial-gradient(
+      ellipse at 88% 12%,
+      rgb(236 191 205 / 49%),
+      transparent 46%
+    ),
+    var(--gym-background);
+}
+
+.gym-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+
+  gap: clamp(38px, 5vw, 85px);
+}
+
+.gym-hero__copy {
+  min-width: 0;
+}
+
+.gym-hero__copy h1 {
+  max-width: 800px;
+
+  margin: 28px 0 27px;
+
+  font-size: clamp(3.05rem, 6vw, 6.4rem);
+  line-height: 1.04;
+  letter-spacing: -0.052em;
+
+  overflow-wrap: normal;
+}
+
+.gym-hero__copy > p {
+  max-width: 520px;
+
+  color: var(--gym-muted);
+
+  font-family: var(--gym-sans);
+  font-size: clamp(1rem, 1.25vw, 1.12rem);
+  line-height: 1.82;
+}
+
+.gym-hero__actions,
+.gym-final-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  gap: 15px 25px;
+  margin-top: 31px;
+}
+
+.gym-text-link,
+.gym-inline-link,
+.gym-location__directions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  width: fit-content;
+  min-height: 44px;
+
+  color: var(--gym-burgundy);
+
+  font-family: var(--gym-sans);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.4;
+
+  text-decoration: none;
+
+  transition:
+    color 220ms ease,
+    transform 220ms ease;
+}
+
+.gym-text-link:hover,
+.gym-inline-link:hover,
+.gym-location__directions:hover {
+  color: #6e203b;
+  transform: translateX(3px);
+}
+
+.gym-hero__address {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  max-width: 480px;
+
+  margin-top: 34px;
+
+  color: var(--gym-muted);
+
+  font-size: 0.84rem;
+  line-height: 1.7;
+}
+
+.gym-hero__address svg {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  color: var(--gym-rose);
+}
+
+/* Fotografía principal */
+
+.gym-hero__visual {
+  position: relative;
+  isolation: isolate;
+
+  width: 100%;
+  min-width: 0;
+  max-height: 680px;
+
+  aspect-ratio: 0.92 / 1;
+
+  overflow: hidden;
+
+  background: var(--gym-blush);
+
+  border-radius:
+    46% 46% 3px 3px /
+    24% 24% 3px 3px;
+
+  box-shadow:
+    0 24px 65px rgb(81 42 57 / 13%);
+}
+
+.gym-hero__visual::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+
+  background: linear-gradient(
+    0deg,
+    rgb(34 21 28 / 75%) 0%,
+    rgb(34 21 28 / 27%) 32%,
+    transparent 65%
+  );
+
+  content: '';
+  pointer-events: none;
+}
+
+.gym-hero__visual img,
+.gym-discipline-card__image img,
+.gym-equipment__visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gym-hero__visual-caption {
+  position: absolute;
+  z-index: 2;
+
+  right: clamp(22px, 3vw, 42px);
+  bottom: clamp(27px, 4vw, 52px);
+  left: clamp(22px, 3vw, 42px);
+
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+
+  color: #ffffff;
+
+  text-shadow: 0 2px 10px rgb(0 0 0 / 20%);
+}
+
+.gym-hero__visual-caption span {
+  color: #fff4f5;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.gym-hero__visual-caption strong {
+  color: #ffffff;
+
+  font-family: var(--gym-serif);
+  font-size: clamp(1.55rem, 2.5vw, 2.45rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.gym-hero__visual-index {
+  position: absolute;
+  z-index: 2;
+
+  top: 28px;
+  right: 30px;
+
+  color: white;
+
+  font-family: var(--gym-serif);
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
+.gym-hero__visual-index i {
+  font-family: var(--gym-sans);
+  font-size: 0.68rem;
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* =========================================================
+   INFORMACIÓN DESTACADA
+   ========================================================= */
+
+.gym-facts {
+  background: var(--gym-deep);
+  color: #ffffff;
+}
+
+.gym-facts__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gym-fact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 9px;
+
+  min-width: 0;
+  padding: 28px 17px;
+
+  border-bottom: 1px solid rgb(255 255 255 / 19%);
+}
+
+.gym-fact:nth-child(odd) {
+  padding-left: 0;
+}
+
+.gym-fact:nth-child(even) {
+  border-left: 1px solid rgb(255 255 255 / 19%);
+}
+
+.gym-fact__label {
+  color: #ffdde6;
+
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+}
+
+.gym-fact > strong {
+  color: #ffffff;
+
+  font-family: var(--gym-serif);
+  font-size: clamp(1.5rem, 3vw, 2.45rem);
+  font-weight: 400;
+  line-height: 1.15;
+
+  overflow-wrap: anywhere;
+}
+
+.gym-fact > strong small {
+  margin-left: 4px;
+
+  color: #ffebef;
+
+  font-family: var(--gym-sans);
+  font-size: 0.9rem;
+}
+
+.gym-fact__detail,
+.gym-fact a.gym-fact__detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #fff0f3;
+
+  font-size: 0.79rem;
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+}
+
+.gym-fact a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+/* =========================================================
+   INTRODUCCIÓN
+   ========================================================= */
+
+.gym-intro {
+  background: var(--gym-surface);
+}
+
+.gym-intro__grid,
+.gym-equipment__grid,
+.gym-coaching__grid,
+.gym-reviews__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+
+  align-items: start;
+  gap: clamp(30px, 5vw, 80px);
+}
+
+.gym-intro h2,
+.gym-equipment h2,
+.gym-coaching h2,
+.gym-reviews h2,
+.gym-location h2 {
+  max-width: 100%;
+
+  margin: 25px 0 22px;
+
+  font-size: clamp(2.75rem, 5.1vw, 5.05rem);
+  line-height: 1.07;
+  letter-spacing: -0.045em;
+
+  overflow-wrap: normal;
+  word-break: normal;
+  text-wrap: balance;
+}
+
+.gym-intro__copy,
+.gym-equipment__copy,
+.gym-coaching__copy {
+  min-width: 0;
+}
+
+.gym-intro__copy p,
+.gym-equipment__copy p,
+.gym-coaching__copy p,
+.gym-reviews__grid > div:first-child > p,
+.gym-location__heading p {
+  max-width: 590px;
+
+  color: var(--gym-muted);
+
+  font-size: clamp(0.94rem, 1.15vw, 1.05rem);
+  line-height: 1.88;
+}
+
+.gym-intro__copy p + p,
+.gym-equipment__copy p + p,
+.gym-coaching__copy p + p {
+  margin-top: 17px;
+}
+
+.gym-intro__copy .gym-inline-link,
+.gym-equipment__copy .gym-inline-link {
+  margin-top: 18px;
+}
+
+/* =========================================================
+   DISCIPLINAS
+   ========================================================= */
+
+.gym-disciplines {
+  background: var(--gym-blush);
+}
+
+.gym-section-heading {
+  max-width: 750px;
+  margin-bottom: clamp(32px, 4vw, 52px);
+}
+
+.gym-section-heading h2 {
+  margin: 24px 0 18px;
+
+  font-size: clamp(2.9rem, 6vw, 5.7rem);
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+}
+
+.gym-section-heading > p {
+  max-width: 550px;
+
+  color: var(--gym-muted);
+
+  font-size: 0.97rem;
+  line-height: 1.84;
+}
+
+.gym-disciplines__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 25px;
+}
+
+.gym-discipline-card {
+  min-width: 0;
+
+  overflow: hidden;
+
+  background: #fffdfb;
+
+  border: 1px solid rgb(126 69 86 / 11%);
+
+  box-shadow:
+    0 12px 34px rgb(94 54 60 / 7%);
+
+  transition:
+    box-shadow 280ms ease,
+    transform 280ms ease;
+}
+
+.gym-discipline-card__image {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 1.22 / 1;
+
+  overflow: hidden;
+  background: #dfc4c8;
+}
+
+.gym-discipline-card__image img {
+  transition:
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gym-discipline-card__image > span {
+  position: absolute;
+  top: 18px;
+  left: 19px;
+
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+
+  border: 1px solid rgb(255 255 255 / 75%);
+  border-radius: 50%;
+
+  background: rgb(58 31 42 / 60%);
+  backdrop-filter: blur(8px);
+
+  color: white;
+
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.gym-discipline-card__content {
+  padding: clamp(24px, 3vw, 35px);
+}
+
+.gym-discipline-card__content > span {
+  color: var(--gym-burgundy);
+
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.gym-discipline-card__content h3 {
+  margin: 13px 0 14px;
+
+  color: var(--gym-ink);
+
+  font-family: var(--gym-serif);
+  font-size: clamp(1.75rem, 2.9vw, 2.5rem);
+  font-weight: 400;
+  line-height: 1.18;
+}
+
+.gym-discipline-card__content p {
+  color: var(--gym-muted);
+
+  font-size: 0.91rem;
+  line-height: 1.85;
+}
+
+.gym-image-disclaimer {
+  max-width: 760px;
+
+  margin: 28px 0 0 auto;
+
+  color: #694f59;
+
+  font-size: 0.77rem;
+  line-height: 1.75;
+}
+
+/* =========================================================
+   MÁQUINAS Y EQUIPAMIENTO
+   ========================================================= */
+
+.gym-equipment {
+  background: var(--gym-surface);
+}
+
+.gym-equipment__grid {
+  align-items: center;
+}
+
+.gym-equipment__visual {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 390px;
+}
+
+.gym-equipment__main-image {
+  width: 84%;
+  height: 390px;
+
+  overflow: hidden;
+  background: var(--gym-blush);
+}
+
+.gym-equipment__secondary-image {
+  position: absolute;
+  right: 0;
+  bottom: -17px;
+
+  width: 48%;
+  height: 215px;
+
+  overflow: hidden;
+
+  border: 8px solid var(--gym-surface);
+  background: var(--gym-blush-deep);
+
+  box-shadow:
+    0 13px 30px rgb(57 31 40 / 12%);
+}
+
+.gym-equipment__stamp {
+  position: absolute;
+  top: 19px;
+  right: 1%;
+
+  display: grid;
+  width: 105px;
+  height: 105px;
+  place-items: center;
+
+  padding: 15px;
+
+  border: 1px solid rgb(100 52 72 / 25%);
+  border-radius: 50%;
+
+  background: #fae9ed;
+  color: var(--gym-burgundy);
+
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+  text-align: center;
+
+  transform: rotate(9deg);
+}
+
+.gym-equipment__copy h2 {
+  max-width: 670px;
+  margin-bottom: 24px;
+}
+
+.gym-equipment__copy p {
+  max-width: 560px;
+}
+
+/* =========================================================
+   ACOMPAÑAMIENTO — CONTRASTE CORREGIDO
+   ========================================================= */
+
+.gym-coaching,
+.gym-final-cta {
+  background: var(--gym-deep);
+  color: #ffffff;
+}
+
+/*
+ * La regla general .gym-page .display-title
+ * tenía mayor especificidad que los títulos
+ * de estas secciones oscuras.
+ *
+ * Se sobrescribe explícitamente para garantizar
+ * contraste alto, tanto en desktop como en mobile.
+ */
+
+.gym-page .gym-coaching .display-title,
+.gym-page .gym-final-cta .display-title {
+  color: #fffaf8;
+  -webkit-text-fill-color: #fffaf8;
+}
+
+.gym-page .gym-coaching .display-title em,
+.gym-page .gym-final-cta .display-title em {
+  color: #ffdae5;
+  -webkit-text-fill-color: #ffdae5;
+}
+
+.gym-page .gym-coaching .section-label,
+.gym-page .gym-coaching .section-label > span,
+.gym-page .gym-final-cta .section-label,
+.gym-page .gym-final-cta .section-label > span {
+  color: #ffe5ec;
+  -webkit-text-fill-color: #ffe5ec;
+}
+
+.gym-coaching__grid {
+  align-items: center;
+}
+
+.gym-coaching__copy p {
+  color: #fff0f4;
+  line-height: 1.9;
+}
+
+.gym-coaching__copy p + p {
+  margin-top: 18px;
+}
+
+.gym-coaching__copy .arrow-link {
+  margin-top: 26px;
+}
+
+/* Botón visible sobre fondo bordó */
+
+.gym-coaching .arrow-link,
+.gym-final-cta .arrow-link {
+  background: #fff4f5;
+  border: 1px solid #fff4f5;
+  color: #812744;
+
+  box-shadow:
+    0 10px 28px rgb(49 16 31 / 15%);
+}
+
+.gym-coaching .arrow-link:hover,
+.gym-final-cta .arrow-link:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #69203a;
+}
+
+.gym-coaching .arrow-link:focus-visible,
+.gym-final-cta .arrow-link:focus-visible {
+  outline: 3px solid #ffffff;
+  outline-offset: 5px;
+}
+
+/* =========================================================
+   INFORMACIÓN PRÁCTICA
+   ========================================================= */
+
+.gym-information {
+  background: #f1d8d4;
+}
+
+.gym-information .gym-section-heading {
+  margin-bottom: 37px;
+}
+
+.gym-information__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 17px;
+}
+
+.gym-information-card {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  height: 100%;
+
+  padding: clamp(25px, 3vw, 36px);
+
+  border: 1px solid rgb(99 52 67 / 18%);
+
+  background: #fffaf8;
+
+  transition:
+    border-color 240ms ease,
+    box-shadow 240ms ease,
+    transform 240ms ease;
+}
+
+.gym-information-card > svg {
+  margin-bottom: 24px;
+  color: var(--gym-burgundy);
+}
+
+.gym-information-card > span {
+  color: var(--gym-burgundy);
+
+  font-size: 0.69rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.gym-information-card h3 {
+  margin: 13px 0 19px;
+
+  color: var(--gym-ink);
+
+  font-family: var(--gym-serif);
+  font-size: clamp(1.65rem, 2.6vw, 2.15rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.gym-information-card > p {
+  color: var(--gym-muted);
+
+  font-size: 0.9rem;
+  line-height: 1.82;
+}
+
+.gym-information-card .gym-inline-link {
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.gym-hours-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 12px;
+  padding: 14px 0;
+
+  border-top: 1px solid var(--gym-line);
+
+  color: var(--gym-muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.gym-hours-row strong {
+  color: var(--gym-ink);
+  font-weight: 700;
+}
+
+.gym-hours-row span {
+  text-align: right;
+}
+
+/* =========================================================
+   RESEÑAS DE GOOGLE
+   ========================================================= */
+
+.gym-reviews {
+  background: #fffaf8;
+}
+
+.gym-reviews__grid {
+  align-items: center;
+}
+
+.gym-reviews__grid > div:first-child > p {
+  margin-top: 23px;
+}
+
+.gym-reviews__score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  min-width: 0;
+
+  padding: clamp(27px, 4vw, 47px);
+
+  border: 1px solid var(--gym-line);
+
+  background: var(--gym-blush);
+}
+
+.gym-reviews__score-label {
+  color: var(--gym-burgundy);
+
+  font-size: 0.69rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+.gym-reviews__score > strong {
+  margin-top: 17px;
+
+  color: var(--gym-burgundy);
+
+  font-family: var(--gym-serif);
+  font-size: clamp(5rem, 9vw, 7rem);
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 0.97;
+}
+
+.gym-reviews__stars {
+  display: flex;
+  gap: 6px;
+
+  margin-top: 21px;
+
+  color: #93601d;
+}
+
+.gym-reviews__score > span:last-of-type {
+  margin-top: 12px;
+
+  color: var(--gym-muted);
+  font-size: 0.86rem;
+}
+
+.gym-reviews__actions {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 13px 21px;
+  margin-top: 29px;
+}
+
+.gym-reviews__actions a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+
+  min-height: 46px;
+
+  color: var(--gym-burgundy);
+
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Botón principal de reseña */
+
+.gym-reviews__actions a:first-child {
+  padding: 13px 19px;
+
+  background: var(--gym-burgundy);
+  border: 1px solid var(--gym-burgundy);
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  transition:
+    background 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease;
+}
+
+.gym-reviews__actions a:first-child:hover {
+  background: #70233d;
+  border-color: #70233d;
+  color: #ffffff;
+
+  transform: translateY(-2px);
+}
+
+.gym-reviews__actions a:last-child:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   GOOGLE MAPS Y UBICACIÓN
+   ========================================================= */
+
+.gym-location {
+  background: var(--gym-blush);
+}
+
+.gym-location__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 26px;
+  margin-bottom: 36px;
+}
+
+.gym-location__heading h2 {
+  margin-bottom: 20px;
+}
+
+.gym-location__heading p {
+  margin-top: 8px;
+}
+
+.gym-location__directions {
+  padding: 14px 20px;
+
+  border: 1px solid var(--gym-burgundy);
+
+  background: var(--gym-burgundy);
+  color: white;
+}
+
+.gym-location__directions:hover {
+  background: #70233d;
+  color: white;
+
+  transform: translateY(-2px);
+}
+
+.gym-location__map-wrap {
+  overflow: hidden;
+
+  border: 1px solid rgb(99 52 67 / 18%);
+
+  background: #e8d6d6;
+
+  box-shadow:
+    0 18px 44px rgb(68 37 48 / 11%);
+}
+
+.gym-location__map {
+  display: block;
+
+  width: 100%;
+  height: clamp(345px, 43vw, 530px);
+
+  border: 0;
+}
+
+/* =========================================================
+   CTA FINAL — CONTRASTE CORREGIDO
+   ========================================================= */
+
+.gym-final-cta {
+  position: relative;
+
+  padding-block: clamp(76px, 9vw, 130px);
+
+  background: var(--gym-deep);
+}
+
+.gym-final-cta__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.gym-final-cta h2 {
+  max-width: 850px;
+
+  margin: 26px 0 25px;
+
+  font-size: clamp(3.15rem, 6.1vw, 6.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.052em;
+}
+
+.gym-final-cta p {
+  max-width: 520px;
+
+  color: #fff0f4;
+
+  font-size: 1rem;
+  line-height: 1.85;
+}
+
+.gym-final-cta__actions > a:not(.arrow-link) {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  min-height: 44px;
+
+  color: #ffffff;
+
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.gym-final-cta__actions > a:not(.arrow-link):hover {
+  color: #ffe0e9;
+  text-decoration: underline;
+}
+
+/* =========================================================
+   FOOTER — ENLACES DE UBICACIÓN
+   ========================================================= */
+
+.site-footer .footer-location {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+
+  width: fit-content;
+  max-width: 340px;
+  min-height: 34px;
+
+  margin-top: 11px;
+
+  color: #f0e0e7;
+
+  font-size: 0.81rem;
+  line-height: 1.7;
+
+  transition: color 220ms ease;
+}
+
+.site-footer .footer-location svg {
+  flex: 0 0 auto;
+
+  margin-top: 3px;
+  color: #f3b6ca;
+}
+
+.site-footer .footer-location:hover {
+  color: white;
+}
+
+/* =========================================================
+   ASESORAMIENTO — ELEMENTOS COMPARTIDOS
+   ========================================================= */
+
+.coaching-contact {
+  padding-block: clamp(70px, 8vw, 118px);
+  background: #f3dce4;
+  color: #382e34;
+}
+
+.coaching-contact h2 {
+  max-width: 900px;
+
+  margin: 26px 0 22px;
+
+  color: #382e34;
+
+  font-size: clamp(3rem, 6vw, 5.7rem);
+  line-height: 1.06;
+}
+
+.coaching-contact h2 em {
+  color: #b93f65;
+}
+
+.coaching-contact__inner p {
+  max-width: 570px;
+
+  color: #64515a;
+
+  font-size: 0.98rem;
+  line-height: 1.85;
+}
+
+.coaching-contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  gap: 18px 25px;
+  margin-top: 28px;
+}
+
+.coaching-contact__actions > a:not(.arrow-link) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  min-height: 44px;
+
+  color: #8f2d4d;
+
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
+@media (min-width: 768px) {
+  .gym-hero__grid {
+    grid-template-columns:
+      minmax(0, 1.1fr)
+      minmax(0, 0.9fr);
+  }
+
+  .gym-facts__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .gym-fact {
+    padding: 31px 22px;
+    border-bottom: 0;
+  }
+
+  .gym-fact:first-child {
+    padding-left: 0;
+  }
+
+  .gym-fact:nth-child(odd),
+  .gym-fact:nth-child(even) {
+    padding-left: 22px;
+  }
+
+  .gym-fact + .gym-fact {
+    border-left: 1px solid rgb(255 255 255 / 19%);
+  }
+
+  .gym-intro__grid,
+  .gym-coaching__grid,
+  .gym-reviews__grid {
+    grid-template-columns:
+      minmax(0, 1.02fr)
+      minmax(0, 0.98fr);
+  }
+
+  .gym-equipment__grid {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+
+    gap: clamp(55px, 7vw, 105px);
+  }
+
+  .gym-disciplines__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 26px;
+  }
+
+  .gym-discipline-card:nth-child(2) {
+    margin-top: 38px;
+  }
+
+  .gym-information__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 19px;
+    align-items: stretch;
+  }
+
+  .gym-location__heading {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+/* =========================================================
+   DESKTOP ANCHO
+   ========================================================= */
+
+@media (min-width: 1100px) {
+  .gym-hero__visual {
+    max-height: 640px;
+  }
+
+  .gym-equipment__visual {
+    min-height: 480px;
+  }
+
+  .gym-equipment__main-image {
+    height: 460px;
+  }
+
+  .gym-equipment__secondary-image {
+    height: 250px;
+  }
+
+  .gym-equipment__copy h2 {
+    font-size: clamp(3.15rem, 4.4vw, 4.7rem);
+  }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (min-width: 768px) and (max-width: 1099px) {
+  .gym-hero__copy h1 {
+    font-size: clamp(3.1rem, 5.5vw, 4.8rem);
+  }
+
+  .gym-equipment__visual {
+    min-height: 375px;
+  }
+
+  .gym-equipment__main-image {
+    height: 355px;
+  }
+
+  .gym-equipment__secondary-image {
+    height: 195px;
+  }
+
+  .gym-equipment__stamp {
+    width: 90px;
+    height: 90px;
+  }
+
+  .gym-information-card {
+    padding: 23px 18px;
+  }
+
+  .gym-information-card h3 {
+    font-size: 1.65rem;
+  }
+
+  .gym-fact > strong {
+    font-size: 1.55rem;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+  .gym-page .section-spacing {
+    padding-block: 67px;
+  }
+
+  .gym-hero {
+    padding-block: 65px 75px;
+  }
+
+  .gym-hero__grid {
+    gap: 38px;
+  }
+
+  .gym-hero__copy h1 {
+    max-width: 100%;
+
+    margin: 25px 0 23px;
+
+    font-size: clamp(2.85rem, 10vw, 4.5rem);
+    line-height: 1.06;
+  }
+
+  .gym-hero__copy > p {
+    font-size: 0.97rem;
+    line-height: 1.8;
+  }
+
+  .gym-hero__visual {
+    max-height: none;
+    aspect-ratio: 0.96 / 1;
+  }
+
+  .gym-hero__visual-caption {
+    right: 20px;
+    bottom: 24px;
+    left: 20px;
+  }
+
+  .gym-hero__visual-caption strong {
+    font-size: clamp(1.55rem, 5.6vw, 2.1rem);
+  }
+
+  .gym-hero__visual-index {
+    top: 21px;
+    right: 21px;
+  }
+
+  .gym-fact {
+    gap: 9px;
+    padding-block: 25px;
+  }
+
+  .gym-fact__label {
+    font-size: 0.58rem;
+  }
+
+  .gym-fact > strong {
+    font-size: clamp(1.4rem, 5vw, 1.85rem);
+  }
+
+  .gym-fact__detail {
+    font-size: 0.73rem;
+  }
+
+  .gym-intro h2,
+  .gym-equipment h2,
+  .gym-coaching h2,
+  .gym-reviews h2,
+  .gym-location h2 {
+    font-size: clamp(2.65rem, 9vw, 4.2rem);
+    line-height: 1.08;
+  }
+
+  .gym-section-heading h2 {
+    font-size: clamp(2.8rem, 9.5vw, 4.4rem);
+  }
+
+  .gym-discipline-card__image {
+    aspect-ratio: 1.15 / 1;
+  }
+
+  .gym-discipline-card__content {
+    padding: 25px 23px 29px;
+  }
+
+  .gym-equipment__grid {
+    gap: 49px;
+  }
+
+  .gym-equipment__visual {
+    min-height: 325px;
+  }
+
+  .gym-equipment__main-image {
+    height: 315px;
+  }
+
+  .gym-equipment__secondary-image {
+    height: 185px;
+    border-width: 6px;
+  }
+
+  .gym-equipment__stamp {
+    top: 10px;
+    right: 1%;
+
+    width: 83px;
+    height: 83px;
+
+    padding: 10px;
+
+    font-size: 0.51rem;
+  }
+
+  .gym-information-card {
+    padding: 28px 24px;
+  }
+
+  .gym-information-card > p {
+    min-height: 0;
+  }
+
+  .gym-reviews__score {
+    padding: 29px 25px;
+  }
+
+  .gym-location__map {
+    height: 365px;
+  }
+
+  .gym-final-cta {
+    padding-block: 75px 85px;
+  }
+
+  .gym-final-cta h2 {
+    font-size: clamp(2.95rem, 10vw, 4.4rem);
+    line-height: 1.07;
+  }
+}
+
+/* =========================================================
+   CELULARES ESTRECHOS
+   ========================================================= */
+
+@media (max-width: 380px) {
+  .gym-hero__copy h1 {
+    font-size: 2.75rem;
+  }
+
+  .gym-hero__actions,
+  .gym-final-cta__actions,
+  .coaching-contact__actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .gym-hero__visual {
+    aspect-ratio: 0.92 / 1;
+  }
+
+  .gym-fact {
+    padding-right: 10px;
+  }
+
+  .gym-fact > strong {
+    font-size: 1.3rem;
+  }
+
+  .gym-equipment__main-image {
+    height: 285px;
+  }
+
+  .gym-equipment__secondary-image {
+    height: 165px;
+  }
+
+  .gym-equipment__visual {
+    min-height: 290px;
+  }
+
+  .gym-hours-row {
+    font-size: 0.75rem;
+  }
+
+  .gym-reviews__actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* =========================================================
+   HOVER — SOLO DISPOSITIVOS CON MOUSE
+   ========================================================= */
+
+@media (hover: hover) and (pointer: fine) {
+  .gym-discipline-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow:
+      0 21px 45px rgb(94 54 60 / 13%);
+  }
+
+  .gym-discipline-card:hover .gym-discipline-card__image img {
+    transform: scale(1.045);
+  }
+
+  .gym-information-card:hover {
+    transform: translateY(-3px);
+
+    border-color: rgb(143 45 77 / 38%);
+
+    box-shadow:
+      0 13px 30px rgb(94 54 60 / 9%);
+  }
+}
+
+/* =========================================================
+   ACCESIBILIDAD — MOVIMIENTO REDUCIDO
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .gym-page *,
+  .gym-page *::before,
+  .gym-page *::after {
+    scroll-behavior: auto;
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+  }
+
+  .gym-discipline-card:hover,
+  .gym-information-card:hover {
+    transform: none;
+  }
+
+  .gym-discipline-card:hover .gym-discipline-card__image img {
+    transform: none;
+  }
+}

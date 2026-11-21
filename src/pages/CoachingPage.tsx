@@ -1,9 +1,8 @@
-
 import {
   ArrowUpRight,
-  BookOpenText,
-  CalendarDays,
-  ChartNoAxesCombined,
+  MapPin,
+  MonitorPlay,
+  Phone,
 } from 'lucide-react';
 
 import { Link } from 'react-router-dom';
@@ -11,47 +10,45 @@ import { Link } from 'react-router-dom';
 import { ArrowLink } from '../components/common/ArrowLink';
 import { Reveal } from '../components/common/Reveal';
 import { SectionLabel } from '../components/common/SectionLabel';
+
 import { site } from '../config/site';
+import { gym } from '../data/gym';
 
 const coachingSteps = [
   {
     number: '01',
-    title: 'Conocer tu punto de partida',
+    title: 'Contanos qué estás buscando',
     description:
-      'Conversamos sobre tus objetivos, experiencia, disponibilidad y preferencias de entrenamiento.',
+      'Compartí tus objetivos, tu experiencia y el tipo de actividad que te interesa realizar.',
   },
   {
     number: '02',
-    title: 'Organizar el entrenamiento',
+    title: 'Revisamos tu punto de partida',
     description:
-      'Exploramos las opciones de fuerza y pilates, junto con la modalidad que mejor se adapte a vos.',
+      'La información nos permite conocer tus preferencias, tus tiempos y la modalidad que te resulta más conveniente.',
   },
   {
     number: '03',
-    title: 'Acompañar tu proceso',
+    title: 'Coordinamos cómo empezar',
     description:
-      'La propuesta de entrenamiento y las condiciones de seguimiento se conversan según tus necesidades.',
+      'Nos ponemos en contacto para conversar sobre las opciones disponibles y los próximos pasos.',
   },
 ];
 
-const trainingTools = [
+const modalities = [
   {
-    title: 'Sesiones organizadas',
+    title: 'Entrenamiento presencial',
     text:
-      'Explorá ejemplos de sesiones de fuerza y pilates para conocer diferentes formas de entrenar.',
-    icon: CalendarDays,
+      'Para quienes prefieren acercarse al espacio de Pilar Prado ENTRENAMIENTO en Cruz Alta y consultar las actividades y horarios disponibles.',
+    icon: MapPin,
+    label: 'EN EL GIMNASIO',
   },
   {
-    title: 'Biblioteca de ejercicios',
+    title: 'Entrenamiento online',
     text:
-      'Consultá movimientos, indicaciones generales y ejercicios organizados por disciplina.',
-    icon: BookOpenText,
-  },
-  {
-    title: 'Registro de actividad',
-    text:
-      'Marcá sesiones completadas y consultá tu progreso en el dispositivo que estés utilizando.',
-    icon: ChartNoAxesCombined,
+      'Una alternativa para quienes buscan organizar su entrenamiento desde otro lugar. Consultá cómo se desarrolla esta modalidad y qué necesitás para comenzar.',
+    icon: MonitorPlay,
+    label: 'A DISTANCIA',
   },
 ];
 
@@ -65,26 +62,29 @@ export function CoachingPage() {
           </SectionLabel>
 
           <h1 className="display-title">
-            Tu objetivo.
-            <br />
-            <em>Un camino propio.</em>
+            Tu objetivo. <br />
+            <em>Tu entrenamiento.</em>
           </h1>
 
           <p>
-            Cada persona tiene sus propios objetivos,
-            tiempos y experiencias. Por eso,
-            antes de comenzar, queremos conocer
-            qué necesitás y cómo te gustaría entrenar.
+            Cada persona llega con una historia, una rutina y
+            objetivos diferentes. El primer paso es conocer qué
+            estás buscando para conversar sobre una propuesta
+            que se adapte a vos.
           </p>
 
           <div className="coaching-hero__actions">
             <ArrowLink to="/empezar">
-              Quiero empezar
+              Quiero hacer una consulta
             </ArrowLink>
 
-            <span>
-              FUERZA · PILATES · ONLINE Y PRESENCIAL
-            </span>
+            <Link
+              className="underlined-link"
+              to="/nuestro-gimnasio"
+            >
+              Conocer el gimnasio
+              <ArrowUpRight size={18} aria-hidden="true" />
+            </Link>
           </div>
         </Reveal>
 
@@ -94,7 +94,7 @@ export function CoachingPage() {
         >
           <img
             src={site.images.detail}
-            alt="Entrenamiento físico en un entorno interior"
+            alt="Persona realizando una actividad física en un espacio de entrenamiento"
             loading="eager"
           />
         </Reveal>
@@ -104,20 +104,17 @@ export function CoachingPage() {
         <div className="container commercial-coaching-process__grid">
           <Reveal>
             <SectionLabel number="02 /">
-              CÓMO EMPEZAMOS
+              CÓMO EMPEZAR
             </SectionLabel>
 
             <h2 className="display-title">
-              Primero
-              <br />
-              <em>escucharte.</em>
+              Primero, <br />
+              <em>conocerte.</em>
             </h2>
 
             <p>
-              Para encontrar una propuesta adecuada,
-              empezamos por conocerte. Tu experiencia,
-              disponibilidad y preferencias nos ayudan
-              a comprender qué buscás.
+              Queremos conocer tus necesidades antes de orientarte
+              sobre las alternativas de entrenamiento disponibles.
             </p>
           </Reveal>
 
@@ -143,40 +140,36 @@ export function CoachingPage() {
 
       <section
         className="coaching-features section-spacing"
-        id="herramientas"
+        id="modalidades"
       >
         <div className="container">
           <Reveal>
             <SectionLabel number="03 /">
-              RECURSOS PARA MOVERTE
+              MODALIDADES
             </SectionLabel>
 
             <h2 className="display-title">
-              El movimiento,
-              <br />
-              <em>a tu alcance.</em>
+              Elegí cómo <br />
+              <em>querés entrenar.</em>
             </h2>
 
             <p className="commercial-section-intro">
-              En nuestra sección de rutinas podés
-              explorar sesiones de fuerza y pilates,
-              descubrir ejercicios y llevar un
-              registro sencillo de las sesiones
-              que completaste.
+              FORMA Studio ofrece alternativas presenciales y
+              online. La disponibilidad, la organización y las
+              condiciones de cada modalidad se conversan al
+              realizar la consulta.
             </p>
           </Reveal>
 
           <div className="coaching-features__list">
-            {trainingTools.map(
-              ({ title, text, icon: Icon }, index) => (
+            {modalities.map(
+              ({ title, text, icon: Icon, label }, index) => (
                 <Reveal
                   key={title}
-                  delay={index * 0.07}
+                  delay={index * 0.08}
                 >
                   <article>
-                    <span>
-                      0{index + 1} / RECURSOS
-                    </span>
+                    <span>{label}</span>
 
                     <Icon
                       size={29}
@@ -185,6 +178,7 @@ export function CoachingPage() {
                     />
 
                     <h3>{title}</h3>
+
                     <p>{text}</p>
                   </article>
                 </Reveal>
@@ -198,43 +192,68 @@ export function CoachingPage() {
         <div className="container coaching-stage__grid">
           <Reveal>
             <SectionLabel number="04 /">
-              RUTINAS Y EJERCICIOS
+              ENTRENAMIENTO PRESENCIAL
             </SectionLabel>
 
             <h2 className="display-title">
-              Descubrí
-              <br />
-              <em>nuevos movimientos.</em>
+              Conocé el <br />
+              <em>espacio.</em>
             </h2>
           </Reveal>
 
           <Reveal delay={0.08}>
             <p>
-              Explorá sesiones de fuerza y pilates,
-              consultá las indicaciones de los
-              ejercicios y registrá las sesiones
-              completadas desde tu navegador.
+              El espacio de Pilar Prado ENTRENAMIENTO está ubicado
+              en {gym.address}. Podés conocer la ubicación,
+              consultar los horarios publicados y revisar las
+              propuestas de actividad física en la sección del
+              gimnasio.
             </p>
 
             <Link
               className="underlined-link"
-              to="/espacio"
+              to="/nuestro-gimnasio"
             >
-              Explorar rutinas
-              <ArrowUpRight
-                size={19}
-                aria-hidden="true"
-              />
+              Ver nuestro gimnasio
+              <ArrowUpRight size={19} aria-hidden="true" />
             </Link>
 
             <p className="coaching-stage__disclaimer">
-              Las rutinas disponibles son ejemplos
-              generales de entrenamiento. No reemplazan
-              una evaluación profesional ni constituyen
-              un plan personalizado. El progreso
-              permanece en tu navegador y no se
-              sincroniza con un entrenador.
+              Los horarios y la disponibilidad de actividades
+              pueden variar. Confirmalos antes de acercarte.
             </p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="coaching-contact section-spacing">
+        <div className="container coaching-contact__inner">
+          <Reveal>
+            <SectionLabel number="05 /">
+              TU PRÓXIMO PASO
+            </SectionLabel>
+
+            <h2 className="display-title">
+              Hablemos de <em>tus objetivos.</em>
+            </h2>
+
+            <p>
+              Completá el formulario y contanos qué tipo de
+              entrenamiento estás buscando. Nos pondremos en
+              contacto para conversar sobre las opciones
+              disponibles.
+            </p>
+
+            <div className="coaching-contact__actions">
+              <ArrowLink to="/empezar">
+                Completar formulario
+              </ArrowLink>
+
+              <a href={gym.phoneHref}>
+                Consultar por teléfono
+                <Phone size={16} aria-hidden="true" />
+              </a>
+            </div>
           </Reveal>
         </div>
       </section>

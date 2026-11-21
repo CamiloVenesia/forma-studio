@@ -8,7 +8,7 @@ const links = [
   { label: 'Inicio', to: '/' },
   { label: 'Programas', to: '/programas' },
   { label: 'Asesoramiento', to: '/asesoramiento' },
-  { label: 'Rutinas', to: '/espacio' },
+  { label: 'Nuestro gimnasio', to: '/nuestro-gimnasio' },
 ];
 
 export function Header() {
@@ -27,7 +27,9 @@ export function Header() {
 
     document.body.style.overflow = 'hidden';
 
-    mobileNavRef.current?.querySelector<HTMLAnchorElement>('a')?.focus({ preventScroll: true });
+    mobileNavRef.current
+      ?.querySelector<HTMLAnchorElement>('a')
+      ?.focus({ preventScroll: true });
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -59,7 +61,10 @@ export function Header() {
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
+      } else if (
+        !event.shiftKey &&
+        document.activeElement === last
+      ) {
         event.preventDefault();
         first.focus();
       }
@@ -98,7 +103,9 @@ export function Header() {
           {links.map((link) => (
             <NavLink
               key={link.to}
-              className={({ isActive }) => (isActive ? 'is-active' : '')}
+              className={({ isActive }) =>
+                isActive ? 'is-active' : ''
+              }
               to={link.to}
               end={link.to === '/'}
             >
@@ -121,7 +128,11 @@ export function Header() {
           aria-expanded={open}
           onClick={() => setOpen((value) => !value)}
         >
-          {open ? <X size={25} aria-hidden="true" /> : <Menu size={25} aria-hidden="true" />}
+          {open ? (
+            <X size={25} aria-hidden="true" />
+          ) : (
+            <Menu size={25} aria-hidden="true" />
+          )}
         </button>
       </div>
 
@@ -132,7 +143,9 @@ export function Header() {
         aria-label="Principal móvil"
         aria-hidden={!open}
       >
-        <span className="mobile-nav__eyebrow">EXPLORÁ FORMA</span>
+        <span className="mobile-nav__eyebrow">
+          EXPLORÁ FORMA
+        </span>
 
         {links.map((link, index) => (
           <Link
@@ -160,7 +173,9 @@ export function Header() {
           <ArrowUpRight size={18} aria-hidden="true" />
         </Link>
 
-        <small>FORMA STUDIO · MOVIMIENTO A TU MANERA</small>
+        <small>
+          FORMA STUDIO · MOVIMIENTO A TU MANERA
+        </small>
       </nav>
     </header>
   );

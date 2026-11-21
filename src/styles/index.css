@@ -647,3 +647,23 @@
     opacity: 0;
   }
 }
+
+/* =========================================================
+   JOURNEY — BOTÓN PRINCIPAL
+   ========================================================= */
+
+.journey .arrow-link--outline {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #9d2447 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.journey .arrow-link--outline:hover,
+.journey .arrow-link--outline:focus-visible {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #821d3d !important;
+  transform: translateY(-3px);
+}

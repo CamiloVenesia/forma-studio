@@ -1,13 +1,8 @@
 import { media } from './media';
 
-/**
- * Información pública de Pilar Prado ENTRENAMIENTO.
- *
- * Las imágenes son referencias de bancos de imágenes y no representan
- * necesariamente el espacio ni el inventario real del establecimiento.
- */
+
 export const gym = {
-  name: 'Pilar Prado ENTRENAMIENTO',
+  name: 'Forma Studio ENTRENAMIENTO',
 
   address:
     'Av. San Martín 748, X2189 Cruz Alta, Córdoba, Argentina',

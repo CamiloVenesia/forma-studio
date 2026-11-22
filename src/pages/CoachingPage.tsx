@@ -39,7 +39,7 @@ const modalities = [
   {
     title: 'Entrenamiento presencial',
     text:
-      'Para quienes prefieren acercarse al espacio de Pilar Prado ENTRENAMIENTO en Cruz Alta y consultar las actividades y horarios disponibles.',
+      'Para quienes prefieren acercarse al espacio de Forma Studio en Cruz Alta y consultar las actividades y horarios disponibles.',
     icon: MapPin,
     label: 'EN EL GIMNASIO',
   },
@@ -203,7 +203,7 @@ export function CoachingPage() {
 
           <Reveal delay={0.08}>
             <p>
-              El espacio de Pilar Prado ENTRENAMIENTO está ubicado
+              El espacio de Forma Studio está ubicado
               en {gym.address}. Podés conocer la ubicación,
               consultar los horarios publicados y revisar las
               propuestas de actividad física en la sección del

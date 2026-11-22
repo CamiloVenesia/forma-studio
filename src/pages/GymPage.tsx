@@ -21,7 +21,7 @@ export function GymPage() {
         <div className="container gym-hero__grid">
           <Reveal className="gym-hero__copy">
             <SectionLabel number="01 /">
-              PILAR PRADO ENTRENAMIENTO · CRUZ ALTA
+              Forma Studio · CRUZ ALTA
             </SectionLabel>
 
             <h1 className="display-title">
@@ -165,7 +165,7 @@ export function GymPage() {
 
           <Reveal delay={0.1} className="gym-intro__copy">
             <p>
-              Pilar Prado ENTRENAMIENTO es un centro de entrenamiento
+              Forma Studio es un centro de entrenamiento
               ubicado en Av. San Martín 748, en Cruz Alta. La
               información pública del establecimiento lo identifica
               como un espacio de actividad física con propuestas de

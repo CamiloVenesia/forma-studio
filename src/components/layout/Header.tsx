@@ -1,4 +1,6 @@
+
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
@@ -11,28 +13,64 @@ const links = [
   { label: 'Nuestro gimnasio', to: '/nuestro-gimnasio' },
 ];
 
+function normalizePath(path: string) {
+  return path.replace(/\/+$/, '') || '/';
+}
+
 export function Header() {
   const [open, setOpen] = useState(false);
 
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-
   const mobileNavRef = useRef<HTMLElement>(null);
 
   const { pathname } = useLocation();
+  const previousPathnameRef = useRef(pathname);
+  const currentPath = normalizePath(pathname);
 
+  const closeMenu = (restoreFocus = false) => {
+    setOpen(false);
+
+    if (restoreFocus) {
+      menuButtonRef.current?.focus({
+        preventScroll: true,
+      });
+    }
+  };
+
+  // Bloquea el desplazamiento del fondo sin modificar
+  // la posición del body ni del encabezado sticky.
   useEffect(() => {
     if (!open) return;
 
-    const previousOverflow = document.body.style.overflow;
+    const nav = mobileNavRef.current;
 
-    document.body.style.overflow = 'hidden';
+    const preventOutsideWheel = (event: WheelEvent) => {
+      if (
+        nav &&
+        event.target instanceof Node &&
+        nav.contains(event.target)
+      ) {
+        return;
+      }
 
-    mobileNavRef.current
-      ?.querySelector<HTMLAnchorElement>('a')
-      ?.focus({ preventScroll: true });
+      event.preventDefault();
+    };
+
+    const preventOutsideTouch = (event: TouchEvent) => {
+      if (
+        nav &&
+        event.target instanceof Node &&
+        nav.contains(event.target)
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+    };
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
+        event.preventDefault();
         setOpen(false);
 
         menuButtonRef.current?.focus({
@@ -42,141 +80,252 @@ export function Header() {
         return;
       }
 
-      if (event.key !== 'Tab') return;
-
       const navigationLinks = Array.from(
-        mobileNavRef.current?.querySelectorAll<HTMLAnchorElement>('a') ?? [],
+        nav?.querySelectorAll<HTMLAnchorElement>('a[href]') ?? [],
       );
 
-      const focusableElements: HTMLElement[] = [
-        ...(menuButtonRef.current ? [menuButtonRef.current] : []),
-        ...navigationLinks,
+      const firstLink = navigationLinks[0];
+      const lastLink = navigationLinks[navigationLinks.length - 1];
+      const menuButton = menuButtonRef.current;
+
+      if (event.key === 'Tab') {
+        if (
+          event.shiftKey &&
+          firstLink &&
+          document.activeElement === firstLink
+        ) {
+          event.preventDefault();
+          menuButton?.focus();
+          return;
+        }
+
+        if (
+          !event.shiftKey &&
+          menuButton &&
+          document.activeElement === menuButton
+        ) {
+          event.preventDefault();
+          firstLink?.focus();
+          return;
+        }
+
+        if (
+          !event.shiftKey &&
+          lastLink &&
+          document.activeElement === lastLink
+        ) {
+          event.preventDefault();
+          menuButton?.focus();
+          return;
+        }
+
+        if (
+          event.shiftKey &&
+          menuButton &&
+          document.activeElement === menuButton
+        ) {
+          event.preventDefault();
+          lastLink?.focus();
+          return;
+        }
+      }
+
+      const scrollKeys = [
+        'ArrowDown',
+        'ArrowUp',
+        'PageDown',
+        'PageUp',
+        'Home',
+        'End',
+        ' ',
       ];
 
-      const first = focusableElements[0];
-      const last = focusableElements.at(-1);
+      const targetIsInsideMenu =
+        nav &&
+        event.target instanceof Node &&
+        nav.contains(event.target);
 
-      if (!first || !last) return;
-
-      if (event.shiftKey && document.activeElement === first) {
+      if (scrollKeys.includes(event.key) && !targetIsInsideMenu) {
         event.preventDefault();
-        last.focus();
-      } else if (
-        !event.shiftKey &&
-        document.activeElement === last
-      ) {
-        event.preventDefault();
-        first.focus();
       }
     };
+
+    nav?.querySelector<HTMLAnchorElement>('a[href]')?.focus({
+      preventScroll: true,
+    });
+
+    window.addEventListener('wheel', preventOutsideWheel, {
+      passive: false,
+    });
+
+    window.addEventListener('touchmove', preventOutsideTouch, {
+      passive: false,
+    });
 
     window.addEventListener('keydown', onKeyDown);
 
     return () => {
-      document.body.style.overflow = previousOverflow;
-
+      window.removeEventListener('wheel', preventOutsideWheel);
+      window.removeEventListener('touchmove', preventOutsideTouch);
       window.removeEventListener('keydown', onKeyDown);
     };
   }, [open]);
 
+  // Cierra el menú al cambiar de ruta.
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+    if (previousPathnameRef.current === pathname) return;
 
-  return (
-    <header className="site-header">
-      <div className="header-inner">
-        <Link
-          className="brand"
-          to="/"
-          onClick={() => setOpen(false)}
-          aria-label={`${site.brand.name}, inicio`}
-        >
-          {site.brand.name.toLowerCase()}
+    previousPathnameRef.current = pathname;
 
-          <i aria-hidden="true">.</i>
+    if (open) {
+      setOpen(false);
 
-          <span>{site.brand.suffix}</span>
-        </Link>
+      menuButtonRef.current?.focus({
+        preventScroll: true,
+      });
+    }
+  }, [pathname, open]);
 
-        <nav className="desktop-nav" aria-label="Principal">
-          {links.map((link) => (
-            <NavLink
-              key={link.to}
-              className={({ isActive }) =>
-                isActive ? 'is-active' : ''
-              }
-              to={link.to}
-              end={link.to === '/'}
-            >
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
+  // Cierra el menú si se pasa a escritorio.
+  useEffect(() => {
+    const desktopMedia = window.matchMedia('(min-width: 1024px)');
 
-        <Link className="header-cta" to="/empezar">
-          Quiero entrenar
-          <ArrowUpRight aria-hidden="true" size={17} />
-        </Link>
+    const handleViewportChange = (
+      event: MediaQueryListEvent,
+    ) => {
+      if (!event.matches) return;
 
-        <button
-          ref={menuButtonRef}
-          className="menu-toggle"
-          type="button"
-          aria-controls="mobile-navigation"
-          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
-          aria-expanded={open}
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? (
-            <X size={25} aria-hidden="true" />
-          ) : (
-            <Menu size={25} aria-hidden="true" />
-          )}
-        </button>
-      </div>
+      setOpen(false);
 
-      <nav
-        ref={mobileNavRef}
-        id="mobile-navigation"
-        className={`mobile-nav ${open ? 'mobile-nav--open' : ''}`}
-        aria-label="Principal móvil"
-        aria-hidden={!open}
-      >
-        <span className="mobile-nav__eyebrow">
-          EXPLORÁ FORMA
-        </span>
+      document
+        .querySelector<HTMLAnchorElement>(
+          '.desktop-nav a.is-active',
+        )
+        ?.focus({ preventScroll: true });
+    };
 
-        {links.map((link, index) => (
+    desktopMedia.addEventListener('change', handleViewportChange);
+
+    return () => {
+      desktopMedia.removeEventListener(
+        'change',
+        handleViewportChange,
+      );
+    };
+  }, []);
+
+  const mobileNavigation = (
+    <nav
+      ref={mobileNavRef}
+      id="mobile-navigation"
+      className={`mobile-nav ${
+        open ? 'mobile-nav--open' : ''
+      }`}
+      aria-label="Principal móvil"
+      aria-hidden={!open}
+      inert={!open}
+    >
+      <span className="mobile-nav__eyebrow">
+        EXPLORÁ FORMA
+      </span>
+
+      {links.map((link, index) => {
+        const isActive = currentPath === link.to;
+
+        return (
           <Link
             key={link.to}
             to={link.to}
-            tabIndex={open ? 0 : -1}
-            onClick={() => setOpen(false)}
-            className={pathname === link.to ? 'is-active' : ''}
+            onClick={() => closeMenu(true)}
+            className={`mobile-nav__link mobile-nav__link--${
+              index + 1
+            }${isActive ? ' is-active' : ''}`}
+            aria-current={isActive ? 'page' : undefined}
           >
-            <span>{String(index + 1).padStart(2, '0')}</span>
+            <span>
+              {String(index + 1).padStart(2, '0')}
+            </span>
 
             {link.label}
 
             <ArrowUpRight size={23} aria-hidden="true" />
           </Link>
-        ))}
+        );
+      })}
 
-        <Link
-          className="mobile-nav__cta"
-          tabIndex={open ? 0 : -1}
-          to="/empezar"
-          onClick={() => setOpen(false)}
-        >
-          Quiero empezar a entrenar
-          <ArrowUpRight size={18} aria-hidden="true" />
-        </Link>
+      <Link
+        className="mobile-nav__cta"
+        to="/empezar"
+        onClick={() => closeMenu(true)}
+      >
+        Quiero empezar a entrenar
 
-        <small>
-          FORMA STUDIO · MOVIMIENTO A TU MANERA
-        </small>
-      </nav>
-    </header>
+        <ArrowUpRight size={18} aria-hidden="true" />
+      </Link>
+
+      <small className="mobile-nav__footer">
+        FORMA STUDIO · MOVIMIENTO A TU MANERA
+      </small>
+    </nav>
+  );
+
+  return (
+    <>
+      <header className="site-header">
+        <div className="header-inner">
+          <Link
+            className="brand"
+            to="/"
+            onClick={() => closeMenu()}
+            aria-label={`${site.brand.name}, inicio`}
+          >
+            {site.brand.name.toLowerCase()}
+
+            <i aria-hidden="true">.</i>
+
+            <span>{site.brand.suffix}</span>
+          </Link>
+
+          <nav className="desktop-nav" aria-label="Principal">
+            {links.map((link) => (
+              <NavLink
+                key={link.to}
+                className={({ isActive }) =>
+                  isActive ? 'is-active' : ''
+                }
+                to={link.to}
+                end={link.to === '/'}
+              >
+                {link.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          <Link className="header-cta" to="/empezar">
+            Quiero entrenar
+            <ArrowUpRight size={17} aria-hidden="true" />
+          </Link>
+
+          <button
+            ref={menuButtonRef}
+            className="menu-toggle"
+            type="button"
+            aria-controls="mobile-navigation"
+            aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={open}
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? (
+              <X size={25} aria-hidden="true" />
+            ) : (
+              <Menu size={25} aria-hidden="true" />
+            )}
+          </button>
+        </div>
+      </header>
+
+      {typeof document !== 'undefined' &&
+        createPortal(mobileNavigation, document.body)}
+    </>
   );
 }

@@ -1,4 +1,5 @@
 
+import { isIP } from 'node:net';
 import { env } from 'node:process';
 import nodemailer from 'nodemailer';
 
@@ -23,14 +24,18 @@ import {
   formatModality,
 } from '../src/utils/text.js';
 
-const MAX_BODY_LENGTH = 20_000;
+const MAX_BODY_BYTES = 20_000;
 const RATE_LIMIT_WINDOW = 15 * 60 * 1000;
 const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_MAX_CLIENTS = 1_000;
+const RATE_LIMIT_CLEANUP_INTERVAL = 60_000;
 
 const rateLimitStore = new Map<
   string,
   { count: number; expiresAt: number }
 >();
+
+let lastRateLimitCleanup = 0;
 
 const stringFields = [
   'discipline',
@@ -110,18 +115,44 @@ function isOriginAllowed(origin: string | null): boolean {
 }
 
 function getClientIp(request: Request): string {
-  return (
-    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    request.headers.get('x-real-ip') ||
-    'unknown'
-  );
+  // Vercel proporciona x-real-ip.
+  const realIp = request.headers.get('x-real-ip')?.trim();
+
+  if (realIp && isIP(realIp)) {
+    return realIp;
+  }
+
+  const forwardedIp = request.headers
+    .get('x-forwarded-for')
+    ?.split(',')[0]
+    ?.trim();
+
+  return forwardedIp && isIP(forwardedIp) ? forwardedIp : 'unknown';
 }
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
+
+  if (
+    now - lastRateLimitCleanup >= RATE_LIMIT_CLEANUP_INTERVAL ||
+    rateLimitStore.size >= RATE_LIMIT_MAX_CLIENTS
+  ) {
+    for (const [key, entry] of rateLimitStore) {
+      if (now >= entry.expiresAt) {
+        rateLimitStore.delete(key);
+      }
+    }
+
+    lastRateLimitCleanup = now;
+  }
+
   const current = rateLimitStore.get(ip);
 
-  if (!current || now > current.expiresAt) {
+  if (!current || now >= current.expiresAt) {
+    if (!current && rateLimitStore.size >= RATE_LIMIT_MAX_CLIENTS) {
+      return true;
+    }
+
     rateLimitStore.set(ip, {
       count: 1,
       expiresAt: now + RATE_LIMIT_WINDOW,
@@ -136,6 +167,84 @@ function isRateLimited(ip: string): boolean {
 
   current.count += 1;
   return false;
+}
+
+function isJsonContentType(contentType: string): boolean {
+  return (
+    contentType.split(';', 1)[0]?.trim().toLowerCase() ===
+    'application/json'
+  );
+}
+
+type BodyReadResult =
+  | { ok: true; body: string }
+  | { ok: false; status: 400 | 413; message: string };
+
+async function readLimitedBody(
+  request: Request,
+): Promise<BodyReadResult> {
+  if (!request.body) {
+    return {
+      ok: false,
+      status: 400,
+      message: 'La solicitud está vacía.',
+    };
+  }
+
+  const reader = request.body.getReader();
+  const decoder = new TextDecoder('utf-8', { fatal: true });
+  const chunks: string[] = [];
+  let bytes = 0;
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+
+      if (done) break;
+
+      bytes += value.byteLength;
+
+      if (bytes > MAX_BODY_BYTES) {
+        void reader.cancel().catch(() => undefined);
+
+        return {
+          ok: false,
+          status: 413,
+          message: 'La solicitud supera el tamaño permitido.',
+        };
+      }
+
+      chunks.push(decoder.decode(value, { stream: true }));
+    }
+
+    chunks.push(decoder.decode());
+
+    return {
+      ok: true,
+      body: chunks.join(''),
+    };
+  } catch {
+    return {
+      ok: false,
+      status: 400,
+      message: 'No se pudo leer la solicitud.',
+    };
+  } finally {
+    reader.releaseLock();
+  }
+}
+
+function getSmtpErrorCode(error: unknown): string {
+  if (!isRecord(error)) return 'UNKNOWN';
+
+  const code = error.code;
+
+  return (
+    typeof code === 'string' &&
+    /^[A-Z0-9_]{1,32}$/.test(code)
+  )
+    ? code
+    : 'UNKNOWN';
 }
 
 function escapeHtml(value: string): string {
@@ -153,7 +262,10 @@ function escapeHtml(value: string): string {
   );
 }
 
-function formatOtherValues(values: string[], other: string): string {
+function formatOtherValues(
+  values: string[],
+  other: string,
+): string {
   return (
     values
       .map((value) =>
@@ -185,7 +297,9 @@ function validateIntakeData(data: IntakeData): string[] {
     const value = data[field as keyof IntakeData];
 
     if (typeof value === 'string' && value.length > maximum) {
-      errors.push(`El campo ${field} supera el límite permitido.`);
+      errors.push(
+        `El campo ${field} supera el límite permitido.`,
+      );
     }
   }
 
@@ -204,11 +318,19 @@ function validateIntakeData(data: IntakeData): string[] {
     errors.push('La actividad seleccionada no es válida.');
   }
 
-  if (!data.equipment.every((value) => validEquipment.has(value))) {
+  if (
+    !data.equipment.every((value) =>
+      validEquipment.has(value),
+    )
+  ) {
     errors.push('Hay elementos de equipamiento no válidos.');
   }
 
-  if (!data.difficulties.every((value) => validDifficulties.has(value))) {
+  if (
+    !data.difficulties.every((value) =>
+      validDifficulties.has(value),
+    )
+  ) {
     errors.push('Hay dificultades no válidas.');
   }
 
@@ -238,7 +360,9 @@ function validateIntakeData(data: IntakeData): string[] {
     data.difficulties,
   ]) {
     if (new Set(selections).size !== selections.length) {
-      errors.push('Hay opciones seleccionadas más de una vez.');
+      errors.push(
+        'Hay opciones seleccionadas más de una vez.',
+      );
     }
   }
 
@@ -249,8 +373,13 @@ function validateIntakeData(data: IntakeData): string[] {
   return [...new Set(errors)];
 }
 
-function buildEmailRows(data: IntakeData): Array<[string, string]> {
-  const goalsText = formatOtherValues(data.goals, data.otherGoal);
+function buildEmailRows(
+  data: IntakeData,
+): Array<[string, string]> {
+  const goalsText = formatOtherValues(
+    data.goals,
+    data.otherGoal,
+  );
 
   const activityText =
     data.activity === 'Otros'
@@ -264,34 +393,57 @@ function buildEmailRows(data: IntakeData): Array<[string, string]> {
 
   const discomfortText =
     data.discomfortDetails.trim() ||
-    (data.hasDiscomfort === 'no' ? 'No aplica' : 'Sin indicar');
+    (
+      data.hasDiscomfort === 'no'
+        ? 'No aplica'
+        : 'Sin indicar'
+    );
 
   return [
     [
       'Disciplina',
-      data.discipline ? formatDiscipline(data.discipline) : 'Sin definir',
+      data.discipline
+        ? formatDiscipline(data.discipline)
+        : 'Sin definir',
     ],
     [
       'Modalidad',
-      data.modality ? formatModality(data.modality) : 'Sin definir',
+      data.modality
+        ? formatModality(data.modality)
+        : 'Sin definir',
     ],
     ['1. Nombre y apellido', data.name.trim()],
     ['2. Edad', `${data.age} años`],
     ['3. Ciudad', data.city.trim()],
     ['4. WhatsApp', data.phone.trim()],
     ['5. Objetivos', goalsText],
-    ['6. Deporte u otra actividad física', activityText],
-    ['7. Experiencia entrenando', formatExperience(data.experience)],
+    [
+      '6. Deporte u otra actividad física',
+      activityText,
+    ],
+    [
+      '7. Experiencia entrenando',
+      formatExperience(data.experience),
+    ],
     ['8. Días por semana', `${data.days} días`],
     ['9. Tiempo por entrenamiento', data.duration],
-    ['10. Lugar de entrenamiento', formatTrainingLocation(data)],
-    ['11. Equipamiento', formatTrainingEquipment(data)],
+    [
+      '10. Lugar de entrenamiento',
+      formatTrainingLocation(data),
+    ],
+    [
+      '11. Equipamiento',
+      formatTrainingEquipment(data),
+    ],
     [
       '12. Lesiones o molestias',
       data.hasDiscomfort === 'si' ? 'Sí' : 'No',
     ],
     ['13. Dónde y qué pasó', discomfortText],
-    ['14. Qué es lo que más le cuesta', difficultiesText],
+    [
+      '14. Qué es lo que más le cuesta',
+      difficultiesText,
+    ],
     [
       '15. Comentarios adicionales',
       data.comments.trim() || 'Sin comentarios',
@@ -299,7 +451,10 @@ function buildEmailRows(data: IntakeData): Array<[string, string]> {
   ];
 }
 
-function buildEmailHtml(data: IntakeData, receivedAt: string): string {
+function buildEmailHtml(
+  data: IntakeData,
+  receivedAt: string,
+): string {
   const tableRows = buildEmailRows(data)
     .map(
       ([label, value]) => `
@@ -425,7 +580,10 @@ export default {
   async fetch(request: Request): Promise<Response> {
     if (request.method !== 'POST') {
       return jsonResponse(
-        { ok: false, message: 'Método no permitido.' },
+        {
+          ok: false,
+          message: 'Método no permitido.',
+        },
         405,
       );
     }
@@ -439,7 +597,8 @@ export default {
       return jsonResponse(
         {
           ok: false,
-          message: 'El servicio todavía no está configurado.',
+          message:
+            'El servicio todavía no está configurado.',
         },
         503,
       );
@@ -449,29 +608,54 @@ export default {
 
     if (!origin || !isOriginAllowed(origin)) {
       return jsonResponse(
-        { ok: false, message: 'Origen de solicitud no autorizado.' },
+        {
+          ok: false,
+          message:
+            'Origen de solicitud no autorizado.',
+        },
         403,
       );
     }
 
-    const contentType = request.headers.get('content-type') ?? '';
+    const contentType =
+      request.headers.get('content-type') ?? '';
 
-    if (!contentType.toLowerCase().includes('application/json')) {
+    if (!isJsonContentType(contentType)) {
       return jsonResponse(
-        { ok: false, message: 'El formato de solicitud no es válido.' },
+        {
+          ok: false,
+          message:
+            'El formato de solicitud no es válido.',
+        },
         415,
       );
     }
 
-    const declaredLength = Number(
-      request.headers.get('content-length') ?? '0',
-    );
+    const contentLength =
+      request.headers.get('content-length');
 
-    if (declaredLength > MAX_BODY_LENGTH) {
-      return jsonResponse(
-        { ok: false, message: 'La solicitud supera el tamaño permitido.' },
-        413,
-      );
+    if (contentLength !== null) {
+      if (!/^\d+$/.test(contentLength)) {
+        return jsonResponse(
+          {
+            ok: false,
+            message:
+              'La longitud de la solicitud no es válida.',
+          },
+          400,
+        );
+      }
+
+      if (Number(contentLength) > MAX_BODY_BYTES) {
+        return jsonResponse(
+          {
+            ok: false,
+            message:
+              'La solicitud supera el tamaño permitido.',
+          },
+          413,
+        );
+      }
     }
 
     if (isRateLimited(getClientIp(request))) {
@@ -485,38 +669,42 @@ export default {
       );
     }
 
-    let rawBody: string;
+    const bodyResult = await readLimitedBody(request);
 
-    try {
-      rawBody = await request.text();
-    } catch {
+    if (!bodyResult.ok) {
       return jsonResponse(
-        { ok: false, message: 'No se pudo leer la solicitud.' },
-        400,
-      );
-    }
-
-    if (rawBody.length > MAX_BODY_LENGTH) {
-      return jsonResponse(
-        { ok: false, message: 'La solicitud supera el tamaño permitido.' },
-        413,
+        {
+          ok: false,
+          message: bodyResult.message,
+        },
+        bodyResult.status,
       );
     }
 
     let payload: unknown;
 
     try {
-      payload = JSON.parse(rawBody) as unknown;
+      payload = JSON.parse(
+        bodyResult.body,
+      ) as unknown;
     } catch {
       return jsonResponse(
-        { ok: false, message: 'El contenido enviado no es válido.' },
+        {
+          ok: false,
+          message:
+            'El contenido enviado no es válido.',
+        },
         400,
       );
     }
 
     if (!isRecord(payload)) {
       return jsonResponse(
-        { ok: false, message: 'La solicitud no tiene un formato válido.' },
+        {
+          ok: false,
+          message:
+            'La solicitud no tiene un formato válido.',
+        },
         400,
       );
     }
@@ -537,19 +725,25 @@ export default {
 
     if (!isIntakeData(payload.data)) {
       return jsonResponse(
-        { ok: false, message: 'Las respuestas del formulario no son válidas.' },
+        {
+          ok: false,
+          message:
+            'Las respuestas del formulario no son válidas.',
+        },
         400,
       );
     }
 
     const data = payload.data;
-    const validationErrors = validateIntakeData(data);
+    const validationErrors =
+      validateIntakeData(data);
 
     if (validationErrors.length > 0) {
       return jsonResponse(
         {
           ok: false,
-          message: 'Revisá las respuestas antes de enviar.',
+          message:
+            'Revisá las respuestas antes de enviar.',
           errors: validationErrors,
         },
         422,
@@ -557,14 +751,17 @@ export default {
     }
 
     const smtpUser = env.SMTP_USER?.trim();
-    const smtpPassword = env.SMTP_APP_PASSWORD?.replace(/\s+/g, '');
-    const recipient = env.FORM_RECIPIENT?.trim() || smtpUser;
+    const smtpPassword =
+      env.SMTP_APP_PASSWORD?.replace(/\s+/g, '');
+    const recipient =
+      env.FORM_RECIPIENT?.trim() || smtpUser;
 
     if (!smtpUser || !smtpPassword || !recipient) {
       return jsonResponse(
         {
           ok: false,
-          message: 'El servicio de correo todavía no está configurado.',
+          message:
+            'El servicio de correo todavía no está configurado.',
         },
         503,
       );
@@ -583,11 +780,14 @@ export default {
       socketTimeout: 15000,
     });
 
-    const receivedAt = new Date().toLocaleString('es-AR', {
-      dateStyle: 'long',
-      timeStyle: 'short',
-      timeZone: 'America/Argentina/Buenos_Aires',
-    });
+    const receivedAt = new Date().toLocaleString(
+      'es-AR',
+      {
+        dateStyle: 'long',
+        timeStyle: 'short',
+        timeZone: 'America/Argentina/Buenos_Aires',
+      },
+    );
 
     const safeName = data.name
       .trim()
@@ -601,13 +801,17 @@ export default {
           address: smtpUser,
         },
         to: recipient,
-        subject: `Nueva solicitud de entrenamiento — ${safeName}`,
-        text: `${createSubmissionSummary(data)}\n\nRecibida el ${receivedAt}.`,
+        subject:
+          `Nueva solicitud de entrenamiento — ${safeName}`,
+        text:
+          `${createSubmissionSummary(data)}\n\nRecibida el ${receivedAt}.`,
         html: buildEmailHtml(data, receivedAt),
       });
 
       const recipientAccepted = info.accepted.some(
-        (address) => address.toLowerCase() === recipient.toLowerCase(),
+        (address) =>
+          address.toLowerCase() ===
+          recipient.toLowerCase(),
       );
 
       if (!recipientAccepted) {
@@ -625,19 +829,24 @@ export default {
         );
       }
 
-      console.info('[FORMA Studio] SMTP aceptó la solicitud.', {
-        messageId: info.messageId,
-        acceptedCount: info.accepted.length,
-      });
+      console.info(
+        '[FORMA Studio] SMTP aceptó la solicitud.',
+        {
+          acceptedCount: info.accepted.length,
+        },
+      );
 
       return jsonResponse({
         ok: true,
-        message: 'Tu solicitud fue aceptada por nuestro servicio de correo.',
+        message:
+          'Tu solicitud fue aceptada por nuestro servicio de correo.',
       });
     } catch (error) {
       console.error(
-        '[FORMA Studio] Error al enviar la solicitud:',
-        error,
+        '[FORMA Studio] Error SMTP.',
+        {
+          code: getSmtpErrorCode(error),
+        },
       );
 
       return jsonResponse(

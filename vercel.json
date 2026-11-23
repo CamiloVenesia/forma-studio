@@ -24,6 +24,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/nuestro-gimnasio",
+      "destination": "/index.html"
+    },
+    {
       "source": "/espacio",
       "destination": "/index.html"
     },
@@ -59,6 +63,10 @@
         {
           "key": "Cross-Origin-Opener-Policy",
           "value": "same-origin"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-src https://www.google.com https://maps.google.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
         }
       ]
     }

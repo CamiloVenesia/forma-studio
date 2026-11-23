@@ -33,7 +33,7 @@ export function GymPage() {
             <p>
               Un espacio para entrenar, moverte y trabajar sobre tus
               objetivos. Conocé la propuesta de entrenamiento funcional
-              y Pilates Reformer en Cruz Alta.
+              y Pilates guiado en Cruz Alta.
             </p>
 
             <div className="gym-hero__actions">
@@ -169,7 +169,7 @@ export function GymPage() {
               ubicado en Av. San Martín 748, en Cruz Alta. La
               información pública del establecimiento lo identifica
               como un espacio de actividad física con propuestas de
-              entrenamiento funcional y Pilates Reformer.
+              entrenamiento funcional y Pilates guiado.
             </p>
 
             <p>
@@ -240,13 +240,6 @@ export function GymPage() {
               </Reveal>
             ))}
           </div>
-
-          <p className="gym-image-disclaimer">
-            Las fotografías son ilustrativas y provienen de bancos
-            de imágenes. No representan necesariamente las
-            instalaciones, las máquinas ni los elementos reales
-            del gimnasio.
-          </p>
         </div>
       </section>
 
@@ -291,7 +284,7 @@ export function GymPage() {
             </h2>
 
             <p>
-              La propuesta pública menciona Pilates Reformer y
+              La propuesta pública menciona Pilates guiado y
               entrenamiento funcional. El equipamiento específico
               disponible —máquinas, pesas y accesorios— puede variar
               según la actividad y debe confirmarse directamente

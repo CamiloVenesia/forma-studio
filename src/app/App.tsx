@@ -97,7 +97,7 @@ function getPageSeo(pathname: string): PageSeo {
     '/nuestro-gimnasio': {
       title: 'Nuestro gimnasio | FORMA Studio',
       description:
-        'Conocé ENTRENAMIENTO en Cruz Alta, Córdoba: entrenamiento funcional, Pilates Reformer, horarios, contacto y ubicación.',
+        'Conocé ENTRENAMIENTO en Cruz Alta, Córdoba: entrenamiento funcional, Pilates guiado, horarios, contacto y ubicación.',
       robots: INDEXABLE,
     },
 

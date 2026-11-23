@@ -62,10 +62,10 @@ export const gym = {
 
       eyebrow: 'PILATES CON APARATOS',
 
-      title: 'Pilates Reformer',
+      title: 'Pilates guiado',
 
       description:
-        'Una práctica centrada en el control del movimiento, la estabilidad y la coordinación, utilizando el equipo Reformer.',
+        'Una práctica centrada en el control del movimiento, la estabilidad y la coordinación, utilizando las máquinas.',
 
       image: media.catalogPilatesFlow,
 
@@ -88,9 +88,9 @@ export const gym = {
     {
       image: media.detailPilatesFlow,
 
-      alt: 'Máquina utilizada para ejercicios de Pilates Reformer',
+      alt: 'Máquina utilizada para ejercicios de Pilates guiados',
 
-      label: 'Pilates Reformer',
+      label: 'Pilates guiado',
     },
 
     {

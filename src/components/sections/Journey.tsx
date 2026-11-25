@@ -1,3 +1,4 @@
+
 import { Reveal } from '../common/Reveal';
 import { SectionLabel } from '../common/SectionLabel';
 import { ArrowLink } from '../common/ArrowLink';
@@ -31,6 +32,7 @@ export function Journey() {
             </ArrowLink>
           </Reveal>
         </div>
+
         <div className="journey__steps">
           {steps.map(([index, title, text]) => (
             <Reveal key={index}>
@@ -40,8 +42,14 @@ export function Journey() {
                   <h3>{title}</h3>
                   <p>{text}</p>
                 </div>
+
                 <span className="journey-step__star" aria-hidden="true">
-                  ✳
+                  <svg viewBox="0 0 100 100" width="18" height="18" focusable="false">
+                    <path
+                      fill="currentColor"
+                      d="M46 0h8v34l24-24 6 6-24 24h34v8H60l24 24-6 6-24-24v34h-8V60L22 84l-6-6 24-24H6v-8h34L16 22l6-6 24 24z"
+                    />
+                  </svg>
                 </span>
               </div>
             </Reveal>

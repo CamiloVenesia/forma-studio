@@ -1,3 +1,4 @@
+
 import { useRef } from 'react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
 
@@ -14,16 +15,34 @@ export function Marquee() {
 
   const backward = useTransform(scrollYProgress, [0, 1], ['3%', '-12%']);
 
+  const decorativeStar = (
+    <i aria-hidden="true">
+      <svg viewBox="0 0 100 100" width="18" height="18" focusable="false">
+        <path
+          fill="currentColor"
+          d="M46 0h8v34l24-24 6 6-24 24h34v8H60l24 24-6 6-24-24v34h-8V60L22 84l-6-6 24-24H6v-8h34L16 22l6-6 24 24z"
+        />
+      </svg>
+    </i>
+  );
+
   return (
-    <section ref={ref} className="kinetic-type" aria-label="Fuerza, movimiento, libertad y control">
+    <section
+      ref={ref}
+      className="kinetic-type"
+      aria-label="Fuerza, movimiento, libertad y control"
+    >
       <div className="kinetic-type__rail" aria-hidden="true">
-        <motion.div className="kinetic-type__row" style={reduced ? undefined : { x: forward }}>
+        <motion.div
+          className="kinetic-type__row"
+          style={reduced ? undefined : { x: forward }}
+        >
           <span>FUERZA</span>
-          <i>✳</i>
+          {decorativeStar}
           <span>MOVIMIENTO</span>
-          <i>✳</i>
+          {decorativeStar}
           <span>FUERZA</span>
-          <i>✳</i>
+          {decorativeStar}
         </motion.div>
 
         <motion.div
@@ -31,9 +50,9 @@ export function Marquee() {
           style={reduced ? undefined : { x: backward }}
         >
           <span>A TU RITMO</span>
-          <i>✳</i>
+          {decorativeStar}
           <span>SIN LÍMITES</span>
-          <i>✳</i>
+          {decorativeStar}
           <span>A TU RITMO</span>
         </motion.div>
       </div>
